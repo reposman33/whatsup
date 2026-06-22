@@ -1,0 +1,39 @@
+<div class="login-page">
+  <div class="login-panel">
+
+    <div class="logo">
+      <i class="pi pi-comments"></i>
+      <h1>WhatsUp</h1>
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input
+        pInputText
+        type="email"
+        class="login-input"
+        [(ngModel)]="email"
+        placeholder="name@example.com"
+      />
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input
+        pPassword
+        [(ngModel)]="password"
+        [feedback]="false"
+        class="login-password"
+        placeholder="Password"
+      />
+    </div>
+
+    <button
+      pButton
+      label="Sign in"
+      class="button"
+      (click)="login()"
+    ></button>
+
+  </div>
+</div>

@@ -1,0 +1,16 @@
+@use "sass:color";
+
+$contactCard__background-color--even: rgb(244, 242, 212);
+$contactCard__background-color--even-higlight: color.adjust($contactCard__background-color--even, $lightness: 5%);
+$contactCard__background-color--odd: rgb(235, 241, 244);
+$contactCard__background-color--odd-higlight: color.adjust($contactCard__background-color--odd, $lightness: 5%);
+$contactCard__background-color--even-selected: color.adjust($contactCard__background-color--even, $lightness: 40%);
+$contactCard__background-color--odd-selected: color.adjust($contactCard__background-color--odd, $lightness: 40%);
+$content-title__background--color: #aeb3e3;
+$chat-bubble__component__background--color: #b9cbe8;
+$my-chat-bubble__component__background--color: #feffea;
+$my-chat-bubble__component__text--color-light: #7d829f;
+$my-chat-bubble__component__text--color-dark: black;
+$content-title--color: #fdfded;
+$button--color: #e0ecf1;
+$box--shadow: 0 10px 25px rgba(0,0,0,.08),0 2px 8px rgba(0,0,0,.05);
