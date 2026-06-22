@@ -78,6 +78,12 @@
       "linter": "eslint",
       "style": "scss",
       "unitTestRunner": "jest"
+    },
+    "@schematics/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush",
+      "standalone": true,
+      "viewEncapsulation": "Emulated"
     }
   }
 }
