@@ -34,4 +34,8 @@ export class Login {
       this.password = '';
     }
   }
+
+  register() {
+    this.auth.register(this.email, this.password);
+  }
 }
