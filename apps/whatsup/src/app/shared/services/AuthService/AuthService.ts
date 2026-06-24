@@ -1,50 +1,30 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ApiService } from '..';
 
-type loginMethod = 'localstorage' | 'firebase';
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuthService {
-  private loginMethod: loginMethod = 'localstorage';
   // firebase
   // ...
   private authenticatedSubject = new BehaviorSubject<boolean>(false);
   authenticated$ = this.authenticatedSubject.asObservable();
+  apiService = inject(ApiService);
 
   private authenticated = false
   private _requestedUrl:string | undefined = undefined;
 
   register(email: string, password: string) {
-    switch (this.loginMethod) {
-      case 'localstorage':
-      this.registerUserToLocalStorage(email, password);
-    }
+    this.apiService.registerUser(email, password);
   }
 
   authenticate(email: string, password: string) {
-    // Implementation for authentication
-    switch (this.loginMethod) {
-      case 'localstorage':
-        this.authenticateUserWithLocalStorage(email, password);
-      }
-  }
-
-  registerUserToLocalStorage(email: string, password: string) {
-    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-    registeredUsers.push({ email, password });
-    
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-  }
-
-  authenticateUserWithLocalStorage(email: string, password: string) {
-    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-    const user = registeredUsers.find((user: { email: string; password: string }) => user.email === email && user.password === password);
+    const user = this.apiService.getUser(email,password)
     this.authenticated = !!user;
     this.authenticatedSubject.next(!!user);
-    return !!user;
-   }
+  }
 
    isAuthenticated() {
     return this.authenticated
