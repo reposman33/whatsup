@@ -4,7 +4,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
-import { AuthenticateService } from '../../shared/services/authenticate';
+import { AuthService } from '../../shared/services/';
 import { Router } from '@angular/router';
 import password from '@primeuix/themes/nora/password';
 
@@ -17,7 +17,7 @@ import password from '@primeuix/themes/nora/password';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  private auth = inject(AuthenticateService)
+  private auth = inject(AuthService)
   private router = inject(Router)
 
   protected email = '';

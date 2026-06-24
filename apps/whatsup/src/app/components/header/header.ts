@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
-import { AuthenticateService } from '../../shared/services/authenticate';
+import { AuthService } from '../../shared/services';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 
@@ -12,7 +12,7 @@ import { AsyncPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
-  private auth = inject(AuthenticateService)
+  private auth = inject(AuthService)
   private router = inject(Router)
   protected authenticated$ = this.auth.authenticated$
 

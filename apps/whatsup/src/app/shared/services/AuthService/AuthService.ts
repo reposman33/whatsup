@@ -6,7 +6,7 @@ type loginMethod = 'localstorage' | 'firebase';
   providedIn: 'root',
 })
 
-export class AuthenticateService {
+export class AuthService {
   private loginMethod: loginMethod = 'localstorage';
   // firebase
   // ...
