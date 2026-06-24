@@ -1,0 +1,7 @@
+<div class="contentHeader">
+  <div class="contentTitle">Welkom bij WhatsUp!</div>
+  @if(authenticated$ | async) {
+    <span class="material-symbols-outlined text-gray-500 !text-5xl hover:text-gray-300 transition-colors duration-300 cursor-pointer" (click)="logout()">logout</span>
+  }
+</div>
+
