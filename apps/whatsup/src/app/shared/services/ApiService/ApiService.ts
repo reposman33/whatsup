@@ -9,10 +9,10 @@ type loginMethod = 'localstorage' | 'firebase';
 export class ApiService {
   private storage: loginMethod = 'localstorage';
   
-  registerUser(email: string, password: string, gebruikersNaam: string) {
+  registerUser(user: User) {
     switch (this.storage) {
       case 'localstorage': {
-        this.addUserToLocalStorage(email, password, gebruikersNaam);
+        this.addUserToLocalStorage(user);
       }
     }
   }
@@ -45,9 +45,9 @@ export class ApiService {
     return JSON.parse(localStorage.getItem('messages') || '[]');
   }
 
-  addUserToLocalStorage(email: string, password: string, gebruikersNaam: string) {
+  addUserToLocalStorage(user: User) {
     const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-    registeredUsers.push({ email, password, gebruikersNaam });
+    registeredUsers.push(user);
   
     localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
   }

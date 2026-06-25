@@ -22,9 +22,9 @@ export class Login {
   protected isRegistering = signal(false)
   protected email = signal('');
   protected password = signal('');
-  protected gebruikersNaam = signal('');
+  protected naam = signal('');
 
-  protected isValidRegistration = computed(() => this.email().length > 0 && this.password().length > 0 && this.gebruikersNaam().length > 0)
+  protected isValidRegistration = computed(() => this.email().length > 0 && this.password().length > 0 && this.naam().length > 0)
 
   ngOnInit() {
     this.auth.authenticated$.subscribe(isAuthenticated => isAuthenticated && this.router.navigateByUrl(''))
@@ -39,7 +39,7 @@ export class Login {
   register() {
     this.isRegistering.set(true)
     if(this.isValidRegistration()) {
-      this.auth.register(this.email(), this.password(), this.gebruikersNaam());
+      this.auth.register({email: this.email(), password: this.password(), name: this.naam(), registrationTime: new Date().getTime()});
       this.isRegistering.set(false)
     }
   }
