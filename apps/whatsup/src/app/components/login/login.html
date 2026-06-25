@@ -13,6 +13,7 @@
         type="email"
         class="login-input"
         (input)="email.set($event.target.value)"
+        [value]="email()"
         placeholder="name@example.com"
       />
     </div>
@@ -22,7 +23,7 @@
       <input
         pPassword
         (input)="password.set($event.target.value)"
-        [feedback]="false"
+        [value]="password()"
         class="login-password"
         placeholder="Password"
       />
