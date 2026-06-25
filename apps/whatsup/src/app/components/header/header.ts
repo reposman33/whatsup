@@ -12,12 +12,12 @@ import { AsyncPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
-  private auth = inject(AuthService)
+  protected authService = inject(AuthService)
   private router = inject(Router)
-  protected authenticated$ = this.auth.authenticated$
+  protected authenticated$ = this.authService.currentUser$
 
   logout() {
-    this.auth.logout()
+    this.authService.logout()
     this.router.navigateByUrl('/login');
   }
 }

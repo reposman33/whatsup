@@ -1,5 +1,11 @@
-<div class="contentHeader">
-  <div class="contentTitle">Welkom bij WhatsUp!</div>
+<div class="contentHeader">  
+  <div class="contentTitle">
+
+    Welkom bij WhatsUp
+    
+    @if(authService.currentUser$ | async; as user){, {{user.name}}}
+  </div>
+
   @if(authenticated$ | async) {
     <span class="material-symbols-outlined text-gray-500 !text-5xl hover:text-gray-300 transition-colors duration-300 cursor-pointer" (click)="logout()">logout</span>
   }

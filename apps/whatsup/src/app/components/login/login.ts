@@ -33,7 +33,9 @@ export class Login {
   }
 
   ngOnInit() {
-    this.auth.authenticated$.subscribe(isAuthenticated => isAuthenticated && this.router.navigateByUrl(''))
+    this.auth.currentUser$.subscribe(user => {
+      !!user && this.router.navigateByUrl('')
+    })
   }
 
   login() {

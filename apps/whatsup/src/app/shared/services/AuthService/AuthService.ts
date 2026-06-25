@@ -10,8 +10,8 @@ import { User } from '@models/user';
 export class AuthService {
   // firebase
   // ...
-  private authenticatedSubject = new BehaviorSubject<boolean>(false);
-  authenticated$ = this.authenticatedSubject.asObservable();
+  private authenticatedSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.authenticatedSubject.asObservable();
   apiService = inject(ApiService);
 
   private _requestedUrl:string | undefined = undefined;
@@ -22,7 +22,7 @@ export class AuthService {
 
   authenticate(email: string, password: string) {
     const user = this.apiService.getUser(email,password)
-    this.authenticatedSubject.next(!!user);
+    this.authenticatedSubject.next(user as User);
   }
 
   set requestedUrl(url: string | undefined) {
@@ -34,6 +34,6 @@ export class AuthService {
   }
 
    logout() {
-    this.authenticatedSubject.next(false);
+    this.authenticatedSubject.next(null);
    }
 }
