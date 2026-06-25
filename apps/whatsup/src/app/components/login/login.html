@@ -12,7 +12,7 @@
         pInputText
         type="email"
         class="login-input"
-        [(ngModel)]="email"
+        (input)="email.set($event.target.value)"
         placeholder="name@example.com"
       />
     </div>
@@ -21,19 +21,31 @@
       <label>Password</label>
       <input
         pPassword
-        [(ngModel)]="password"
+        (input)="password.set($event.target.value)"
         [feedback]="false"
         class="login-password"
         placeholder="Password"
       />
     </div>
 
+    @if(isRegistering()) {
+    <div class="field">
+      <label>Naam</label>
+      <input
+        pInputText
+        type="text"
+        (input)="gebruikersNaam.set($event.target.value)"
+        class="register-naam"
+        placeholder="Naam"
+      />
+    </div>
+  }
     <div class="flex justify-end gap-2">
       <button
         class="bg-gray-200 border-1 border-gray-300 text-black hover:bg-gray-50 transition-colors duration-300 px-4 py-2 rounded-lg"
+        [disabled]="isRegistering() && !isValidRegistration()"
         (click)="register()"
       >Register</button>
-      
       <button
         class="bg-gray-200 border-1 border-gray-300 text-black hover:bg-gray-50 transition-colors duration-300 px-4 py-2 rounded-lg"
         (click)="login()"

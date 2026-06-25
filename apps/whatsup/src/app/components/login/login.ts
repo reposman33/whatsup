@@ -3,7 +3,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../shared/services/';
 import { Router } from '@angular/router';
 import password from '@primeuix/themes/nora/password';
@@ -19,23 +19,30 @@ import password from '@primeuix/themes/nora/password';
 export class Login {
   private auth = inject(AuthService)
   private router = inject(Router)
+  
+  protected isRegistering = signal(false)
+  protected email = signal('');
+  protected password = signal('');
+  protected gebruikersNaam = signal('');
 
-  protected email = '';
-  protected password = '';
+  protected isValidRegistration = computed(() => this.email().length > 0 && this.password().length > 0 && this.gebruikersNaam().length > 0)
 
   login() {
-    this.auth.authenticate(this.email, this.password)
-
+    this.auth.authenticate(this.email(), this.password())
     if (this.auth.isAuthenticated()) {
       const target = this.auth.requestedUrl || '/whatsUp';
       this.router.navigateByUrl(target);
     } else {
-      this.email = '';
-      this.password = '';
+      this.email.set('');
+      this.password.set('');
     }
   }
 
   register() {
-    this.auth.register(this.email, this.password);
+    this.isRegistering.set(true)
+    if(this.isValidRegistration()) {
+      this.auth.register(this.email(), this.password(), this.gebruikersNaam());
+      this.isRegistering.set(false)
+    }
   }
 }

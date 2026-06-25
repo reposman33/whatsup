@@ -19,14 +19,14 @@
 }
 
 
-.login-input, .login-password {
+.login-input, .login-password, .register-naam {
   width: 80%;
   border-radius: 12px;
   border: 2px solid #d1d5db;
   padding: 0.75rem 1rem;
 }
 
-.login-input::placeholder, .login-password::placeholder {
+.login-input::placeholder, .login-password::placeholder, .register-naam::placeholder {
   color: #9ca3af;
   font-style: italic;
 }
@@ -58,4 +58,8 @@
   & label {
     align-self: center
   }
+}
+
+button:disabled {
+  filter: opacity(30%)
 }

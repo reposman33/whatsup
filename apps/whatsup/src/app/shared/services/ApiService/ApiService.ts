@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
+import { User } from '../../../models';
+import { Message } from '../../../models';
 
 type loginMethod = 'localstorage' | 'firebase';
-type User = { email: string; password: string }
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private storage: loginMethod = 'localstorage';
   
-  registerUser(email: string, password: string) {
+  registerUser(email: string, password: string, gebruikersNaam: string) {
     switch (this.storage) {
       case 'localstorage': {
-        this.addUserToLocalStorage(email, password);
+        this.addUserToLocalStorage(email, password, gebruikersNaam);
       }
     }
   }
@@ -25,9 +26,28 @@ export class ApiService {
     return undefined
   }
 
-  addUserToLocalStorage(email: string, password: string) {
+  getUsers(): User[] | [] {
+    switch (this.storage) {
+      case 'localstorage': {
+        return JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      }
+    }
+    return [];
+  }
+
+  addMessage(message: Message) {
+    const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+    messages.push({ message });
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }
+
+  getMessages() {
+    return JSON.parse(localStorage.getItem('messages') || '[]');
+  }
+
+  addUserToLocalStorage(email: string, password: string, gebruikersNaam: string) {
     const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-    registeredUsers.push({ email, password });
+    registeredUsers.push({ email, password, gebruikersNaam });
   
     localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
   }

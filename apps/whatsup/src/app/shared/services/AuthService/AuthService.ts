@@ -16,8 +16,8 @@ export class AuthService {
   private authenticated = false
   private _requestedUrl:string | undefined = undefined;
 
-  register(email: string, password: string) {
-    this.apiService.registerUser(email, password);
+  register(email: string, password: string, gebruikersNaam: string) {
+    this.apiService.registerUser(email, password, gebruikersNaam);
   }
 
   authenticate(email: string, password: string) {
