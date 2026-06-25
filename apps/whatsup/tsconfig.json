@@ -10,7 +10,11 @@
     "target": "es2022",
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": false,
-    "module": "preserve"
+    "module": "preserve",
+    "paths": {
+      "@services/*": ["./src/app/shared/services/*"],
+      "@guards/*": ["./src/app/shared/guards/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '../../shared/services';
+import { AuthService } from '@services/AuthService/AuthService';
 import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 

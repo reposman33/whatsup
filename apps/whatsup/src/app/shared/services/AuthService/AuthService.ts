@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApiService } from '..';
+import { ApiService } from '@services/ApiService/ApiService';
 
 @Injectable({
   providedIn: 'root',

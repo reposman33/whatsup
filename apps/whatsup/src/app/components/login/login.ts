@@ -4,9 +4,8 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '../../shared/services/';
+import { AuthService } from '@services/AuthService/AuthService';
 import { Router } from '@angular/router';
-import password from '@primeuix/themes/nora/password';
 
 @Component({
   selector: 'login',
