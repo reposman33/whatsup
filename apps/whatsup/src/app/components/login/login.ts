@@ -26,15 +26,14 @@ export class Login {
 
   protected isValidRegistration = computed(() => this.email().length > 0 && this.password().length > 0 && this.gebruikersNaam().length > 0)
 
+  ngOnInit() {
+    this.auth.authenticated$.subscribe(isAuthenticated => isAuthenticated && this.router.navigateByUrl(''))
+  }
+
   login() {
     this.auth.authenticate(this.email(), this.password())
-    if (this.auth.isAuthenticated()) {
-      const target = this.auth.requestedUrl || '/whatsUp';
-      this.router.navigateByUrl(target);
-    } else {
-      this.email.set('');
-      this.password.set('');
-    }
+    this.email.set('');
+    this.password.set('');
   }
 
   register() {
