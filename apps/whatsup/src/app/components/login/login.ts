@@ -40,8 +40,7 @@ export class Login {
 
   login() {
     this.auth.authenticate(this.email(), this.password())
-    this.email.set('');
-    this.password.set('');
+    this.emptyRegistrationFields();
   }
 
   register() {
