@@ -26,6 +26,12 @@ export class Login {
 
   protected isValidRegistration = computed(() => this.email().length > 0 && this.password().length > 0 && this.naam().length > 0)
 
+  emptyRegistrationFields() {
+    this.email.set('')
+    this.password.set('')
+    this.naam.set('')
+  }
+
   ngOnInit() {
     this.auth.authenticated$.subscribe(isAuthenticated => isAuthenticated && this.router.navigateByUrl(''))
   }
@@ -41,6 +47,8 @@ export class Login {
     if(this.isValidRegistration()) {
       this.auth.register({email: this.email(), password: this.password(), name: this.naam(), registrationTime: new Date().getTime()});
       this.isRegistering.set(false)
+      // maak signals '' zodat een volgende keer if() overgeslagen wordt en isRegistering true blijft => input veld naam wordt vertoond
+      this.emptyRegistrationFields()
     }
   }
 }
