@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'whatsUp',
+  selector: 'mainLayout',
   imports: [],
-  templateUrl: './whats-up.html',
-  styleUrl: './whats-up.scss',
+  templateUrl: './main-layout.html',
+  styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WhatsUp {
+export class MainLayout {
 
 }
