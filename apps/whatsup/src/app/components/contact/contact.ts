@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
+import { RightClickEvent } from '@models/rightClickEvent';
+import { ApiService } from '@services/index';
 
 @Component({
   selector: 'contact',
@@ -9,5 +11,20 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Contact {
+  private apiService = inject(ApiService)
+  onRightClick = output<RightClickEvent>()
+
+  naam = input<string>()
+  registrationTime = input.required<number>()
+
+  protected initialen = computed(() => this.naam()?.trim()
+  .split(' ')
+  .map((naam): string => naam[0])
+  .join(' '))
+
+  handleRightClick($event: RightClickEvent) {
+    this.onRightClick.emit($event)
+    $event.$event.preventDefault()
+  }
 
 }
