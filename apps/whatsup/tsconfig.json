@@ -13,7 +13,8 @@
     "module": "preserve",
     "paths": {
       "@services/*": ["./src/app/shared/services/*"],
-      "@guards/*": ["./src/app/shared/guards/*"]
+      "@guards/*": ["./src/app/shared/guards/*"],
+      "@models/*": ["./src/app/models/*"]
     }
   },
   "angularCompilerOptions": {

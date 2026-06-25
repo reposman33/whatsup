@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '@services/ApiService/ApiService';
-import { User } from '../../../models/user';
+import { User } from '@models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +16,8 @@ export class AuthService {
 
   private _requestedUrl:string | undefined = undefined;
 
-  register(user: User) {
-    this.apiService.registerUser(user);
+  register(email: string, password: string, gebruikersNaam: string) {
+    this.apiService.registerUser(email, password, gebruikersNaam);
   }
 
   authenticate(email: string, password: string) {

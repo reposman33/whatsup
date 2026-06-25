@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
+import { Contact } from '../contact/contact';
+import { ApiService } from '@services/index';
+import { User } from '@models/user';
 
 @Component({
   selector: 'mainLayout',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../../models';
-import { Message } from '../../../models';
+import { User } from '@models/user';
+import { Message } from '@models/message';
 
 type loginMethod = 'localstorage' | 'firebase';
 @Injectable({
