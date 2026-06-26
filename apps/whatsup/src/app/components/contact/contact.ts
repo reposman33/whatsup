@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
 import { RightClickEvent } from '@models/rightClickEvent';
+import { ChatService } from '@services/index';
 import { ApiService } from '@services/index';
 
 @Component({
@@ -13,6 +14,7 @@ import { ApiService } from '@services/index';
 export class Contact {
   private apiService = inject(ApiService)
   onRightClick = output<RightClickEvent>()
+  private chatService = inject(ChatService)
 
   naam = input<string>()
   registrationTime = input.required<number>()
@@ -26,5 +28,8 @@ export class Contact {
     this.onRightClick.emit($event)
     $event.$event.preventDefault()
   }
-
+  
+  selectContact(registrationTime: number) {
+    this.chatService.selectContact(registrationTime)
+  }
 }
