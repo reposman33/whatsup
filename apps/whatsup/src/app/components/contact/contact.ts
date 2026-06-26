@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RightClickEvent } from '@models/rightClickEvent';
 import { ChatService } from '@services/index';
-import { ApiService } from '@services/index';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'contact',
@@ -12,17 +13,28 @@ import { ApiService } from '@services/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Contact {
-  private apiService = inject(ApiService)
-  onRightClick = output<RightClickEvent>()
-  private chatService = inject(ChatService)
-
   naam = input<string>()
   registrationTime = input.required<number>()
+  onRightClick = output<RightClickEvent>()
+  private chatService = inject(ChatService)
+  protected currentContactRegistrationTime = toSignal(
+    this.chatService.currentContactRegistrationTime$.pipe(
+      map(registrationTime => registrationTime?.registrationTime)
+    )
+  )
 
   protected initialen = computed(() => this.naam()?.trim()
   .split(' ')
   .map((naam): string => naam[0])
   .join(' '))
+
+
+  // ngOnInit(){
+  //   this.chatService.currentContactRegistrationTime$
+  //   .subscribe (
+  //     registrationTime => this.currentContactRegistrationTime = registrationTime?.registrationTime || 0
+  //   )
+  // }
 
   handleRightClick($event: RightClickEvent) {
     this.onRightClick.emit($event)

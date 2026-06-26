@@ -11,7 +11,7 @@ export class AuthService {
   // firebase
   // ...
   private authenticatedSubject = new BehaviorSubject<Contact | undefined>(undefined);
-  private _currentContactRegistrationTime = 0;
+  private _currentContactRegistrationTime: number | undefined;
   currentContact$ = this.authenticatedSubject.asObservable();
   apiService = inject(ApiService);
 
@@ -28,7 +28,9 @@ export class AuthService {
    * @param password  - uer password
    */
   authenticate(email: string, password: string): void {
-    this.authenticatedSubject.next(this.apiService.getContact(email,password));
+    const authenticatedContact = this.apiService.getContact(email,password)
+    this._currentContactRegistrationTime = authenticatedContact?.registrationTime
+    this.authenticatedSubject.next(authenticatedContact);
   }
 
   set requestedUrl(url: string | undefined) {
