@@ -1,127 +1,38 @@
 @use './app/shared/variables' as *; 
 @use 'primeicons/primeicons.css';
-@import 'tailwindcss' source('./app');
+@import 'tailwindcss';
+
 * {
- font-family: Roboto;
+ font-family: Montserrat;
  font-weight: 400;
 }
 
-.leftPane, .contentPane, .textField.chatBubbleComponent {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 21px 20px 16px -21px lightgray;
-}
-
-.leftPane {
-  align-items: center;
-  height: 90vh;
-  justify-content: flex-start;
-  overflow-y: auto;
-  margin-right: .5rem;
-  padding: .32rem;
-  
-  & .contactCard {
-    align-items: center;
-    border-radius: 16px;
-    cursor: pointer;
-    display: flex;
-    height: 48px;
-    justify-content: space-between;
-    padding: 1rem;
-    width: 90%;
-
-    
-    &:nth-child(even) {
-      background-color: $contactCard__background-color--even;
-      
-      &:hover {
-        background-color: $contactCard__background-color--even-higlight;
-      }
-      &.selected {
-        background-color: $contactCard__background-color--even-selected;
-      }
-    }
-    
-    &:nth-child(odd) {
-      background-color: $contactCard__background-color--odd;
-      
-      &:hover {
-        background-color:$contactCard__background-color--odd-higlight;
-      }
-      &.selected {
-        background-color: $contactCard__background-color--odd-selected;
-      }
-    }
-    
-    & .contactCard__title {
-      font-weight: bold;
-      margin: 0 auto;
-    }
-    
-    & .contactCard__avatar{
-        background: url("/img/contacts.jpg") no-repeat;
-        width: 42px;
-        height: 42px;
-        background-size: 249px;
-        border-radius: 50%;
-        
-        &.smile {
-          background-position: -31px -29px;
-        }
-        &.sad {
-          background-position: -104px -29px;
-        }
-        &.indifferent {
-          background-position: -176px -29px;
-        }
-        &.chagrined {
-          background-position: -31px -104px;
-        }
-        &.gleeful {
-          background-position: -104px -104px;
-        }
-        &.shocked {
-          background-position: -176px -104px;
-        }
-        &.surprised {
-          background-position: -31px -179px;
-        }
-        &.happy {
-          background-position: -104px -179px;
-        }
-        &.disgusted {
-          background-position: -176px -179px;
-        }
-      }
-    }
-  }
-
-.contentPane {
-  height: 70vh;
-  margin-bottom: .5rem;
+input, textarea {
   width: 100%;
-}
-
-
-.textField {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 7vh;
-  padding: 1rem;
+  border-radius: 12px;
+  border: 2px solid #d1d5db;
+  padding: 0.75rem 1rem;
+  overflow-y: auto
 }
 
 .contentHeader {
+  align-content: center;
   border: none;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  height: 3rem;
+ 
+  & div:has(> svg) {
+    grid-column: 3;
+    justify-self: end;
+    margin-right: 3rem;
+  }
   
   & .contentTitle {
-    font-family: "Architects Daughter", cursive;
+    font-family: "Montserrat", cursive;
     font-weight: 400;
-    font-style: normal;
-    font-size: 3rem;
+    font-style: italic;
+    font-size: 2rem;
     grid-column: 2;
     justify-self: center;
     text-align: center;
@@ -133,33 +44,7 @@
     margin-right: 1rem;
   }
 }
-.chatBubbleComponent, .myChatBubbleComponent { 
-  width: 95%;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  background-color: $chat-bubble__component__background--color;
-  color: red;
-  height:10vh;
-  margin-right: 1rem;
-  
-  &.myChatBubbleComponent {
-    background-color: $my-chat-bubble__component__background--color;
-    margin-right: 0rem;
-    width: 100%;
 
-  }
-    & .chatBubbleDateTimeStamp, .chatBubbleContent {
-        color: $my-chat-bubble__component__text--color-light;
-        font-weight: 400;
-        margin-left: 1rem;
-        padding-top: 1rem;
-      }
-    & .chatBubbleContent {
-      color: $my-chat-bubble__component__text--color-dark;
-      font-size: 1.5rem;
-    }
-
-}
 .button {
   background-color: $button--color;
   padding: 1rem;
