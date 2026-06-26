@@ -1,3 +1,3 @@
-import { User } from "@models/user";
+import { Contact } from "@models/contact";
 
-export const isUser = (obj: any): obj is User => typeof obj.email === 'string' && typeof obj.password === 'string';
+export const isContact = (obj: any): obj is Contact => typeof obj.email === 'string' && typeof obj.password === 'string';

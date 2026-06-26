@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '@services/ApiService/ApiService';
-import { User } from '@models/user';
+import { Contact } from '@models/contact';
 
 @Injectable({
   providedIn: 'root',
@@ -10,24 +10,25 @@ import { User } from '@models/user';
 export class AuthService {
   // firebase
   // ...
-  private authenticatedSubject = new BehaviorSubject<User | undefined>(undefined);
-  currentUser$ = this.authenticatedSubject.asObservable();
+  private authenticatedSubject = new BehaviorSubject<Contact | undefined>(undefined);
+  private _currentContactRegistrationTime = 0;
+  currentContact$ = this.authenticatedSubject.asObservable();
   apiService = inject(ApiService);
 
   private _requestedUrl:string | undefined = undefined;
 
-  register(user: User) {
-    this.apiService.registerUser(user);
+  register(contact: Contact) {
+    this.apiService.registerContact(contact);
   }
 
   /**
-   * @description - vraag aan de ApiServer een user op met de gegeven credentials.
-   * Geeft een User object of undefined als user niet gevonden
-   * @param email - user e-mail
+   * @description - vraag aan de ApiServer een contact op met de gegeven credentials.
+   * Geeft een Contact object of undefined als contact niet gevonden
+   * @param email - contact e-mail
    * @param password  - uer password
    */
   authenticate(email: string, password: string): void {
-    this.authenticatedSubject.next(this.apiService.getUser(email,password));
+    this.authenticatedSubject.next(this.apiService.getContact(email,password));
   }
 
   set requestedUrl(url: string | undefined) {
@@ -38,7 +39,11 @@ export class AuthService {
     return this._requestedUrl;
   }
 
-   logout() {
+  get currentContactRegistrationTime() {
+    return this._currentContactRegistrationTime
+  }
+
+  logout() {
     this.authenticatedSubject.next(undefined);
    }
 }

@@ -17,16 +17,17 @@ export class MainLayout {
   protected apiService = inject(ApiService)
 
   ngOnInit() {
-    this.apiService.getUsers()
+    this.apiService.getContacts()
   }
 
   handleRightClick($event: RightClickEvent) {
-    this.deleteUser($event.item.content)
+    this.deleteContact($event.item.content)
   }
 
-  // verwijder een user. registrationTime is uniek genoeg als id
-  deleteUser(registrationTime: number) {
-    this.apiService.deleteUser(registrationTime)
+  // verwijder een contact. registrationTime is uniek genoeg als id
+  deleteContact(registrationTime: number) {
+    this.apiService.deleteContact(registrationTime)
+    this.apiService.getContacts()
   }
 
 }

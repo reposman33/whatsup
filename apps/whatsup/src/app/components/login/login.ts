@@ -33,8 +33,8 @@ export class Login {
   }
 
   ngOnInit() {
-    this.auth.currentUser$.subscribe(user => {
-      !!user && this.router.navigateByUrl('')
+    this.auth.currentContact$.subscribe(contact => {
+      !!contact && this.router.navigateByUrl('')
     })
   }
 

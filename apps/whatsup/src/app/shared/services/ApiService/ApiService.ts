@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { User } from '@models/user';
+import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { BehaviorSubject } from 'rxjs';
-import { isUser } from '@typeGuards/';
+import { isContact } from '@typeGuards/';
 
 type loginMethod = 'localstorage' | 'firebase';
 @Injectable({
@@ -10,74 +10,108 @@ type loginMethod = 'localstorage' | 'firebase';
 })
 export class ApiService {
   private storage: loginMethod = 'localstorage';
-  private registeredUsersBehaviorSubject = new BehaviorSubject<User[]>([])
+  private registeredContactsBehaviorSubject = new BehaviorSubject<Contact[]>([])
 
-  registeredUsers$ = this.registeredUsersBehaviorSubject.asObservable()
+  registeredContacts$ = this.registeredContactsBehaviorSubject.asObservable()
 
-  registerUser(user: User) {
+  registerContact(contact: Contact) {
     switch (this.storage) {
       case 'localstorage': {
-        this.addUserToLocalStorage(user);
+        this.addContactToLocalStorage(contact);
+        break;
+      }
+      case 'firebase': {
+        // ...
+        break;
       }
     }
   }
 
-  getUser(email: string, password: string): User | undefined {
+  deleteContact(registrationTime: number) {
     switch (this.storage) {
       case 'localstorage': {
-        return this.getUserFromLocalStorage(email, password);
+        this.deleteContactFromLocalStorage(registrationTime);
+        break;
+      }
+      case 'firebase': {
+        // ...
+        break;
+      }
+    }
+  }
+
+
+  getContact(email: string, password: string): Contact | undefined {
+    switch (this.storage) {
+      case 'localstorage': {
+        return this.getContactFromLocalStorage(email, password);
       }
     }
     return undefined
   }
 
-  getUsers(): User[] | [] {
+  getContacts(): Contact[] | [] {
     switch (this.storage) {
       case 'localstorage': {
-        this.registeredUsersBehaviorSubject.next(JSON.parse(localStorage.getItem('registeredUsers') || '[]'))
+        this.registeredContactsBehaviorSubject.next(JSON.parse(localStorage.getItem('registeredUsers') || '[]'))
+        break
+      }
+      case 'firebase': {
+        // ...
+        break;
       }
     }
+
     return [];
   }
 
+  /**
+   * @description: sla een Message op in de conversaties. Alle conversaties van alle deelnemers worden in een array opgeslagen 
+   * @param message 
+   */
   addMessage(message: Message) {
+    switch (this.storage) {
+      case 'localstorage': {
+        this.addMessageToLocalStorage(message)
+        break;
+      }
+      case 'firebase': {
+        //...
+        break;
+      }
+    }
+  }
+
+  addContactToLocalStorage(contact: Contact) {
+    const registeredContacts = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    registeredContacts.push(contact);
+  
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredContacts));
+  }
+
+  addMessageToLocalStorage(message: Message){
     const messages = JSON.parse(localStorage.getItem('messages') || '[]');
     messages.push({ message });
     localStorage.setItem('messages', JSON.stringify(messages));
-  }
-
-  getMessages() {
-    return JSON.parse(localStorage.getItem('messages') || '[]');
-  }
-
-  addUserToLocalStorage(user: User) {
-    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-    registeredUsers.push(user);
-  
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
   }
 
   /**
    * 
    * @param email 
    * @param password 
-   * @returns - een User object of undefined. Check op type User met een typeGuard
+   * @returns - een Contact object of undefined. Check op type Contact met een typeGuard
    */
-  getUserFromLocalStorage(email: string, password: string): User | undefined {
-    const obj = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-    .find((user: User) => user.email === email && user.password === password);
+  getContactFromLocalStorage(email: string, password: string): Contact | undefined {
+    const obj = JSON.parse(localStorage.getItem('registeredContacts') || '[]')
+    .find((contact: Contact) => contact.email === email && contact.password === password);
 
-    // check of dit echt een valide User object is
-    return isUser(obj) ? obj : undefined
+    // check of dit echt een valide Contact object is
+    return isContact(obj) ? obj : undefined
   }
 
-  deleteUser(registrationTime: number) {
-    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-    localStorage.setItem('registeredUsers',JSON.stringify(registeredUsers.filter((user: User) => user.registrationTime !== registrationTime)))
-    // opnieuw users opvragen om lijst te tonen
-    this.getUsers()
-
-    return false
+  deleteContactFromLocalStorage(registrationTime: number) {
+    const registeredContacts = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+    localStorage.setItem('registeredUsers',JSON.stringify(registeredContacts.filter((contact: Contact) => contact.registrationTime !== registrationTime)))
   }
     
 }
