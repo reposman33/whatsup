@@ -2,8 +2,11 @@
   <div class="flex h-[80vh] w-full m-5">
     <aside class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg pt-3 mr-3 gap-3 overflow-y-auto">
 
-      @for(user of (apiService.registeredUsers$ | async); track user.registrationTime) {
-        <contact [naam]="user.name" [registrationTime]="user.registrationTime" (onRightClick)="handleRightClick($event)"></contact>
+      @for(contact of (apiService.registeredContacts$ | async); track contact.registrationTime) {
+        <contact
+          [naam]="contact.name"
+          [registrationTime]="contact.registrationTime"
+          (onRightClick)="handleRightClick($event)"></contact>
       }
     </aside>
     <main class="flex flex-col w-full">
