@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewEncapsulation } from '@angular/core';
 import { ChatService } from '@services/chat-service/chat-service';
 
 @Component({
@@ -12,9 +12,11 @@ import { ChatService } from '@services/chat-service/chat-service';
 })
 export class MessageInput {
   protected chatService = inject(ChatService)
-
+  protected message = signal('')
+  
   sendMessage() {
-    throw new Error('Method not implemented.');
+    this.chatService.processMessage(this.message())
+    this.message.set('')
   }
 
 }

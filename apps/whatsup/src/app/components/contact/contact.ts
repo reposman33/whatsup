@@ -28,14 +28,6 @@ export class Contact {
   .map((naam): string => naam[0])
   .join(' '))
 
-
-  // ngOnInit(){
-  //   this.chatService.currentContactRegistrationTime$
-  //   .subscribe (
-  //     registrationTime => this.currentContactRegistrationTime = registrationTime?.registrationTime || 0
-  //   )
-  // }
-
   handleRightClick($event: RightClickEvent) {
     this.onRightClick.emit($event)
     $event.$event.preventDefault()

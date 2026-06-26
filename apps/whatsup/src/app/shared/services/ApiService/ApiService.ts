@@ -91,7 +91,7 @@ export class ApiService {
 
   addMessageToLocalStorage(message: Message){
     const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-    messages.push({ message });
+    messages.push( message );
     localStorage.setItem('messages', JSON.stringify(messages));
   }
 
