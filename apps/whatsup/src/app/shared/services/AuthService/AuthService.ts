@@ -10,7 +10,7 @@ import { User } from '@models/user';
 export class AuthService {
   // firebase
   // ...
-  private authenticatedSubject = new BehaviorSubject<User | null>(null);
+  private authenticatedSubject = new BehaviorSubject<User | undefined>(undefined);
   currentUser$ = this.authenticatedSubject.asObservable();
   apiService = inject(ApiService);
 
@@ -20,9 +20,14 @@ export class AuthService {
     this.apiService.registerUser(user);
   }
 
-  authenticate(email: string, password: string) {
-    const user = this.apiService.getUser(email,password)
-    this.authenticatedSubject.next(user as User);
+  /**
+   * @description - vraag aan de ApiServer een user op met de gegeven credentials.
+   * Geeft een User object of undefined als user niet gevonden
+   * @param email - user e-mail
+   * @param password  - uer password
+   */
+  authenticate(email: string, password: string): void {
+    this.authenticatedSubject.next(this.apiService.getUser(email,password));
   }
 
   set requestedUrl(url: string | undefined) {
@@ -34,6 +39,6 @@ export class AuthService {
   }
 
    logout() {
-    this.authenticatedSubject.next(null);
+    this.authenticatedSubject.next(undefined);
    }
 }

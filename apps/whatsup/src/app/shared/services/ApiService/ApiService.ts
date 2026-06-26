@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '@models/user';
 import { Message } from '@models/message';
 import { BehaviorSubject } from 'rxjs';
+import { isUser } from '@typeGuards/';
 
 type loginMethod = 'localstorage' | 'firebase';
 @Injectable({
@@ -56,10 +57,18 @@ export class ApiService {
     localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
   }
 
+  /**
+   * 
+   * @param email 
+   * @param password 
+   * @returns - een User object of undefined. Check op type User met een typeGuard
+   */
   getUserFromLocalStorage(email: string, password: string): User | undefined {
-    const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-    return JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+    const obj = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .find((user: User) => user.email === email && user.password === password);
+
+    // check of dit echt een valide User object is
+    return isUser(obj) ? obj : undefined
   }
 
   deleteUser(registrationTime: number) {
