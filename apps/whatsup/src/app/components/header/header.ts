@@ -14,7 +14,6 @@ import { AsyncPipe } from '@angular/common';
 export class Header {
   protected authService = inject(AuthService)
   private router = inject(Router)
-  protected authenticated$ = this.authService.currentUser$
 
   logout() {
     this.authService.logout()
