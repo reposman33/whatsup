@@ -102,11 +102,13 @@ export class ApiService {
    * @returns - een Contact object of undefined. Check op type Contact met een typeGuard
    */
   getContactFromLocalStorage(email: string, password: string): Contact | undefined {
-    const obj = JSON.parse(localStorage.getItem('registeredContacts') || '[]')
+    const contact = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .find((contact: Contact) => contact.email === email && contact.password === password);
-
-    // check of dit echt een valide Contact object is
-    return isContact(obj) ? obj : undefined
+    if(contact) {
+      // check met TypeGuard of dit echt een valide Contact object is
+      return isContact(contact) ? contact : undefined
+    }
+    return undefined
   }
 
   deleteContactFromLocalStorage(registrationTime: number) {
