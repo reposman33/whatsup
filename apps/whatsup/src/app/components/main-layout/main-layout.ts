@@ -3,10 +3,11 @@ import { Contact } from '../contact/contact';
 import { ApiService } from '@services/index';
 import { RightClickEvent } from '@models/rightClickEvent';
 import { AsyncPipe } from '@angular/common';
+import { MessageInput } from '../message-input/message-input';
 
 @Component({
   selector: 'mainLayout',
-  imports: [ Contact, AsyncPipe ],
+  imports: [ Contact, AsyncPipe, MessageInput ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,

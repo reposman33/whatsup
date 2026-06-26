@@ -9,5 +9,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInput {
+sendMessage() {
+  throw new Error('Method not implemented.');
+}
 
 }
