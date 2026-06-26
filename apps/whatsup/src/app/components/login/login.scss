@@ -26,7 +26,7 @@
   padding: 0.75rem 1rem;
 }
 
-.login-input::placeholder, .login-password::placeholder, .register-naam::placeholder {
+*::placeholder {
   color: #9ca3af;
   font-style: italic;
 }
