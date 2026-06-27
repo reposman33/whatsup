@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Message {
-
+export class MessageComponent {
+  message = input<Message>()
 }
