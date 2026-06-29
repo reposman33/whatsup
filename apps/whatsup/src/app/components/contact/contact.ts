@@ -13,7 +13,7 @@ import { ChatService } from '@services/index';
 export class Contact {
   naam = input<string>()
   registrationTime = input.required<number>()
-  onSelectContact = output<number>()
+  selectContact = output<number>()
   onRightClick = output<RightClickEvent>()
 
   protected chatService = inject(ChatService)
@@ -22,7 +22,7 @@ export class Contact {
   .map((naam): string => naam[0])
   .join(' '))
 
-  selectContact(registrationTime: number) {
-    this.onSelectContact.emit(registrationTime)
+  handleSelectContact(registrationTime: number) {
+    this.selectContact.emit(registrationTime)
   }
 }
