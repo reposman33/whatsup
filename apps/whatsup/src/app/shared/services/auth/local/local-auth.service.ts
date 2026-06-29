@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { AuthenticateService } from '../authenticate.service.';
+import { AuthenticateService } from '../authenticate.service';
 import { ApiService } from '@services/api/api.service';
 import { Contact } from '@models/contact';
 
