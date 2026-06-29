@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
-import { ApiService } from '@services/ApiService/ApiService';
-import { AuthService } from '@services/AuthService/AuthService';
+import { ApiService } from '@services/api.service/api.service';
+import { AuthService } from '@services/auth.service/auth.service';
 
 @Injectable({
   providedIn: 'root',

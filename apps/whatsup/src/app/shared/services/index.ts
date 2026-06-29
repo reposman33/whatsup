@@ -1,3 +1,3 @@
-export * from './AuthService/AuthService';
-export * from './ApiService/ApiService';
-export * from './ChatService/ChatService';
+export * from './auth.service/auth.service';
+export * from './api.service/api.service';
+export * from './chat.service/chat.service';

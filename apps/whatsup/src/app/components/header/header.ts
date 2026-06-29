@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '@services/AuthService/AuthService';
+import { AuthService } from '@services/auth.service/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

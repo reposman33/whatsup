@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ApiService } from '@services/ApiService/ApiService';
+import { ApiService } from '@services/api.service/api.service';
 import { Contact } from '@models/contact';
 
 @Injectable({
