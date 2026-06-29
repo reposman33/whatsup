@@ -3,6 +3,7 @@ import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { ApiService } from '@services/api/api.service';
 import { AuthService } from '@services/auth/auth.service';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class ChatService {
   private authService = inject(AuthService)
 
   public conversation = signal<Message[]>([])
-  public registeredContacts = signal<Contact[]>([]);
+  public contacts = signal<Contact[]>([]);
   public selectedContactRegistrationTime = signal(0)
   
   //** @description: selecteer een contact en zet de registrationTime in de signal 
@@ -21,14 +22,13 @@ export class ChatService {
   // */
   selectContact(registrationTime: number): void {
     this.selectedContactRegistrationTime.set(registrationTime);
-    this.conversation.set(this.getConversationWithContact())
   }
 
-  getContacts() {
+  getContacts(): Observable<Contact[]> {
     // haal contacten op en filter de ingelogde gebruiker uit de lijst
     return this.apiService.getContacts().pipe(
       map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
-      tap(contacts => this.registeredContacts.set(contacts))
+      tap(contacts => this.contacts.set(contacts))
     )
   }
 
@@ -44,8 +44,9 @@ export class ChatService {
     this.conversation.update(prev => [...prev, message as any as Message])
   }
 
-  getConversationWithContact(): Message[]  {
-    return this.apiService.getMessagesWithContact(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime())
+  getMessagesWithContact(): void  {
+    this.apiService.getMessagesWithContact(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime())
+    .subscribe(messages => this.conversation.set(messages))
   }
 
 }
