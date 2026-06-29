@@ -42,7 +42,7 @@ export class ChatService {
   }
 
   getConversationWithContact(): Message[]  {
-    return this.apiService.getConversationWithContact(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime())
+    return this.apiService.getMessagesWithContact(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime())
   }
 
 }

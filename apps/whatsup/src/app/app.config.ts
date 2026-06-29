@@ -1,17 +1,20 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { LocalStorageService } from '@services/local-storage/local-storage.service';
-import { FireBaseService } from '@services/fire-base/fire-base.service';
 import { AppConfig } from './environment';
-import { StorageService } from '@services/storage/storage.service';
+import { StorageService } from '@services/api/storage.service';
+import { LocalStorageService } from '@services/api/local/local-storage.service';
+import { FireBaseService } from '@services/api/firebase/fire-base.service';
+import { AuthenticateService } from '@services/auth/authenticate.service.';
+import { LocalAuthService } from '@services/auth/local/local-auth.service';
+import { FireBaseAuthService } from '@services/auth/fireBase/fire-base-auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     {
-      provide: AuthService,
+      provide: AuthenticateService,
       useClass: AppConfig.storageMethod === 'localStorage' ? LocalAuthService : FireBaseAuthService
     },
     {

@@ -1,30 +1,24 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ApiService } from '@services/api/api.service';
 import { Contact } from '@models/contact';
+import { AuthenticateService } from './authenticate.service.';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
-  apiService = inject(ApiService);
+  authenticateService = inject(AuthenticateService);
   public currentContact = signal<Contact | undefined>(undefined);
 
-  register(contact: Contact) {
-    this.apiService.registerContact(contact);
-  }
-
-  /**
-   * @description - vraag aan de ApiServer een contact op met de gegeven credentials.
-   * Geeft een Contact object of undefined als contact niet gevonden
-   * @param email - contact e-mail
-   * @param password  - uer password
-   */
-  authenticate(email: string, password: string): void {
-    this.currentContact.set(this.apiService.getContact(email,password))
+  login(email: string, password: string): void {
+    this.currentContact.set(this.authenticateService.login(email,password))
   }
 
   logout() {
-    this.currentContact.set(undefined);
+    this.currentContact.set(this.authenticateService.logout());
    }
+  
+  register(contact: Contact) {
+    this.authenticateService.register(contact);
+  }
+
 }

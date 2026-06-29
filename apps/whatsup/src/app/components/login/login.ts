@@ -39,7 +39,7 @@ export class Login {
   }
 
   login() {
-    this.authService.authenticate(this.email(), this.password())
+    this.authService.login (this.email(), this.password())
     if (this.authService.currentContact()) {
       this.router.navigateByUrl('')
     }
