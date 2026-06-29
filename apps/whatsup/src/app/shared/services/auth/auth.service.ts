@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Contact } from '@models/contact';
-import { AuthenticateService } from './authenticate.service';
+import { AuthenticateService } from '@services/auth/authenticate.service';
 
 @Injectable({
   providedIn: 'root',
