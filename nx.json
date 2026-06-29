@@ -84,6 +84,9 @@
       "changeDetection": "OnPush",
       "standalone": true,
       "viewEncapsulation": "Emulated"
+    },
+    "@schematics/angular:service": {
+      "flat": false
     }
   }
 }

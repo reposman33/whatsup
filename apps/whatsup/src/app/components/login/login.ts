@@ -4,7 +4,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '@services/auth.service/auth.service';
+import { AuthService } from '@services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
