@@ -12,6 +12,6 @@ export abstract class StorageService {
   
   abstract addMessage(message: Message): void
   
-  abstract getMessagesWithContact(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Message[]
+  abstract getMessagesWithContact(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Observable<Message[]>
 
 }

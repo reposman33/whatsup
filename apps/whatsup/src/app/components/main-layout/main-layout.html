@@ -7,7 +7,7 @@
       } @else if(contacts.error()){
         <p class="bg-red-500">Fout bij ophalen contacten</p>
       } @else {
-        @for(contact of chatService.registeredContacts(); track contact.registrationTime) {
+        @for(contact of chatService.contacts(); track contact.registrationTime) {
           <contact
             [naam]="contact.name"
             [registrationTime]="contact.registrationTime"
@@ -20,6 +20,7 @@
       <section class="h-4/5 bg-blue-50 rounded-lg mb-3">
 
         @for(chat of chatService.conversation(); track chat.receiver) {
+
           <div>{{chat.content}}</div>
         }
 

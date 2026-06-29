@@ -40,9 +40,10 @@ export class LocalStorageService extends StorageService {
     localStorage.setItem('messages', JSON.stringify(messages));
   }
 
-  getMessagesWithContact(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Message[]{
-    return JSON.parse(localStorage.getItem('messages') || '[]')
-    .filter((m: Message) => m.sender === currentContactRegistrationTime && m.receiver === selectedContactRegistrationTime)
+  getMessagesWithContact(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Observable<Message[]>{
+    return of(
+      JSON.parse(localStorage.getItem('messages') || '[]')
+      .filter((m: Message) => m.sender === currentContactRegistrationTime && m.receiver === selectedContactRegistrationTime)
+    )
   }
-
 }
