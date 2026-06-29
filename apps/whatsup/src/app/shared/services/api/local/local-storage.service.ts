@@ -3,6 +3,7 @@ import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { StorageService } from '@services/api/storage.service';
 import { isContact } from '@typeGuards';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +20,11 @@ export class LocalStorageService extends StorageService {
     return undefined
   }
 
-  getContacts(): Contact[] {
-    return JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+  getContacts(): Observable<Contact[]> {
+    return of(
+      JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .map((c: Contact) => c)
+  )
   }
   
   registerContact(contact: Contact) {

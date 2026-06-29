@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { StorageService } from '@services/api/storage.service';
+import { Observable } from 'rxjs';
 
 type loginMethod = 'localstorage' | 'firebase';
 @Injectable({
@@ -14,7 +15,7 @@ export class ApiService {
     return this.storageService.getContact(email, password);
   }
 
-  getContacts(): Contact[] {
+  getContacts(): Observable<Contact[]> {
     return this.storageService.getContacts()
   }
 

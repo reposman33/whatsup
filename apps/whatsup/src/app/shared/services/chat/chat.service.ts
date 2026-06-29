@@ -3,6 +3,7 @@ import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { ApiService } from '@services/api/api.service';
 import { AuthService } from '@services/auth/auth.service';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,10 @@ export class ChatService {
 
   getContacts() {
     // haal contacten op en filter de ingelogde gebruiker uit de lijst
-    const contacts = this.apiService.getContacts().filter(c => c.registrationTime !== this.authService.currentContact()?.registrationTime)
-    this.registeredContacts.set(contacts)
+    return this.apiService.getContacts().pipe(
+      map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
+      tap(contacts => this.registeredContacts.set(contacts))
+    )
   }
 
   processMessage(chat: string) {

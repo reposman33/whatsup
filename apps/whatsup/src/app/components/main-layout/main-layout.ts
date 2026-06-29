@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@
 import { Contact } from '../contact/contact';
 import { ChatService } from '@services/index';
 import { MessageInput } from '../message-input/message-input';
-import { Message } from '@models/message';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'mainLayout',
@@ -15,10 +15,9 @@ import { Message } from '@models/message';
 export class MainLayout {
   protected chatService = inject(ChatService)
   protected selectedContact = this.chatService.selectedContactRegistrationTime
-
-  ngOnInit(): void {
-    this.chatService.getContacts()
-  }
+  protected contacts = rxResource({
+      stream: () => this.chatService.getContacts()
+    });    
 
   selectContact(registrationTime: number) {
     this.chatService.selectContact(registrationTime)

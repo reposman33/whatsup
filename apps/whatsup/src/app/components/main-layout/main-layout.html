@@ -2,12 +2,19 @@
   <div class="flex h-[80vh] w-full m-5">
     <aside class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg pt-3 mr-3 gap-3 overflow-y-auto">
 
-      @for(contact of chatService.registeredContacts(); track contact.registrationTime) {
-        <contact
-          [naam]="contact.name"
-          [registrationTime]="contact.registrationTime"
-          (selectContact)="selectContact($event)"></contact>
+      @if(contacts.isLoading()) {
+        <p>Contacts laden...</p>
+      } @else if(contacts.error()){
+        <p class="bg-red-500">Fout bij ophalen contacten</p>
+      } @else {
+        @for(contact of chatService.registeredContacts(); track contact.registrationTime) {
+          <contact
+            [naam]="contact.name"
+            [registrationTime]="contact.registrationTime"
+            (selectContact)="selectContact($event)"></contact>
+        }
       }
+
     </aside>
     <main class="flex flex-col w-full">
       <section class="h-4/5 bg-blue-50 rounded-lg mb-3">
