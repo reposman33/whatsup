@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } from '@angular/core';
 import { Message } from '@models/message';
+import { AuthService } from '@services/index';
 
 @Component({
   selector: 'chat',
@@ -11,6 +12,7 @@ import { Message } from '@models/message';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatComponent {
+  protected authService = inject(AuthService)
   chat = input.required<Message>()
   index = input.required<number>()
 }
