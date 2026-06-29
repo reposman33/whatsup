@@ -14,5 +14,4 @@ import { AuthService } from '@services/index';
 export class ChatComponent {
   protected authService = inject(AuthService)
   chat = input.required<Message>()
-  index = input.required<number>()
 }

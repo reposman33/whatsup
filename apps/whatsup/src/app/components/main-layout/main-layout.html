@@ -19,8 +19,8 @@
     <main class="flex flex-col w-full justify-between">
       
       <div class="flex flex-col">
-        @for(chat of this.chatService.conversation(); track chat.receiver; let i = $index) {
-          <chat [chat]="chat" [index]="i"></chat>
+        @for(chat of this.chatService.conversation(); track chat.receiver) {
+          <chat [chat]="chat"></chat>
           }
       </div>
 
