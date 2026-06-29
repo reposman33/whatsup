@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
+import { Message } from '@models/message';
 
 @Component({
   selector: 'message',

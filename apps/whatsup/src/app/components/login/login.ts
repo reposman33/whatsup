@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  private auth = inject(AuthService)
+  private authService = inject(AuthService)
   private router = inject(Router)
   
   protected isRegistering = signal(false)
@@ -33,22 +33,25 @@ export class Login {
   }
 
   ngOnInit() {
-    this.auth.currentContact$.subscribe(contact => {
-      !!contact && this.router.navigateByUrl('')
-    })
+    if (this.authService.currentContact()) {
+      this.router.navigateByUrl('')
+    }
   }
 
   login() {
-    this.auth.authenticate(this.email(), this.password())
+    this.authService.authenticate(this.email(), this.password())
+    if (this.authService.currentContact()) {
+      this.router.navigateByUrl('')
+    }
     this.emptyRegistrationFields();
   }
 
   register() {
     this.isRegistering.set(true)
     if(this.isValidRegistration()) {
-      this.auth.register({email: this.email(), password: this.password(), name: this.naam(), registrationTime: new Date().getTime()});
+      this.authService.register({email: this.email(), password: this.password(), name: this.naam(), registrationTime: new Date().getTime()});
       this.isRegistering.set(false)
-      // maak signals '' zodat een volgende keer if() overgeslagen wordt en isRegistering true blijft => input veld naam wordt vertoond
+      // emptyRegistrationFields zodat isValidRegistration() === false
       this.emptyRegistrationFields()
     }
   }

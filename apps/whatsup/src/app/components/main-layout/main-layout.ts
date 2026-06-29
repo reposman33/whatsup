@@ -1,33 +1,31 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { Contact } from '../contact/contact';
-import { ApiService } from '@services/index';
-import { RightClickEvent } from '@models/rightClickEvent';
-import { AsyncPipe } from '@angular/common';
+import { ChatService } from '@services/index';
 import { MessageInput } from '../message-input/message-input';
+import { Message } from '@models/message';
 
 @Component({
   selector: 'mainLayout',
-  imports: [ Contact, AsyncPipe, MessageInput ],
+  imports: [ Contact, MessageInput ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainLayout {
-  protected apiService = inject(ApiService)
+  protected chatService = inject(ChatService)
+  protected selectedContact = this.chatService.selectedContactRegistrationTime
 
-  ngOnInit() {
-    this.apiService.getContacts()
+  ngOnInit(): void {
+    this.chatService.getContacts()
   }
 
-  handleRightClick($event: RightClickEvent) {
-    this.deleteContact($event.item.content)
+  selectContact(registrationTime: number) {
+    this.chatService.selectContact(registrationTime)
   }
 
-  // verwijder een contact. registrationTime is uniek genoeg als id
-  deleteContact(registrationTime: number) {
-    this.apiService.deleteContact(registrationTime)
-    this.apiService.getContacts()
+  sendMessage(chat: string) {
+    this.chatService.processMessage(chat)
   }
 
 }

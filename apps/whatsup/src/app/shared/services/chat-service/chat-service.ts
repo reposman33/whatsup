@@ -1,36 +1,46 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { ApiService } from '@services/ApiService/ApiService';
 import { AuthService } from '@services/AuthService/AuthService';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private currentContactSubject = new BehaviorSubject<{registrationTime: number} | undefined>(undefined);
-  private _currentContactRegistrationTime = 0
-  private authService = inject(AuthService)
   private apiService = inject(ApiService)
-  public currentContactRegistrationTime$ = this.currentContactSubject.asObservable();
+  private authService = inject(AuthService)
 
-  // er is op een contact geklikt - zend de id uit voor tekstInput component bijv 
+  public conversation = signal<Message[]>([])
+  public registeredContacts = signal<Contact[]>([]);
+  public selectedContactRegistrationTime = signal(0)
+  
+  //** @description: selecteer een contact en zet de registrationTime in de signal 
+  // deze registrationTime wordt gebruikt om de conversatie met het geselecteerde contact op te halen
+  // */
   selectContact(registrationTime: number): void {
-    this._currentContactRegistrationTime = registrationTime;
-    this.currentContactSubject.next({registrationTime: registrationTime})
+    this.selectedContactRegistrationTime.set(registrationTime);
+    this.conversation.set(this.getConversationWithContact())
+  }
+
+  getContacts() {
+    this.registeredContacts.set(this.apiService.getContacts())
   }
 
   processMessage(chat: string) {
     // maak een Message object
     const message = {
       timeStamp: new Date().getTime(),
-      sender: this.authService.currentContactRegistrationTime,
-      receiver: this._currentContactRegistrationTime,
+      sender: this.authService.currentContact()?.registrationTime,
+      receiver: this.selectedContactRegistrationTime(),
       content: chat
     }
-    // casten van generiek Object naar message anders zegt TS Argument of type
-    // '{ timeStamp: number; sender: number; receiver: number; content: string; }' is not assignable to parameter of type 'Message'.
     this.apiService.addMessage(message as any as Message)
+    this.conversation.update(prev => [...prev, message as any as Message])
+  }
+
+  getConversationWithContact(): Message[]  {
+    return this.apiService.getConversationWithContact(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime())
   }
 
 }

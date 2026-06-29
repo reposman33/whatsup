@@ -1,6 +1,6 @@
 export type Message = {
   timeStamp: number;
-  sender: string;
-  receiver: string;
+  sender: number;
+  receiver: number;
   content: string;
 }

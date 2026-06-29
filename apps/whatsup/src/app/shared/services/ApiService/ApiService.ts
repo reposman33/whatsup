@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
-import { BehaviorSubject } from 'rxjs';
 import { isContact } from '@typeGuards/';
 
 type loginMethod = 'localstorage' | 'firebase';
@@ -10,9 +9,6 @@ type loginMethod = 'localstorage' | 'firebase';
 })
 export class ApiService {
   private storage: loginMethod = 'localstorage';
-  private registeredContactsBehaviorSubject = new BehaviorSubject<Contact[]>([])
-
-  registeredContacts$ = this.registeredContactsBehaviorSubject.asObservable()
 
   registerContact(contact: Contact) {
     switch (this.storage) {
@@ -27,20 +23,6 @@ export class ApiService {
     }
   }
 
-  deleteContact(registrationTime: number) {
-    switch (this.storage) {
-      case 'localstorage': {
-        this.deleteContactFromLocalStorage(registrationTime);
-        break;
-      }
-      case 'firebase': {
-        // ...
-        break;
-      }
-    }
-  }
-
-
   getContact(email: string, password: string): Contact | undefined {
     switch (this.storage) {
       case 'localstorage': {
@@ -53,8 +35,7 @@ export class ApiService {
   getContacts(): Contact[] | [] {
     switch (this.storage) {
       case 'localstorage': {
-        this.registeredContactsBehaviorSubject.next(JSON.parse(localStorage.getItem('registeredUsers') || '[]'))
-        break
+        return JSON.parse(localStorage.getItem('registeredUsers') || '[]')
       }
       case 'firebase': {
         // ...
@@ -80,6 +61,26 @@ export class ApiService {
         break;
       }
     }
+  }
+
+  getConversationWithContact(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Message[] {
+    switch (this.storage) {
+      case 'localstorage': {
+        return this.getConversationsWithContactFromLocalStorage(currentContactRegistrationTime, selectedContactRegistrationTime)
+        break;
+      }
+      case 'firebase': {
+        //...
+        break;
+      }
+    }
+
+    return [] as Message[]
+  }
+
+  getConversationsWithContactFromLocalStorage(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Message[]{
+    return JSON.parse(localStorage.getItem('messages') || '[]')
+    .filter((m: Message) => m.sender === currentContactRegistrationTime && m.receiver === selectedContactRegistrationTime)
   }
 
   addContactToLocalStorage(contact: Contact) {
@@ -109,11 +110,6 @@ export class ApiService {
       return isContact(contact) ? contact : undefined
     }
     return undefined
-  }
-
-  deleteContactFromLocalStorage(registrationTime: number) {
-    const registeredContacts = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-    localStorage.setItem('registeredUsers',JSON.stringify(registeredContacts.filter((contact: Contact) => contact.registrationTime !== registrationTime)))
   }
     
 }

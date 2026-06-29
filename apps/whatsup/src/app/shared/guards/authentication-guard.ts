@@ -7,8 +7,5 @@ export const authenticationGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.currentContact$.pipe(
-    map(contact => 
-      !!contact ? true : router.createUrlTree(['login']))
-  )
+  return authService.currentContact() ? true : router.createUrlTree(['login'])
 };

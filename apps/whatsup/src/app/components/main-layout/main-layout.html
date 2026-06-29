@@ -2,16 +2,22 @@
   <div class="flex h-[80vh] w-full m-5">
     <aside class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg pt-3 mr-3 gap-3 overflow-y-auto">
 
-      @for(contact of (apiService.registeredContacts$ | async); track contact.registrationTime) {
+      @for(contact of chatService.registeredContacts(); track contact.registrationTime) {
         <contact
           [naam]="contact.name"
           [registrationTime]="contact.registrationTime"
-          (onRightClick)="handleRightClick($event)"></contact>
+          (onSelectContact)="selectContact($event)"></contact>
       }
     </aside>
     <main class="flex flex-col w-full">
-      <section class="h-4/5 bg-blue-50 rounded-lg mb-3">Chats</section>
-      <footer class="h-1/5 flex-1 bg-yellow-50 rounded-lg"><message-input></message-input></footer>
+      <section class="h-4/5 bg-blue-50 rounded-lg mb-3">
+
+        @for(chat of chatService.conversation(); track chat.receiver) {
+          <div>{{chat.content}}</div>
+        }
+
+      </section>
+      <footer class="h-1/5 flex-1 bg-yellow-50 rounded-lg"><message-input (onSendMessage)="sendMessage($event)"></message-input></footer>
     </main>
   </div>
 </div>

@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 import { ApiService } from '@services/ApiService/ApiService';
 import { Contact } from '@models/contact';
 
@@ -8,12 +7,8 @@ import { Contact } from '@models/contact';
 })
 
 export class AuthService {
-  // firebase
-  // ...
-  private authenticatedSubject = new BehaviorSubject<Contact | undefined>(undefined);
-  private _currentContactRegistrationTime: number | undefined;
-  currentContact$ = this.authenticatedSubject.asObservable();
   apiService = inject(ApiService);
+  public currentContact = signal<Contact | undefined>(undefined);
 
   private _requestedUrl:string | undefined = undefined;
 
@@ -28,24 +23,10 @@ export class AuthService {
    * @param password  - uer password
    */
   authenticate(email: string, password: string): void {
-    const authenticatedContact = this.apiService.getContact(email,password)
-    this._currentContactRegistrationTime = authenticatedContact?.registrationTime
-    this.authenticatedSubject.next(authenticatedContact);
-  }
-
-  set requestedUrl(url: string | undefined) {
-    this._requestedUrl = url;
-  }
-
-  get requestedUrl(): string | undefined {
-    return this._requestedUrl;
-  }
-
-  get currentContactRegistrationTime() {
-    return this._currentContactRegistrationTime
+    this.currentContact.set(this.apiService.getContact(email,password))
   }
 
   logout() {
-    this.authenticatedSubject.next(undefined);
+    this.currentContact.set(undefined);
    }
 }
