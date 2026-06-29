@@ -24,7 +24,9 @@ export class ChatService {
   }
 
   getContacts() {
-    this.registeredContacts.set(this.apiService.getContacts())
+    // haal contacten op en filter de ingelogde gebruiker uit de lijst
+    const contacts = this.apiService.getContacts().filter(c => c.registrationTime !== this.authService.currentContact()?.registrationTime)
+    this.registeredContacts.set(contacts)
   }
 
   processMessage(chat: string) {
