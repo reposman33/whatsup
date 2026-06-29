@@ -15,7 +15,7 @@
       "@services/*": ["./src/app/shared/services/*"],
       "@guards/*": ["./src/app/shared/guards/*"],
       "@models/*": ["./src/app/models/*"],
-      "@typeGuards/*": ["./src/app/shared/typeGuards"]
+      "@typeGuards": ["./src/app/shared/typeGuards"]
     }
   },
   "angularCompilerOptions": {
