@@ -16,16 +16,15 @@
       }
 
     </aside>
-    <main class="flex flex-col w-full">
-      <section class="h-4/5 bg-blue-50 rounded-lg mb-3">
+    <main class="flex flex-col w-full justify-between">
+      
+      <div class="flex flex-col">
+        @for(chat of this.chatService.conversation(); track chat.receiver; let i = $index) {
+          <chat [chat]="chat" [index]="i"></chat>
+          }
+      </div>
 
-        @for(chat of chatService.conversation(); track chat.receiver) {
-
-          <div>{{chat.content}}</div>
-        }
-
-      </section>
-      <footer class="h-1/5 flex-1 bg-yellow-50 rounded-lg"><message-input (onSendMessage)="sendMessage($event)"></message-input></footer>
+      <footer class="max-h-1/5 flex-1 bg-yellow-50 rounded-lg"><message-input (onSendMessage)="sendMessage($event)"></message-input></footer>
     </main>
   </div>
 </div>

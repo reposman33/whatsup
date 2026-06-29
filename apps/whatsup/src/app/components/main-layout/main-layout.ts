@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { Contact } from '../contact/contact';
-import { ApiService, AuthService, ChatService } from '@services/index';
+import { AuthService, ChatService } from '@services/index';
 import { MessageInput } from '../message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { EMPTY } from 'rxjs';
+import { DatePipe } from '@angular/common';
+import { ChatComponent } from '../chat/chat';
 
 @Component({
   selector: 'mainLayout',
-  imports: [ Contact, MessageInput ],
+  imports: [ChatComponent, Contact, MessageInput, DatePipe ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,
@@ -23,6 +25,11 @@ export class MainLayout {
     ? this.chatService.getContacts()
     : EMPTY
     });
+
+    // readonly conversation = rxResource({
+    //   // ensure stream returns an Observable; getMessagesWithContact may perform side-effects and return void
+    //   stream: () => { this.chatService.getMessagesWithContact(); return EMPTY }
+    // })
 
   ngOnInit(){
     this.chatService.getMessagesWithContact()
