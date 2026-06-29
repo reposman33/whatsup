@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '@services/auth/auth.service';
 import { Router } from '@angular/router';
+import { ChatService } from '@services/index';
 
 @Component({
   selector: 'header',
@@ -13,9 +14,10 @@ import { Router } from '@angular/router';
 export class Header {
   protected authService = inject(AuthService)
   private router = inject(Router)
+  private chatService = inject(ChatService)
 
   logout() {
-    this.authService.logout()
+    this.chatService.logout()
     this.router.navigateByUrl('/login');
   }
 }

@@ -49,4 +49,9 @@ export class ChatService {
     .subscribe(messages => this.conversation.set(messages))
   }
 
+  logout() {
+    this.authService.logout()
+    this.selectedContactRegistrationTime.set(0)
+    this.conversation.set([])
+  }
 }
