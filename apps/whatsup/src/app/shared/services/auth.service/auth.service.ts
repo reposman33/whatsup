@@ -10,8 +10,6 @@ export class AuthService {
   apiService = inject(ApiService);
   public currentContact = signal<Contact | undefined>(undefined);
 
-  private _requestedUrl:string | undefined = undefined;
-
   register(contact: Contact) {
     this.apiService.registerContact(contact);
   }
