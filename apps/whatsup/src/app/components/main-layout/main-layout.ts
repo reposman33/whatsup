@@ -5,10 +5,11 @@ import { MessageInput } from '../message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { EMPTY } from 'rxjs';
 import { ChatComponent } from '../chat/chat';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'mainLayout',
-  imports: [ChatComponent, Contact, MessageInput ],
+  imports: [ChatComponent, Contact, Header, MessageInput ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,
