@@ -1,4 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { ApiService } from '@services/api/api.service';
@@ -12,6 +13,7 @@ import { map, tap } from 'rxjs/operators';
 export class ChatService {
   private apiService = inject(ApiService)
   private authService = inject(AuthService)
+  private router = inject(Router)
 
   public conversation = signal<Message[]>([])
   public contacts = signal<Contact[]>([]);
@@ -53,5 +55,7 @@ export class ChatService {
     this.authService.logout()
     this.selectedContactRegistrationTime.set(0)
     this.conversation.set([])
+
+    this.router.navigate(['/login'])
   }
 }
