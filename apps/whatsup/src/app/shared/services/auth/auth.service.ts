@@ -13,11 +13,11 @@ export class AuthService {
     this.currentContact.set(this.authenticateService.login(email,password))
   }
 
-  logout() {
+  logout(): void {
     this.currentContact.set(this.authenticateService.logout());
    }
   
-  register(contact: Contact) {
+  register(contact: Contact): void {
     this.authenticateService.register(contact);
   }
 
