@@ -1,6 +1,10 @@
 @use './app/shared/variables' as *; 
 @use 'tailwindcss';
 
+@theme {
+  --shadow-card: 0 10px 25px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.05)
+ }
+ 
 * {
  font-family: Montserrat;
  font-weight: 400;

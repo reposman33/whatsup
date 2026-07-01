@@ -1,23 +1,12 @@
 @use '../../shared/variables' as *;
 
-.login-page {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
 }
-
-.login-panel {
-  width: 550px;
-  padding: 3rem;
-  background: white;
-  border-radius: 16px;
-  box-shadow: $box--shadow;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 
 .login-input, .login-password, .register-naam {
   width: 80%;
@@ -29,37 +18,4 @@
 *::placeholder {
   color: #9ca3af;
   font-style: italic;
-}
-
-.logo {
-  text-align: center;
-  margin-bottom: 1rem;
-
-  i {
-    font-size: 3rem;
-  }
-
-  h1 {
-    margin-top: .75rem;
-    font-size: 2rem;
-    font-weight: 600;
-  }
-}
-
-.field {
-  display: flex;
-  gap: .5rem;
-  justify-content: space-between;
-  
-  & div[data-lastpass-icon-root] {
-    display: none;
-  }
-  
-  & label {
-    align-self: center
-  }
-}
-
-button:disabled {
-  filter: opacity(30%)
 }

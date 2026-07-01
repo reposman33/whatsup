@@ -1,13 +1,13 @@
-<div class="login-page">
-  <div class="login-panel">
+<div class="flex h-screen justify-center items-center">
+  <div class="flex flex-col bg-blue-50 w-[550px] px-12 py-9 gap-4 rounded-md shadow-card">
 
-    <div class="logo">
-      <i class="pi pi-comments"></i>
+    <div class="text-center text-3xl flex justify-center gap-2">
+      <span class="material-symbols-outlined text-2xl">forum</span>
       <h1>WhatsUp</h1>
     </div>
 
-    <div class="field">
-      <label for="email">Email</label>
+    <div class="flex justify-between gap-2 placeholder:gray-400 placeholder:italic">
+      <label for="email" class="flex items-center">Email</label>
       <input
         id="email"
         type="email"
@@ -18,8 +18,8 @@
       />
     </div>
 
-    <div class="field">
-      <label for="password">Password</label>
+    <div class="flex justify-between gap-2 placeholder:gray-400 placeholder:italic">
+      <label for="password" class="flex items-center">Password</label>
       <input
         id="password"
         type="password"
@@ -31,12 +31,13 @@
     </div>
 
     @if(isRegistering()) {
-    <div class="field">
+    <div class="flex justify-between gap-2 placeholder:gray-400 placeholder:italic">
       <label for="naam">Naam</label>
       <input
         id="naam"
         type="text"
         (input)="naam.set($event.target.value)"
+        [value]="naam()"
         class="register-naam"
         placeholder="Naam"
       />
@@ -56,5 +57,4 @@
     >Sign in</button>
   </div>
 
-  </div>
 </div>
