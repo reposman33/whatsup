@@ -1,3 +1,3 @@
 import { Contact } from "@models/contact";
 
-export const isContact = (obj: any): obj is Contact => typeof obj.email === 'string' && typeof obj.password === 'string';
+export const isContact = (obj: Record<string, unknown>): obj is Contact => typeof obj['email'] === 'string' && typeof obj['password'] === 'string';

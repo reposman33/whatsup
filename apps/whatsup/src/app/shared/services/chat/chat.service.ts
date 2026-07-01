@@ -42,12 +42,12 @@ export class ChatService {
       receiver: this.selectedContactRegistrationTime(),
       content: chat
     }
-    this.apiService.addMessage(message as any as Message)
-    this.conversation.update(prev => [...prev, message as any as Message])
+    this.apiService.addMessage(message as Message)
+    this.conversation.update(prev => [...prev, message as Message])
   }
 
   getMessagesWithContact(): void  {
-    this.apiService.getMessagesWithContact(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime())
+    this.apiService.getMessagesWithContact(this.authService.currentContact()?.registrationTime, this.selectedContactRegistrationTime())
     .subscribe(messages => this.conversation.set(messages))
   }
 

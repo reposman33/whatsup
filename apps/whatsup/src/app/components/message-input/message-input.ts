@@ -10,13 +10,13 @@ import { ChatService } from '@services/chat/chat.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInput {
-  onSendMessage = output<string>()
+  sendMessage = output<string>()
 
   protected chatService = inject(ChatService)
   protected chat = signal('')
 
-  sendMessage() {
-    this.onSendMessage.emit(this.chat())
+  send() {
+    this.sendMessage.emit(this.chat())
     this.chat.set('')
   }
 

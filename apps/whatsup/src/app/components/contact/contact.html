@@ -3,6 +3,8 @@
   [title]="naam()"
   [class]="chatService.selectedContactRegistrationTime() === registrationTime() ? 'brightness-75' : ''"
   (click)="handleSelectContact(registrationTime())"
+  (keyup)="handleSelectContact(registrationTime())"
+  tabindex="0"
   >
   {{ initialen() }}
 </div>

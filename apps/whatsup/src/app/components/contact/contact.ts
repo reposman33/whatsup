@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
-import { RightClickEvent } from '@models/rightClickEvent';
 import { ChatService } from '@services/index';
 
 @Component({
@@ -14,7 +13,6 @@ export class Contact {
   naam = input<string>()
   registrationTime = input.required<number>()
   selectContact = output<number>()
-  onRightClick = output<RightClickEvent>()
 
   protected chatService = inject(ChatService)
   protected initialen = computed(() => this.naam()?.trim()

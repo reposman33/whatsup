@@ -8,7 +8,7 @@ import { ChatComponent } from '../chat/chat';
 import { Header } from '../header/header';
 
 @Component({
-  selector: 'mainLayout',
+  selector: 'main-layout',
   imports: [ChatComponent, Contact, Header, MessageInput ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
@@ -21,7 +21,7 @@ export class MainLayout {
   protected selectedContact = this.chatService.selectedContactRegistrationTime
   
   protected contacts = rxResource({
-    stream: () => !!this.authService.currentContact()?.registrationTime
+    stream: () => this.authService.currentContact()?.registrationTime
     ? this.chatService.getContacts()
     : EMPTY
     });
