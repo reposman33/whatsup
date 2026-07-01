@@ -20,7 +20,23 @@ export class Login implements OnInit {
   protected password = signal('');
   protected naam = signal('');
 
-  protected isValidRegistration = computed(() => this.email().length > 0 && this.password().length > 0 && this.naam().length > 0)
+  protected isRegistrationValid = computed(() =>
+    this.isRegistering()
+    &&
+    this.email().length > 0
+    &&
+    this.password().length > 0
+    &&
+    this.naam().length > 0
+  )
+
+  protected isLoginValid = computed(() =>
+    !this.isRegistering()
+    &&
+    this.email().length > 0
+    &&
+    this.password().length > 0
+  )
 
   emptyRegistrationFields() {
     this.email.set('')
@@ -44,10 +60,10 @@ export class Login implements OnInit {
 
   register() {
     this.isRegistering.set(true)
-    if(this.isValidRegistration()) {
+    if(this.isRegistrationValid()) {
       this.authService.register({email: this.email(), password: this.password(), name: this.naam(), registrationTime: new Date().getTime()});
       this.isRegistering.set(false)
-      // emptyRegistrationFields zodat isValidRegistration() === false
+      // emptyRegistrationFields zodat isRegistrationValid() === false
       this.emptyRegistrationFields()
     }
   }
