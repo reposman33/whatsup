@@ -8,9 +8,12 @@ import { Contact } from '@models/contact';
 })
 export class LocalAuthService  extends AuthenticateService{
   private apiService = inject(ApiService)
+  public currentContact = signal<Contact | undefined>(undefined);
 
   login(email: string, password: string): Contact | undefined {
-    return this.apiService.getContact(email,password)
+    const contact = this.apiService.getContact(email, password);
+    this.currentContact.set(contact);
+    return contact;
   }
   
   logout(): undefined {
