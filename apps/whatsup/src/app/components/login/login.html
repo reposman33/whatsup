@@ -46,15 +46,15 @@
 
   <div class="flex justify-end gap-2">
     <button
-      class="bg-gray-200 border border-gray-300 text-black hover:bg-gray-50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg"
-      [disabled]="!isRegistering() && !!isRegistrationValid()"
+      class="bg-gray-200 border border-gray-300 text-black hover:bg-gray-50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:text-gray-400"
+      [disabled]="isRegistering() && !isRegistrationValid()"
       (click)="register()"
     >Register</button>
     <button
-      class="bg-gray-200 border border-gray-300 text-black hover:bg-gray-50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-      [disabled]="!isLoginValid()"
-      (click)="login()"
-    >Sign in</button>
+      class="bg-gray-200 border border-gray-300 text-black hover:bg-gray-50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:text-gray-400"
+      [disabled]="!isLoginValid() && !isRegistering()"
+      (click)="isRegistering() ? isRegistering.set(false) : login()"
+    >{{isRegistering() ? 'Terug naar Sign In' : 'Sign In'}}</button>
   </div>
 
 </div>
