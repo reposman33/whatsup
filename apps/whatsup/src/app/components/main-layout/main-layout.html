@@ -1,7 +1,7 @@
 <div class="flex flex-col w-[1080px] h-[1020px] justify-center pl-10 pr-10">
   <header></header>
   <div class="flex h-9/12 w-full">
-    <aside class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg pt-3 mr-3 gap-3 overflow-y-auto">
+    <aside class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3 overflow-y-auto">
 
       @if(contacts.isLoading()) {
         <p>Contacts laden...</p>
@@ -17,8 +17,7 @@
       }
 
     </aside>
-    <main class="flex flex-col bg-blue-50 w-full justify-between">
-    
+    <main class="flex flex-col bg-blue-50 w-full justify-between p-4">
       
       <div class="flex flex-col">
         @for(chat of this.chatService.conversation(); track chat.receiver) {
