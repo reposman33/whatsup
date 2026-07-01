@@ -1,15 +1,11 @@
 import { FormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '@services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
-  imports: [FormsModule, InputTextModule, PasswordModule, ButtonModule, CardModule],
+  imports: [FormsModule ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   encapsulation: ViewEncapsulation.Emulated,
