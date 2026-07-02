@@ -10,9 +10,9 @@ import { Observable, of } from 'rxjs';
 })
 export class LocalStorageService extends StorageService {
 
-  getContact(email: string, password: string): Contact | undefined {
+  getContact(email: string, password: string): Contact & Pick<{password: string}, 'password'> | undefined {
     const contact = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-    .find((contact: Contact) => contact.email === email && contact.password === password);
+    .find((contact: Contact & Pick<{password: string}, 'password'>) => contact.email === email && contact.password === password);
     if(contact) {
       // check met TypeGuard of dit echt een valide Contact object is
       return isContact(contact) ? contact : undefined
