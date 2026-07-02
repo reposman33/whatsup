@@ -9,15 +9,17 @@ export class AuthService {
   authenticateService = inject(AuthenticateService);
   public currentContact = signal<Contact | undefined>(undefined);
 
-  login(email: string, password: string): void {
-    this.currentContact.set(this.authenticateService.login(email,password))
+  async login(email: string, password: string): Promise<void> {
+    const contact = await this.authenticateService.login(email, password).toPromise();
+    this.currentContact.set(contact);
   }
 
-  logout(): void {
-    this.currentContact.set(this.authenticateService.logout());
-   }
-  
-  register(contact: Contact): void {
+  async logout(): Promise<void> {
+    await this.authenticateService.logout().toPromise();
+    this.currentContact.set(undefined);
+  }
+
+  register(contact: Contact & Pick<{password: string}, 'password'>): void {
     this.authenticateService.register(contact);
   }
 

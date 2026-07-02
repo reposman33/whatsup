@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { AuthenticateService } from '../authenticate.service';
 import { ApiService } from '@services/api/api.service';
 import { Contact } from '@models/contact';
+import { of } from 'rxjs/internal/observable/of';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
@@ -9,12 +11,12 @@ import { Contact } from '@models/contact';
 export class LocalAuthService  extends AuthenticateService{
   private apiService = inject(ApiService)
 
-  login(email: string, password: string): Contact | undefined {
-    return this.apiService.getContact(email, password);
+  login(email: string, password: string): Observable<Contact | undefined> {
+    return of(this.apiService.getContact(email, password));
   }
   
-  logout(): undefined {
-    return undefined;
+  logout(): Observable<void> {
+    return of(undefined);
   }
 
   register(contact: Contact): void {
