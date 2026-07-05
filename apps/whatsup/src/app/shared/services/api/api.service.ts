@@ -4,7 +4,6 @@ import { Message } from '@models/message';
 import { StorageService } from '@services/api/storage.service';
 import { Observable } from 'rxjs';
 
-type loginMethod = 'localstorage' | 'firebase';
 @Injectable({
   providedIn: 'root',
 })
