@@ -58,10 +58,14 @@ export class Login implements OnInit {
     this.emptyRegistrationFields();
   }
 
-  register() {
+  async register() {
     this.isRegistering.set(true)
     if(this.isRegistrationValid()) {
-      this.authService.register({email: this.email(), password: this.password(), name: this.naam(), registrationTime: new Date().getTime()});
+      await this.authService.register({
+        email: this.email(),
+        password: this.password(),
+        name: this.naam(),
+        registrationTime: new Date().getTime()});
       this.isRegistering.set(false)
       // emptyRegistrationFields zodat isRegistrationValid() === false
       this.emptyRegistrationFields()

@@ -19,8 +19,8 @@ export class AuthService {
     this.currentContact.set(undefined);
   }
 
-  register(contact: Contact & Pick<{password: string}, 'password'>): void {
-    this.authenticateService.register(contact);
+async register(contact: Contact & Pick<{password: string}, 'password'>): Promise<void> {
+    await this.authenticateService.register(contact);
   }
 
 }
