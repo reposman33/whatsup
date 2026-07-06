@@ -10,6 +10,7 @@ import { LocalAuthService } from '@services/auth/local/local-auth.service';
 import { FireBaseAuthService } from '@services/auth/fireBase/fire-base-auth.service';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
       provide: StorageService,
       useClass: AppConfig.storageMethod === 'localStorage' ? LocalStorageService : FireBaseService
     },
+    provideFirestore(() => getFirestore()),
     provideFirebaseApp(() => initializeApp(AppConfig.firebaseConfig)),
     provideAuth(() => getAuth()),
   ]
