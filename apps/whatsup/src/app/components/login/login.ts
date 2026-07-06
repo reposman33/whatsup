@@ -50,8 +50,8 @@ export class Login implements OnInit {
     }
   }
 
-  login() {
-    this.authService.login (this.email(), this.password())
+  async login() {
+    await this.authService.login(this.email(), this.password())
     if (this.authService.currentContact()) {
       this.router.navigateByUrl('')
     }
