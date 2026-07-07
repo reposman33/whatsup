@@ -45,3 +45,8 @@ Thumbs.db
 .claude/settings.local.json
 
 .angular
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
