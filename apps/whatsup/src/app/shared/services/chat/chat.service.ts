@@ -5,7 +5,7 @@ import { Message } from '@models/message';
 import { ApiService } from '@services/api/api.service';
 import { AuthService } from '@services/auth/auth.service';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,6 @@ export class ChatService {
   private router = inject(Router)
 
   public conversation = signal<Message[]>([])
-  public contacts = signal<Contact[]>([]);
   public selectedContactRegistrationTime = signal(0)
   
   //** @description: selecteer een contact en zet de registrationTime in de signal 
@@ -30,7 +29,6 @@ export class ChatService {
     // haal contacten op en filter de ingelogde gebruiker uit de lijst
     return this.apiService.getContacts().pipe(
       map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
-      tap(contacts => this.contacts.set(contacts))
     )
   }
 

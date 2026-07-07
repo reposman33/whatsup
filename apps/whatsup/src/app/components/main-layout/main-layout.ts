@@ -3,7 +3,7 @@ import { Contact } from '../contact/contact';
 import { AuthService, ChatService } from '@services/index';
 import { MessageInput } from '../message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { EMPTY } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ChatComponent } from '../chat/chat';
 import { Header } from '../header/header';
 
@@ -21,10 +21,12 @@ export class MainLayout {
   protected selectedContact = this.chatService.selectedContactRegistrationTime
   
   protected contacts = rxResource({
-    stream: () => this.authService.currentContact()?.registrationTime
-    ? this.chatService.getContacts()
-    : EMPTY
-    });
+    stream: (): Observable<Contact[]> => 
+      this.chatService.getContacts()
+      .pipe(
+        map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
+      )
+  });
   
   selectContact(registrationTime: number) {
     this.chatService.selectContact(registrationTime)
