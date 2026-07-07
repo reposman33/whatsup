@@ -2,12 +2,14 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { AppConfig } from './environment';
+
 import { StorageService } from '@services/api/storage.service';
 import { LocalStorageService } from '@services/api/local/local-storage.service';
 import { FireBaseService } from '@services/api/firebase/fire-base.service';
 import { AuthenticateService } from '@services/auth/authenticate.service';
-import { LocalAuthService } from '@services/auth/local/local-auth.service';
 import { FireBaseAuthService } from '@services/auth/fireBase/fire-base-auth.service';
+import { LocalAuthService } from '@services/auth/local/local-auth.service';
+
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
