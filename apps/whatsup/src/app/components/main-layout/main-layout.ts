@@ -24,9 +24,6 @@ export class MainLayout {
   protected contacts = rxResource({
     stream: (): Observable<Contact[]> => 
       this.chatService.getContacts()
-      .pipe(
-        map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
-      )
   });
   
   selectContact(registrationTime: number) {
