@@ -9,7 +9,7 @@ import { ChatService } from '@services/index';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Contact {
+export class ContactComponent {
   naam = input<string>()
   registrationTime = input.required<number>()
   selectContact = output<number>()

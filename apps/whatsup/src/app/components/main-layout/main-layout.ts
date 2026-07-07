@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
-import { Contact } from '../contact/contact';
+import { ContactComponent } from '../contact/contact';
 import { AuthService, ChatService } from '@services/index';
 import { MessageInput } from '../message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map, Observable } from 'rxjs';
 import { ChatComponent } from '../chat/chat';
 import { Header } from '../header/header';
+import { Contact } from '@models/index';
 
 @Component({
   selector: 'main-layout',
-  imports: [ChatComponent, Contact, Header, MessageInput ],
+  imports: [ChatComponent, ContactComponent, Header, MessageInput ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,
