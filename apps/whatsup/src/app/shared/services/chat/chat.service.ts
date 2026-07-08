@@ -34,14 +34,20 @@ export class ChatService {
 
   processMessage(chat: string) {
     // maak een Message object
+    const currentContactRegistrationTime = this.authService.currentContact()!.registrationTime
     const message = {
       timeStamp: new Date().getTime(),
-      sender: this.authService.currentContact()?.registrationTime,
+      sender: currentContactRegistrationTime,
       receiver: this.selectedContactRegistrationTime(),
+      conversationId: this.getConversationId(currentContactRegistrationTime, this.selectedContactRegistrationTime()),
       content: chat
     }
     this.apiService.addMessage(message as Message)
     this.conversation.update(prev => [...prev, message as Message])
+  }
+
+  getConversationId(senderID: number, receiverID: number) {
+    return [senderID,receiverID].sort().join('_')
   }
 
   getMessagesWithContact(): void  {
