@@ -46,9 +46,9 @@ export class ChatService {
     // maak een Message object
     const message = {
       timeStamp: new Date().getTime(),
-      sender: this.currentContactRegistrationTime,
+      sender: this.authService.currentContact()!.registrationTime,
       receiver: this.selectedContactRegistrationTime(),
-      conversationId: this.getConversationId(this.currentContactRegistrationTime, this.selectedContactRegistrationTime()),
+      conversationId: this.getConversationId(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime()),
       content: chat
     }
     this.apiService.addMessage(message as Message)
@@ -57,11 +57,6 @@ export class ChatService {
 
   getConversationId(senderID: number, receiverID: number) {
     return [senderID,receiverID].sort().join('_')
-  }
-
-  getMessagesWithContact(): void  {
-    this.apiService.getMessagesWithContact(this.getConversationId(this.currentContactRegistrationTime, this.selectedContactRegistrationTime()))
-    .then(messages => this.conversation.set(messages))
   }
 
   logout() {

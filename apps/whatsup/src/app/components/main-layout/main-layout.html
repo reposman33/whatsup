@@ -20,9 +20,11 @@
     <main class="flex flex-col bg-blue-50 w-full justify-between p-4">
       
       <div class="flex flex-col">
-        @for(chat of this.chatService.conversation(); track chat.receiver) {
-          <chat [chat]="chat"></chat>
-          }
+
+        @for(message of chatService.messages.value(); track $index) {
+          <chat [chat]="message"></chat>
+        }
+
       </div>
 
       <footer class="h-auto bg-yellow-50 rounded-lg"><message-input (sendMessage)="sendMessage($event)"></message-input></footer>

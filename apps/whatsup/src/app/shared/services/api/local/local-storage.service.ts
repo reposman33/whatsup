@@ -40,8 +40,8 @@ export class LocalStorageService extends StorageService {
     localStorage.setItem('messages', JSON.stringify(messages));
   }
 
-  async getMessagesWithContact(id: string): Promise<Message[]>{
-    return await (
+  getMessagesWithContact(id: string): Observable<Message[]>{
+    return of (
       JSON.parse(localStorage.getItem('messages') || '[]')
       // filter alle chats van ingelogde gebruiker naar geselecteerde contact en omgekeerd
       .filter((m: Message) => (m.conversationId === id))

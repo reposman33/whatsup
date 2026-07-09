@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
 import { ContactComponent } from '../contact/contact';
 import { AuthService, ChatService } from '@services/index';
 import { MessageInput } from '../message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { map, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ChatComponent } from '../chat/chat';
 import { Header } from '../header/header';
-import { Contact } from '@models/index';
+import { Contact, Message } from '@models/index';
+
 
 @Component({
   selector: 'main-layout',
@@ -19,8 +20,8 @@ import { Contact } from '@models/index';
 export class MainLayout {
   public authService = inject(AuthService)
   protected chatService = inject(ChatService)
-  public authService = inject(AuthService)
   protected selectedContact = this.chatService.selectedContactRegistrationTime
+  protected messages!: ResourceRef<Message[] | undefined>
   
   protected contacts = rxResource({
     stream: (): Observable<Contact[]> => 
@@ -28,8 +29,7 @@ export class MainLayout {
   });
   
   selectContact(registrationTime: number) {
-    this.chatService.selectContact(registrationTime)
-    this.chatService.getMessagesWithContact()
+    this.chatService.selectedContactRegistrationTime.set(registrationTime)
   }
 
   sendMessage(chat: string) {
