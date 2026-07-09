@@ -3,4 +3,5 @@ export type Message = {
   sender: number;
   receiver: number;
   content: string;
+  conversationId: string;
 }

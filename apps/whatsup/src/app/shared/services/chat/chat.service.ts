@@ -17,6 +17,7 @@ export class ChatService {
 
   public conversation = signal<Message[]>([])
   public selectedContactRegistrationTime = signal(0)
+  private currentContactRegistrationTime = this.authService.currentContact()!.registrationTime
   
   //** @description: selecteer een contact en zet de registrationTime in de signal 
   // deze registrationTime wordt gebruikt om de conversatie met het geselecteerde contact op te halen
@@ -34,12 +35,11 @@ export class ChatService {
 
   processMessage(chat: string) {
     // maak een Message object
-    const currentContactRegistrationTime = this.authService.currentContact()!.registrationTime
     const message = {
       timeStamp: new Date().getTime(),
-      sender: currentContactRegistrationTime,
+      sender: this.currentContactRegistrationTime,
       receiver: this.selectedContactRegistrationTime(),
-      conversationId: this.getConversationId(currentContactRegistrationTime, this.selectedContactRegistrationTime()),
+      conversationId: this.getConversationId(this.currentContactRegistrationTime, this.selectedContactRegistrationTime()),
       content: chat
     }
     this.apiService.addMessage(message as Message)
@@ -51,8 +51,8 @@ export class ChatService {
   }
 
   getMessagesWithContact(): void  {
-    this.apiService.getMessagesWithContact(this.authService.currentContact()?.registrationTime, this.selectedContactRegistrationTime())
-    .subscribe(messages => this.conversation.set(messages))
+    this.apiService.getMessagesWithContact(this.getConversationId(this.currentContactRegistrationTime, this.selectedContactRegistrationTime()))
+    .then(messages => this.conversation.set(messages))
   }
 
   logout() {

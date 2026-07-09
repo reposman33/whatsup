@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, doc, getDoc, Firestore } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, getDoc, Firestore, query, where } from '@angular/fire/firestore';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { Observable } from 'rxjs';
@@ -34,7 +34,9 @@ async getContact(id: string): Promise<Contact | undefined> {
     throw new Error('Method not implemented.');
   }
   
-  getMessagesWithContact(currentContactRegistrationTime: number, selectedContactRegistrationTime: number): Message[] {
-    throw new Error('Method not implemented.');
+  getMessagesWithContact(id: string): Observable<Message[]> {
+    const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", "id"))
+
+    return collectionData (q, {idField: id}) as Observable<Message[]>
   }
 }
