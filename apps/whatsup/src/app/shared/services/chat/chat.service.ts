@@ -1,4 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
@@ -19,16 +20,24 @@ export class ChatService {
   public selectedContactRegistrationTime = signal(0)
   private currentContactRegistrationTime = this.authService.currentContact()!.registrationTime
   
-  //** @description: selecteer een contact en zet de registrationTime in de signal 
-  // deze registrationTime wordt gebruikt om de conversatie met het geselecteerde contact op te halen
-  // */
-  selectContact(registrationTime: number): void {
-    this.selectedContactRegistrationTime.set(registrationTime);
-  }
+  public messages = rxResource({
+    params: () => {
+      const selected = this.selectedContactRegistrationTime();
+      if (!selected) return undefined; // nog geen contact geselecteerd → geen query
+      return {
+        current: this.authService.currentContact()!.registrationTime,
+        selected
+      };
+    },
+    stream: ({ params }) => this.apiService.getMessagesWithContact(
+      this.getConversationId(params.current, params.selected)
+    )
+  });
 
   getContacts(): Observable<Contact[]> {
     // haal contacten op en filter de ingelogde gebruiker uit de lijst
-    return this.apiService.getContacts().pipe(
+    return this.apiService.getContacts()
+    .pipe(
       map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
     )
   }

@@ -17,6 +17,7 @@ import { Contact } from '@models/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainLayout {
+  public authService = inject(AuthService)
   protected chatService = inject(ChatService)
   public authService = inject(AuthService)
   protected selectedContact = this.chatService.selectedContactRegistrationTime

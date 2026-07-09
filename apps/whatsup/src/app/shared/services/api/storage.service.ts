@@ -12,6 +12,6 @@ export abstract class StorageService {
   
   abstract addMessage(message: Message): void
   
-  abstract getMessagesWithContact(id: string): Promise<Message[]>
+  abstract getMessagesWithContact(id: string): Observable<Message[]>
 
 }
