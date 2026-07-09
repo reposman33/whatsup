@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, getDoc, Firestore, query, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, getDoc, Firestore, query, where, orderBy } from '@angular/fire/firestore';
 import { Contact } from '@models/contact';
 import { Message } from '@models/message';
 import { Observable } from 'rxjs';
@@ -36,8 +36,8 @@ async getContact(id: string): Promise<Contact | undefined> {
   }
   
   getMessagesWithContact(id: string): Observable<Message[]> {
-    const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", "id"))
+    const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
 
-    return collectionData (q, {idField: id}) as Observable<Message[]>
+    return collectionData (q, {idField: 'id'}) as Observable<Message[]>
   }
 }
