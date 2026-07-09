@@ -2,13 +2,13 @@ import { inject, Injectable } from '@angular/core';
 
 import {
   Auth,
-  browserSessionPersistence,
   signInWithEmailAndPassword,
   signOut,
   user,
   User,
+  createUserWithEmailAndPassword
 } from '@angular/fire/auth';
-import { createUserWithEmailAndPassword, setPersistence } from 'firebase/auth';
+import { setPersistence, browserSessionPersistence } from 'firebase/auth';
 
 import { Contact } from '@models/contact';
 import { from, Observable } from 'rxjs';
