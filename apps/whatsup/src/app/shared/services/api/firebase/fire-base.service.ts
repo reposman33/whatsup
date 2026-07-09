@@ -30,8 +30,9 @@ async getContact(id: string): Promise<Contact | undefined> {
     throw new Error('Method not implemented.');
   }
   
-  addMessage(message: Message): void {
-    throw new Error('Method not implemented.');
+  async addMessage(message: Message): Promise<void> {
+    const messagesCollection = collection(this.firestore, 'messages')
+    await addDoc(messagesCollection, message)
   }
   
   getMessagesWithContact(id: string): Observable<Message[]> {
