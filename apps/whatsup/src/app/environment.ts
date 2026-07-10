@@ -1,5 +1,12 @@
 const env = (import.meta as any).env;
 
+
+console.log('🔍 import.meta.env:', env);
+console.log('🔍 API key value:', env?.NG_APP_STORAGE_METHOD);
+console.log('🔍 API key value:', env.NG_APP_STORAGE_METHOD);
+console.log('🔍 API key value:', env?.NG_APP_FIREBASE_API_KEY);
+console.log('🔍 API key value:', env.NG_APP_FIREBASE_API_KEY);
+
 interface AppConfigType {
   storageMethod: string;
   firebaseConfig?: {
