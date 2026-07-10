@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       useClass: AppConfig.storageMethod === 'localStorage' ? LocalStorageService : FireBaseService
     },
     provideFirestore(() => getFirestore()),
-    provideFirebaseApp(() => initializeApp(AppConfig.firebaseConfig)),
+    provideFirebaseApp(() => initializeApp(AppConfig.firebaseConfig!)),
     provideAuth(() => getAuth()),
   ]
 };
