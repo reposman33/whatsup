@@ -18,18 +18,16 @@ export class ChatService {
 
   public conversation = signal<Message[]>([])
   public selectedContactRegistrationTime = signal(0)
-  private currentContactRegistrationTime = this.authService.currentContact()!.registrationTime
   
   public messages = rxResource({
     params: () => {
       const selected = this.selectedContactRegistrationTime();
-      if (!selected) return undefined; // nog geen contact geselecteerd → geen query
       return {
         current: this.authService.currentContact()!.registrationTime,
         selected
       };
     },
-    stream: ({ params }) => this.apiService.getMessagesWithContact(
+    stream: ({ params }) => this.apiService.getMessagesWithSelectedContact(
       this.getConversationId(params.current, params.selected)
     )
   });

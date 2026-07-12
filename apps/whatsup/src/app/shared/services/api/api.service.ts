@@ -26,7 +26,7 @@ export class ApiService {
     this.storageService.addMessage(message)
   }
 
-  getMessagesWithContact(id: string): Observable<Message[]> {
-    return this.storageService.getMessagesWithContact(id)
+  getMessagesWithSelectedContact(id: string): Observable<Message[]> {
+    return this.storageService.getMessagesWithSelectedContact(id)
   }    
 }

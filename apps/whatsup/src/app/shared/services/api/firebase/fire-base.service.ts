@@ -35,7 +35,7 @@ async getContact(id: string): Promise<Contact | undefined> {
     await addDoc(messagesCollection, message)
   }
   
-  getMessagesWithContact(id: string): Observable<Message[]> {
+  getMessagesWithSelectedContact(id: string): Observable<Message[]> {
     const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
 
     return collectionData (q, {idField: 'id'}) as Observable<Message[]>
