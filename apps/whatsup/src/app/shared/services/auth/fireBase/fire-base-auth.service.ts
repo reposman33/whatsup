@@ -13,7 +13,7 @@ import { setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { Contact } from '@models/contact';
 import { from, Observable } from 'rxjs';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { FireBaseService } from '@services/api/firebase/fire-base.service';
+import { FirestoreService } from '@services/api/firestore/firestore.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ import { FireBaseService } from '@services/api/firebase/fire-base.service';
 export class FireBaseAuthService {
 
   private firebaseAuth = inject(Auth)
-  private firebaseStore = inject(FireBaseService)
+  private firebaseStore = inject(FirestoreService)
   private firestore = inject(Firestore)
   public user$: Observable<User | null> = user(this.firebaseAuth);
 

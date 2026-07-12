@@ -5,7 +5,7 @@ import { AppConfig } from './environment';
 
 import { StorageService } from '@services/api/storage.service';
 import { LocalStorageService } from '@services/api/local/local-storage.service';
-import { FireBaseService } from '@services/api/firebase/fire-base.service';
+import { FirestoreService } from '@services/api/firestore/firestore.service';
 import { AuthenticateService } from '@services/auth/authenticate.service';
 import { FireBaseAuthService } from '@services/auth/fireBase/fire-base-auth.service';
 import { LocalAuthService } from '@services/auth/local/local-auth.service';
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: StorageService,
-      useClass: AppConfig.storageMethod === 'localStorage' ? LocalStorageService : FireBaseService
+      useClass: AppConfig.storageMethod === 'localStorage' ? LocalStorageService : FirestoreService
     },
     provideFirestore(() => getFirestore()),
     provideFirebaseApp(() => initializeApp(AppConfig.firebaseConfig!)),

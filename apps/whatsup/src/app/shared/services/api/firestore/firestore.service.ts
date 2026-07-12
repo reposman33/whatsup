@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class FireBaseService {
+export class FirestoreService {
 
 private firestore = inject(Firestore);
 
