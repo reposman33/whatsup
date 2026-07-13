@@ -21,10 +21,9 @@ export class ChatService {
   
   public messages = rxResource({
     params: () => {
-      const selected = this.selectedContactRegistrationTime();
       return {
         current: this.authService.currentContact()!.registrationTime,
-        selected
+        selected: this.selectedContactRegistrationTime()
       };
     },
     stream: ({ params }) => this.apiService.getMessagesWithSelectedContact(
