@@ -20,6 +20,7 @@ export class Login implements OnInit {
   protected email = signal('');
   protected password = signal('');
   protected naam = signal('');
+  protected errorText = signal('');
 
   protected isRegistrationValid = computed(() =>
     this.isRegistering()
@@ -58,7 +59,7 @@ export class Login implements OnInit {
   }
 
   async login() {
-    await this.authService.login(this.email(), this.password())
+    await this.authService.login(this.email(), this.password()).catch((e) => this.errorText.set(e.message))
     if (this.authService.currentContact()) {
       this.router.navigateByUrl('')
     }
