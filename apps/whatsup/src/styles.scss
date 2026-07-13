@@ -2,9 +2,15 @@
 @use 'tailwindcss';
 
 @theme {
-  --shadow-card: 0 10px 25px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.05)
- }
- 
+  --color-paper: #F4F5F8;
+  --color-ink: #22213A;
+  --color-dusk: #4B3F72;
+  --color-dusk-light: #6C5F94;
+  --color-ember: #E4784A;
+  --color-mist: #E9E7F2;
+  --color-moss: #5C8368;
+
+  --shadow-card: 0 10px 25px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.05); }
 * {
  font-family: Montserrat;
  font-weight: 400;

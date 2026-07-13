@@ -1,7 +1,16 @@
 <div class="flex flex-col w-[1080px] h-[1020px] justify-center pl-10 pr-10">
   <header></header>
   <div class="flex h-9/12 w-full">
-    <aside class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3 overflow-y-auto">
+    <aside class="flex flex-col justify-start items-center w-1/5 bg-paper rounded-lg p-3 mr-3 gap-3 overflow-y-auto">
+
+      <img
+        src="/assets/img/add_button.svg"
+        class="self-end mt-auto w-1/2 border-2 rounded-full bg-dusk border-gray-200 hover:cursor-pointer hover:bg-dusk-light"
+        alt="nieuwe groep toevoegen"
+        tabindex="0">
+    </aside>
+    <aside
+      class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3 overflow-y-auto">
 
       @if(contacts.isLoading()) {
         <p>Contacts laden...</p>
