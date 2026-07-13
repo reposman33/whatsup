@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, OnInit, signal, viewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '@services/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class Login implements OnInit {
   private authService = inject(AuthService)
   private router = inject(Router)
+  private inputEmail = viewChild<ElementRef<HTMLInputElement>>('inputEmail')
   
   protected isRegistering = signal(false)
   protected email = signal('');
@@ -37,6 +38,12 @@ export class Login implements OnInit {
     &&
     this.password().length > 0
   )
+
+  constructor(){
+    effect(():void =>
+      this.inputEmail()?.nativeElement.focus()
+    )
+  }
 
   emptyRegistrationFields() {
     this.email.set('')
