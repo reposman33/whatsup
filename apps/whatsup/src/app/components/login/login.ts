@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Login implements OnInit {
+export class LoginComponent implements OnInit {
   private authService = inject(AuthService)
   private router = inject(Router)
   private inputEmail = viewChild<ElementRef<HTMLInputElement>>('inputEmail')

@@ -9,7 +9,7 @@ import { ChatService } from '@services/chat/chat.service';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessageInput {
+export class MessageInputComponent {
   sendMessage = output<string>()
 
   protected chatService = inject(ChatService)

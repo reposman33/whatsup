@@ -11,7 +11,7 @@ import { ChatService } from '@services/index';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header {
+export class HeaderComponent {
   protected authService = inject(AuthService)
   private router = inject(Router)
   private chatService = inject(ChatService)
