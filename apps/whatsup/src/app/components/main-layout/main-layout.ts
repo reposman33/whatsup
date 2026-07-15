@@ -3,7 +3,7 @@ import { ContactComponent } from '../contact/contact';
 import { AuthService, ChatService } from '@services/index';
 import { MessageInputComponent } from '../message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ChatComponent } from '../chat/chat';
 import { HeaderComponent } from '../header/header';
 import { Contact, Message } from '@models/index';

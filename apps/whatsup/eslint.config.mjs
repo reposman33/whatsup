@@ -30,9 +30,12 @@ export default [
     },
     {
         files: [
-            "**/*.html"
+            "**/*.html",
+            "**/*.ts"
         ],
         // Override or add rules here
-        rules: {}
+        rules: {
+            '@angular-eslint/component-selector': 'off',
+        }
     }
 ];

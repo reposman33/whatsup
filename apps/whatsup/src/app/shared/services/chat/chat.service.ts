@@ -22,12 +22,12 @@ export class ChatService {
   public messages = rxResource({
     params: () => {
       return {
-        current: this.authService.currentContact()!.registrationTime,
+        current: this.authService.currentContact()?.registrationTime,
         selected: this.selectedContactRegistrationTime()
       };
     },
     stream: ({ params }) => this.apiService.getMessagesWithSelectedContact(
-      this.getConversationId(params.current, params.selected)
+      this.getConversationId(params.current ?? 0, params.selected)
     )
   });
 
@@ -43,9 +43,9 @@ export class ChatService {
     // maak een Message object
     const message = {
       timeStamp: new Date().getTime(),
-      sender: this.authService.currentContact()!.registrationTime,
+      sender: this.authService.currentContact()?.registrationTime,
       receiver: this.selectedContactRegistrationTime(),
-      conversationId: this.getConversationId(this.authService.currentContact()!.registrationTime, this.selectedContactRegistrationTime()),
+      conversationId: this.getConversationId(this.authService.currentContact()?.registrationTime ?? 0, this.selectedContactRegistrationTime()),
       content: chat
     }
     this.apiService.addMessage(message as Message)

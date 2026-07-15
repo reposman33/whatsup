@@ -25,10 +25,6 @@ async getContact(id: string): Promise<Contact | undefined> {
     const contactsRef = collection(this.firestore, 'contacts');
     return collectionData(contactsRef, { idField: 'id' }) as Observable<Contact[]>;    
   }
-
-  registerContact(contact: Contact): void {
-    throw new Error('Method not implemented.');
-  }
   
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')
