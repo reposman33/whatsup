@@ -3,5 +3,6 @@ export type Contact = {
   email: string;
   password?: string;
   name: string;
-  registrationTime: number
+  registrationTime: number;
+  lastSigninTime?: string;
 }

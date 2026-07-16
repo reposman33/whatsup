@@ -1,9 +1,8 @@
 <div class="grid grid-cols-[1fr_auto-1fr]">  
-  <div class="italic text-4xl text-right col-start-2">
+  <div class="col-start-2 font-brand text-size-section-title font-medium text-text-primary">
 
-    Welkom bij WhatsUp
-    
-    @if(authService.currentContact()){, {{authService.currentContact()?.name}}}
+    Welkom {{authService.currentContact()?.name}}, laatste login was {{authService.currentContact()?.lastSigninTime | date:'EEEE dd LLLL HH:MM:ss':'':'nl-NL'}}
+  
   </div>
 
   @if(authService.currentContact()) {

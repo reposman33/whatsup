@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@
 import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { Router } from '@angular/router';
 import { ChatService } from '../../../features/chat/data-access/chat.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'header',
-  imports: [],
+  imports: [ DatePipe ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   encapsulation: ViewEncapsulation.Emulated,

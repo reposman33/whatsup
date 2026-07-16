@@ -38,7 +38,10 @@ export class FireBaseAuthService {
     // login geeft een User object terug
     .then(async (userCredential) => {
       // haal een Contact object op met de id van de ingelogde gebruier (User)
-      const contact = await this.firebaseStore.getContact(userCredential.user.uid)
+      const contact = await this.firebaseStore.getContact(userCredential.user.uid);
+      if (contact) {
+        contact.lastSigninTime = userCredential.user.metadata.lastSignInTime;
+      }
       return contact;
     })
     .catch((error): never => {

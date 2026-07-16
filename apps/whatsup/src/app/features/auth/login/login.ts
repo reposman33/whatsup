@@ -23,21 +23,11 @@ export class LoginComponent implements OnInit {
   protected errorText = signal('');
 
   protected isRegistrationValid = computed(() =>
-    this.isRegistering()
-    &&
-    this.email().length > 0
-    &&
-    this.password().length > 0
-    &&
-    this.naam().length > 0
+    this.isRegistering() && this.email().length > 0 && this.password().length > 0 && this.naam().length > 0
   )
 
   protected isLoginValid = computed(() =>
-    !this.isRegistering()
-    &&
-    this.email().length > 0
-    &&
-    this.password().length > 0
+    !this.isRegistering() && this.email().length > 0 && this.password().length > 0
   )
 
   constructor(){
