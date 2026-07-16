@@ -1,13 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, doc, getDoc, Firestore, query, where, orderBy } from '@angular/fire/firestore';
-import { Contact } from '@models/contact';
-import { Message } from '@models/message';
+import { Contact } from '../../../models/contact.model';
+import { Message } from '../../../models/message.model';
 import { Observable } from 'rxjs';
+import { StorageProvider } from '../storage-provider';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FirestoreService {
+export class FirestoreService implements StorageProvider{
 
 private firestore = inject(Firestore);
 
@@ -15,10 +16,10 @@ async getContact(id: string): Promise<Contact | undefined> {
     const docRef = doc(this.firestore, `contacts/${id}`);
     const snap = await getDoc(docRef);
     if (!snap.exists()) return undefined;
-    const data = snap.data() as Contact;
+    const data = await snap.data() as Contact;
 
     // attach id if needed
-    return { ...(data as Contact), id: (snap.id as any) } as Contact;
+    return { ...(data as Contact), id: (snap.id as string) } as Contact;
   }
 
   getContacts(): Observable<Contact[]> {

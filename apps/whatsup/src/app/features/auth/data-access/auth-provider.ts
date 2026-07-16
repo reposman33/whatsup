@@ -1,4 +1,4 @@
-import { Contact } from "@models/contact";
+import { Contact } from "../../../models/contact.model";
 import { Observable } from "rxjs";
 
 export abstract class AuthenticateService {

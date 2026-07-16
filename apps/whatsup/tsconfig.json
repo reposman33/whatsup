@@ -11,12 +11,7 @@
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": false,
     "module": "preserve",
-    "paths": {
-      "@services/*": ["./src/app/shared/services/*"],
-      "@guards/*": ["./src/app/shared/guards/*"],
-      "@models/*": ["./src/app/models/*"],
-      "@typeGuards": ["./src/app/shared/typeGuards"]
-    }
+    "paths": {}
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

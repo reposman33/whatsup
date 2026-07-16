@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, OnInit, signal, viewChild, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '@services/auth/auth.service';
+import { AuthService } from '../data-access/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

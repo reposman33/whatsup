@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Contact } from '@models/contact';
-import { Message } from '@models/message';
-import { StorageService } from '@services/api/storage.service';
-import { isContact } from '@typeGuards';
+import { Contact } from '../../../models/contact.model';
+import { Message } from '../../../models/message.model';
+import { StorageProvider } from '../storage-provider';
+import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService extends StorageService {
+export class LocalStorageService extends StorageProvider {
 
-  getContact(email: string, password: string): Contact & Pick<{password: string}, 'password'> | undefined {
+  getContact(id: string): Promise<Contact | undefined> {
     const contact = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-    .find((contact: Contact & Pick<{password: string}, 'password'>) => contact.email === email && contact.password === password);
+    .find((contact: Contact & Pick<{password: string}, 'password'>) => contact.id === id);
     if(contact) {
       // check met TypeGuard of dit echt een valide Contact object is
-      return isContact(contact) ? contact : undefined
+      return Promise.resolve(isContact(contact) ? contact : undefined)
     }
-    return undefined
+    return Promise.resolve(undefined)
   }
 
   getContacts(): Observable<Contact[]> {
@@ -25,13 +25,6 @@ export class LocalStorageService extends StorageService {
       JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .map((c: Contact) => c)
   )
-  }
-  
-  registerContact(contact: Contact) {
-    const registeredContacts = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-    registeredContacts.push(contact);
-  
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredContacts));
   }
 
   addMessage(message: Message){

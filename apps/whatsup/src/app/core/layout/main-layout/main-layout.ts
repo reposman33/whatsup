@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
-import { ContactComponent } from '../contact/contact';
-import { AuthService, ChatService } from '@services/index';
-import { MessageInputComponent } from '../message-input/message-input';
+import { ContactComponent } from '../../../features/contact/contact/contact';
+import { AuthService } from '../../../features/auth/data-access/auth.service';
+import { ChatService } from '../../../features/chat/data-access/chat-store';
+import { MessageInputComponent } from '../../../features/chat/message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { ChatComponent } from '../chat/chat';
+import { ChatComponent } from '../../../features/chat/chat/chat';
 import { HeaderComponent } from '../header/header';
-import { Contact, Message } from '@models/index';
+import { Contact, Message } from '../../../models';
 
 
 @Component({

@@ -3,12 +3,12 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { AppConfig } from './environment';
 
-import { StorageService } from '@services/api/storage.service';
-import { LocalStorageService } from '@services/api/local/local-storage.service';
-import { FirestoreService } from '@services/api/firestore/firestore.service';
-import { AuthenticateService } from '@services/auth/authenticate.service';
-import { FireBaseAuthService } from '@services/auth/fireBase/fire-base-auth.service';
-import { LocalAuthService } from '@services/auth/local/local-auth.service';
+import { StorageProvider } from './core/data-access/storage-provider';
+import { LocalStorageService } from './core/data-access/local/local-storage.service';
+import { FirestoreService } from './core/data-access/firestore/firestore.service';
+import { AuthenticateService } from './features/auth/data-access/auth-provider';
+import { FireBaseAuthService } from './features/auth/data-access/firebase/firebase-auth.service';
+import { LocalAuthService } from './features/auth/data-access/local/local-auth.service';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
       useClass: AppConfig.storageMethod === 'localStorage' ? LocalAuthService : FireBaseAuthService
     },
     {
-      provide: StorageService,
+      provide: StorageProvider,
       useClass: AppConfig.storageMethod === 'localStorage' ? LocalStorageService : FirestoreService
     },
     provideFirestore(() => getFirestore()),

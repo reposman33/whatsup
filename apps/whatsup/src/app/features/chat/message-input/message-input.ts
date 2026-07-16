@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal, ViewEncapsulation } from '@angular/core';
-import { ChatService } from '@services/chat/chat.service';
+import { ChatService } from '../data-access/chat-store';
 
 @Component({
   selector: 'message-input',

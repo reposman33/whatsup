@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } from '@angular/core';
-import { Message } from '@models/message';
-import { AuthService } from '@services/index';
+import { Message } from '../../../models/message.model';
+import { AuthService } from '../../../features/auth/data-access/auth.service';
 
 @Component({
   selector: 'chat',

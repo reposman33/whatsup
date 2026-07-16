@@ -10,10 +10,10 @@ import {
 } from '@angular/fire/auth';
 import { setPersistence, browserSessionPersistence } from 'firebase/auth';
 
-import { Contact } from '@models/contact';
+import { Contact } from '../../../../models/contact.model';
 import { from, Observable } from 'rxjs';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { FirestoreService } from '@services/api/firestore/firestore.service';
+import { FirestoreService } from '../../../../core/data-access/firestore/firestore.service';
 
 @Injectable({
   providedIn: 'root',

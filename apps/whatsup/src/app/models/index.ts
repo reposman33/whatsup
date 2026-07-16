@@ -1,2 +1,3 @@
-export * from './contact';
-export * from './message';
+export * from './contact.model';
+export * from './message.model';
+export * from './right-click-event.model';

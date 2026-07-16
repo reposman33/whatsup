@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Contact } from '@models/contact';
-import { AuthenticateService } from '@services/auth/authenticate.service';
+import { Contact } from '../../../models/contact.model';
+import { AuthenticateService } from './auth-provider';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class AuthService {
     this.currentContact.set(undefined);
   }
 
-async register(contact: Contact & Pick<{password: string}, 'password'>): Promise<void> {
+  async register(contact: Contact & Pick<{password: string}, 'password'>): Promise<void> {
     await this.authenticateService.register(contact);
   }
 

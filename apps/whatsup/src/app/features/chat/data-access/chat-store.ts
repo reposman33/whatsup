@@ -1,10 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { Contact } from '@models/contact';
-import { Message } from '@models/message';
-import { ApiService } from '@services/api/api.service';
-import { AuthService } from '@services/auth/auth.service';
+import { Contact } from '../../../models/contact.model';
+import { Message } from '../../../models/message.model';
+import { StorageService } from '../../../core/data-access/storage.service';
+import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ChatService {
-  private apiService = inject(ApiService)
+  private storageService = inject(StorageService)
   private authService = inject(AuthService)
   private router = inject(Router)
 
@@ -26,14 +26,14 @@ export class ChatService {
         selected: this.selectedContactRegistrationTime()
       };
     },
-    stream: ({ params }) => this.apiService.getMessagesWithSelectedContact(
+    stream: ({ params }) => this.storageService.getMessagesWithSelectedContact(
       this.getConversationId(params.current ?? 0, params.selected)
     )
   });
 
   getContacts(): Observable<Contact[]> {
     // haal contacten op en filter de ingelogde gebruiker uit de lijst
-    return this.apiService.getContacts()
+    return this.storageService.getContacts()
     .pipe(
       map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
     )
@@ -48,7 +48,7 @@ export class ChatService {
       conversationId: this.getConversationId(this.authService.currentContact()?.registrationTime ?? 0, this.selectedContactRegistrationTime()),
       content: chat
     }
-    this.apiService.addMessage(message as Message)
+    this.storageService.addMessage(message as Message)
     this.conversation.update(prev => [...prev, message as Message])
   }
 
