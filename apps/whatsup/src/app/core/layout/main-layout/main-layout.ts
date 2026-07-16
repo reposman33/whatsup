@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
 import { ContactComponent } from '../../../features/contact/contact/contact';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
-import { ChatService } from '../../../features/chat/data-access/chat-store';
+import { ChatService } from '../../../features/chat/data-access/chat.service';
 import { MessageInputComponent } from '../../../features/chat/message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';

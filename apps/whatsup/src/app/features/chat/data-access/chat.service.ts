@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { StorageService } from '../../../core/data-access/storage.service';
-import { AuthService } from '../../../features/auth/data-access/auth.service';
+import { AuthService } from '../../auth/data-access/auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
