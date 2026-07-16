@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Contact } from '../../models';
+import { Contact, Group } from '../../models';
 import { Message } from '../../models';
 import { StorageProvider } from './storage-provider';
 import { Observable } from 'rxjs';
@@ -24,5 +24,10 @@ export class StorageService {
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]> {
     return this.storageProvider.getMessagesWithSelectedContact(id)
-  }    
+  }
+  
+  addGroup(group: Group): Observable<Group> {
+    return this.storageProvider.addGroup(group)
+  }
+  
 }

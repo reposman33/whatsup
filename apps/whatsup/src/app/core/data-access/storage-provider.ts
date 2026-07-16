@@ -1,4 +1,4 @@
-import { Contact } from '../../models';
+import { Contact, Group } from '../../models';
 import { Message } from '../../models';
 import { Observable } from 'rxjs';
 
@@ -11,5 +11,7 @@ export abstract class StorageProvider {
   abstract addMessage(message: Message): void
   
   abstract getMessagesWithSelectedContact(id: string): Observable<Message[]>
+
+  abstract addGroup(group: Group): Observable<Group>
 
 }

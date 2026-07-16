@@ -4,6 +4,7 @@ import { Message } from '../../../models/message.model';
 import { StorageProvider } from '../storage-provider';
 import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
+import { Group } from '../../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +40,13 @@ export class LocalStorageService extends StorageProvider {
       // filter alle chats van ingelogde gebruiker naar geselecteerde contact en omgekeerd
       .filter((m: Message) => (m.conversationId === id))
     )
+  }
+
+  addGroup(group: Group): Observable<Group> {
+    const groups  = JSON.parse(localStorage.getItem('groups') || '[]')
+    group.id = group.name.split('').reverse().join('').replace(/\s+/g, '')
+    groups.push(group)
+
+    return of(group)
   }
 }

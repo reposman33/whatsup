@@ -2,17 +2,18 @@ import { inject, Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, doc, getDoc, Firestore, query, where, orderBy } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
-import { Observable } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import { StorageProvider } from '../storage-provider';
+import { Group } from '../../../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService implements StorageProvider{
 
-private firestore = inject(Firestore);
+  private firestore = inject(Firestore);
 
-async getContact(id: string): Promise<Contact | undefined> {
+  async getContact(id: string): Promise<Contact | undefined> {
     const docRef = doc(this.firestore, `contacts/${id}`);
     const snap = await getDoc(docRef);
     if (!snap.exists()) return undefined;
@@ -36,5 +37,12 @@ async getContact(id: string): Promise<Contact | undefined> {
     const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
 
     return collectionData (q, {idField: 'id'}) as Observable<Message[]>
+  }
+
+  addGroup(group: Group): Observable<Group> {
+    const groupCollection = collection(this.firestore, 'groups')
+    return from(addDoc(groupCollection, group)).pipe(
+      map(groupRef => ({ ...group, id: groupRef.id } as Group))
+    );
   }
 }
