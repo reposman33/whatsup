@@ -9,7 +9,7 @@ import { GroupService } from '../group-service/group-service';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'block w-3/6 max-h-[80vh] overflow-y-auto bg-dialog-bg rounded-xl shadow-card'
+    class: 'block w-3/6 bg-dialog-bg rounded-xl shadow-card'
   }
 })
 export class CreateNewGroupComponent {
@@ -37,9 +37,9 @@ export class CreateNewGroupComponent {
     })
   }
 
-  deleteEmailAddress(emailAddress: string): void {
+  deleteEmailAddress(index: number): void {
     this.emailAddresses.update(value => {
-      return value.filter(_emailAddress => _emailAddress !== emailAddress)
+      return value.filter((_,i) => i !== index)
     })
   }
   
