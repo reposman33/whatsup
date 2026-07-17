@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { StorageService } from '../../../core';
-import { Router } from '@angular/router';
+import { GroupService } from '../group-service/group-service';
 @Component({
   selector: 'app-create-new-group',
   imports: [],
@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
   styleUrl: './create-new-group.scss',
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'block w-3/6 max-h-[80vh] overflow-y-auto bg-dialog-bg rounded-xl shadow-card'
+  }
 })
 export class CreateNewGroupComponent {
   protected emailAddress = signal<string>('');
