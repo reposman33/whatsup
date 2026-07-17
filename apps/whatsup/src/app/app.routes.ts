@@ -12,7 +12,12 @@ export const appRoutes: Route[] = [
     children: [
       {
         path: 'newgroup',
-        loadComponent: () => import('./features/group/create-new-group/create-new-group').then(m => m.CreateNewGroupComponent)
+        loadComponent: () => import('./features/group/create-new-group/create-new-group').then(m => m.CreateNewGroupComponent),
+        outlet: 'modal'
+      },
+      {
+        path: 'conversation',
+        loadComponent: () => import('./features/conversation/conversation').then(m => m.Conversation)
       }
     ],
     canActivate: [authenticationGuard]

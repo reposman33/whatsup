@@ -26,7 +26,7 @@ export class MainLayoutComponent  {
   protected router = inject(Router)
   protected selectedContact = this.chatService.selectedContactRegistrationTime
   protected messages!: ResourceRef<Message[] | undefined>
-
+  
   protected contacts = rxResource({
     stream: (): Observable<Contact[]> => 
       this.chatService.getContacts()
@@ -34,15 +34,22 @@ export class MainLayoutComponent  {
   
   selectContact(registrationTime: number) {
     this.chatService.selectedContactRegistrationTime.set(registrationTime)
+    this.router.navigateByUrl('conversation')
   }
 
   sendMessage(chat: string) {
     this.chatService.processMessage(chat)
   }
 
-  addNewGroup() {
+  openModal() {
     this.groupService.addingNewGroup.set(true)
-    this.router.navigateByUrl('/newgroup')
+    this.router.navigate([{outlets: {modal: ['newgroup']}}])
   }
 
+  closeModal(event: PointerEvent) {
+    if(event.target === event.currentTarget) {
+      this.router.navigate([{outlets: {modal: null}}])
+    }
+  }
 }
+
