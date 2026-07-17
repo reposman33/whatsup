@@ -17,7 +17,7 @@ export class CreateNewGroupComponent {
   protected emailAddressesText = computed<string>((): string => this.emailAddresses().join('\n'));
   protected errorText = signal<string>('')
   
-  private router = inject(Router)
+  private groupService = inject(GroupService)
   private storageService = inject(StorageService)
  
   private invalieEmailError = 'Vul een geldig e-mail adres in!'
@@ -55,7 +55,7 @@ export class CreateNewGroupComponent {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  goToMain(){
-    this.router.navigateByUrl('')
+  closeDialog(){
+    this.groupService.closeNewGroupDialog()
   }
 }

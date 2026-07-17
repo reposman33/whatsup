@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { HeaderComponent } from '../header/header';
 import { Contact, Message } from '../../../models';
 import { Router, RouterModule } from "@angular/router";
+import { GroupService } from '../../../features/group/group-service/group-service';
 
 
 @Component({
@@ -21,10 +22,10 @@ import { Router, RouterModule } from "@angular/router";
 export class MainLayoutComponent  {
   public authService = inject(AuthService)
   protected chatService = inject(ChatService)
+  protected groupService = inject(GroupService)
   protected router = inject(Router)
   protected selectedContact = this.chatService.selectedContactRegistrationTime
   protected messages!: ResourceRef<Message[] | undefined>
-  protected addingNewGroup = signal<boolean>(false)
 
   protected contacts = rxResource({
     stream: (): Observable<Contact[]> => 
@@ -40,7 +41,7 @@ export class MainLayoutComponent  {
   }
 
   addNewGroup() {
-    this.addingNewGroup.set(true)
+    this.groupService.addingNewGroup.set(true)
     this.router.navigateByUrl('/newgroup')
   }
 
