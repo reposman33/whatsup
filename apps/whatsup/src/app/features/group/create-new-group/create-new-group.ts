@@ -51,6 +51,7 @@ export class CreateNewGroupComponent {
       createdAt: new Date().getTime()
     }
     const g = this.storageService.addGroup(group)
+    this.closeDialog()
     console.log('Groep toegevoegd: : ', g);
   }
 
