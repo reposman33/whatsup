@@ -1,18 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ResourceRef, signal, ViewEncapsulation } from '@angular/core';
 import { ContactComponent } from '../../../features/contact/contact/contact';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { ChatService } from '../../../features/chat/data-access/chat.service';
 import { MessageInputComponent } from '../../../features/chat/message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { ChatComponent } from '../../../features/chat/chat/chat';
 import { HeaderComponent } from '../header/header';
 import { Contact, Message } from '../../../models';
+import { Router, RouterModule } from "@angular/router";
 
 
 @Component({
   selector: 'main-layout',
-  imports: [ChatComponent, ContactComponent, HeaderComponent, MessageInputComponent ],
+  imports: [ContactComponent, HeaderComponent, MessageInputComponent, RouterModule],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,
@@ -21,9 +21,11 @@ import { Contact, Message } from '../../../models';
 export class MainLayoutComponent  {
   public authService = inject(AuthService)
   protected chatService = inject(ChatService)
+  protected router = inject(Router)
   protected selectedContact = this.chatService.selectedContactRegistrationTime
   protected messages!: ResourceRef<Message[] | undefined>
-  
+  protected addingNewGroup = signal<boolean>(false)
+
   protected contacts = rxResource({
     stream: (): Observable<Contact[]> => 
       this.chatService.getContacts()
@@ -35,6 +37,11 @@ export class MainLayoutComponent  {
 
   sendMessage(chat: string) {
     this.chatService.processMessage(chat)
+  }
+
+  addNewGroup() {
+    this.addingNewGroup.set(true)
+    this.router.navigateByUrl('/newgroup')
   }
 
 }

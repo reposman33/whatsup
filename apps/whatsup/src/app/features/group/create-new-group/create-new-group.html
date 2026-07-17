@@ -1,5 +1,5 @@
-<div class="flex justify-center items-center h-screen">
-  <div class="h-3/5 bg-paper text-ink w-3/5 rounded-md px-12 pt-12 shadow-card">
+<div class="flex justify-center items-center">
+  <div class="w-full bg-paper text-ink rounded-md px-12 pt-12 pb-3 shadow-card">
   
     <div class="flex space-between items-center">
 
@@ -72,12 +72,17 @@
         </div>
 
       </div>
-    <button
-      class="bg-dusk border border-gray-300 text-paper hover:bg-dusk/50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:text-gray-400 mt-3 w-1/7 float-right"
-      (click)="addGroup()">OK</button>
+    <div class="flex justify-end gap-1">
+      <button
+        class="bg-dusk border border-gray-300 text-paper hover:bg-dusk/50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:text-gray-400 mt-3 w-1/7"
+        (click)="goToMain()">Terug
+      </button>
 
-    <button
-      class="bg-dusk border border-gray-300 text-paper hover:bg-dusk/50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:text-gray-400 mt-3 w-1/7 float-right"
-      (click)="goBackOnePage()">Terug</button>
+      <button
+        class="bg-dusk border border-gray-300 text-paper hover:bg-dusk/50 hover:cursor-pointer transition-colors duration-300 px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:text-gray-400 mt-3 w-1/7"
+        (click)="addGroup()">OK
+      </button>
+
+    </div>
   </div>
 </div>

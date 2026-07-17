@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
-import { Location } from '@angular/common';
 import { StorageService } from '../../../core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-new-group',
   imports: [],
@@ -17,7 +17,7 @@ export class CreateNewGroupComponent {
   protected emailAddressesText = computed<string>((): string => this.emailAddresses().join('\n'));
   protected errorText = signal<string>('')
   
-  private location = inject(Location)
+  private router = inject(Router)
   private storageService = inject(StorageService)
  
   private invalieEmailError = 'Vul een geldig e-mail adres in!'
@@ -55,7 +55,7 @@ export class CreateNewGroupComponent {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  goBackOnePage(){
-    this.location.back()
+  goToMain(){
+    this.router.navigateByUrl('')
   }
 }
