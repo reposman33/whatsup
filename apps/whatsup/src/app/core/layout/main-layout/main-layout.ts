@@ -36,11 +36,7 @@ export class MainLayoutComponent  {
     this.chatService.selectedContactRegistrationTime.set(registrationTime)
     this.router.navigateByUrl('conversation')
   }
-
-  sendMessage(chat: string) {
-    this.chatService.processMessage(chat)
-  }
-
+  
   openModal() {
     this.groupService.addingNewGroup.set(true)
     this.router.navigate([{outlets: {modal: ['newgroup']}}])
