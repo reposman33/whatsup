@@ -48,7 +48,8 @@
             class="self-start w-1/12 border-2 rounded-full bg-dusk border-gray-200 hover:cursor-pointer hover:bg-dusk-light"
             alt="nieuwe groep toevoegen"
             tabindex="0"
-            (click)="emailAddress() && addEmailAddress()">
+            (click)="emailAddress() && addEmailAddress()"
+            (keyup)="emailAddress() && addEmailAddress()">
         </div>
 
         <div

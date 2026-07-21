@@ -34,12 +34,15 @@
 
       <router-outlet></router-outlet>
 
-      <div class="fixed inset-0 z-20 bg-gray-900/50 flex items-center justify-center transition-colors duration-200"
+      <div class="fixed inset-0 bg-gray-900/50 flex items-center justify-center mb-[12rem] transition-colors duration-200"
         [class.bg-gray-900/50]="groupService.addingNewGroup()"
         [class.invisible]="!groupService.addingNewGroup()"
-        (click)="closeModal($event)">
+        (click)="closeModal($event)"
+        (keyup)="closeModal($event)"
+        tabindex="0">
 
-        <router-outlet name="modal" 
+      <!--  deze router-outlet is voor de modal die de CreateNewGroupComponent vertoont -->
+      <router-outlet name="modal" 
           (activate)="groupService.addingNewGroup.set(true)" 
           (deactivate)="groupService.addingNewGroup.set(false)">
         </router-outlet>
