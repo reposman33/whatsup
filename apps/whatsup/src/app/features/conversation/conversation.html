@@ -1,0 +1,5 @@
+<div #conversationContainer class="flex flex-col overflow-y-auto min-h-0 h-[600px] flex-1">
+  @for(message of chatService.messages.value(); track $index) {
+    <chat [chat]="message"></chat>
+  }
+</div>

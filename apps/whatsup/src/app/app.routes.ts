@@ -17,7 +17,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'conversation',
-        loadComponent: () => import('./features/conversation/conversation').then(m => m.Conversation)
+        loadComponent: () => import('./features/conversation/conversation').then(m => m.ConversationComponent)
       }
     ],
     canActivate: [authenticationGuard]

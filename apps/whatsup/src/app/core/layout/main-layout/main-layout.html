@@ -14,7 +14,7 @@
 
     </aside>
     <aside
-      class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3 overflow-y-auto">
+      class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3">
 
       @if(contacts.isLoading()) {
         <p>Contacts laden...</p>
@@ -30,7 +30,7 @@
       }
 
     </aside>
-    <main class="flex flex-col justify-end bg-blue-50 w-full justify-between p-4">
+    <main class="flex flex-col min-h-0 bg-blue-50 w-full h-full p-4">
 
       <router-outlet></router-outlet>
 
