@@ -24,8 +24,7 @@
         @for(contact of contacts.value(); track contact.id) {
           <contact
             [naam]="contact.name"
-            [contactId]="contact.id!"
-            (selectContact)="selectContact($event)"></contact>
+            [contactId]="contact.id!"></contact>
         }
       }
 

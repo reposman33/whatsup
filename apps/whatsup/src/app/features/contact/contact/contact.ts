@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { ChatService } from '../../chat/data-access/chat.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'contact',
@@ -12,15 +13,16 @@ import { ChatService } from '../../chat/data-access/chat.service';
 export class ContactComponent {
   naam = input<string>()
   contactId = input.required<string>()
-  selectContact = output<string>()
 
   protected chatService = inject(ChatService)
+  private router = inject(Router)
   protected initialen = computed(() => this.naam()?.trim()
   .split(' ')
   .map((naam): string => naam[0])
   .join(' '))
 
   handleSelectContact(id: string) {
-    this.selectContact.emit(id)
+    this.chatService.selectedContactId.set(id)
+    this.router.navigateByUrl('conversation')
   }
 }

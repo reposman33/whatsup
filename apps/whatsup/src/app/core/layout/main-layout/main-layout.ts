@@ -31,11 +31,6 @@ export class MainLayoutComponent  {
       this.chatService.getContacts()
   });
   
-  selectContact(id: string) {
-    this.chatService.selectedContactId.set(id)
-    this.router.navigateByUrl('conversation')
-  }
-
   openModal() {
     this.groupService.addingNewGroup.set(true)
     this.router.navigate([{outlets: {modal: ['newgroup']}}])
