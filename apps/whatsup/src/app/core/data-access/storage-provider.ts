@@ -8,10 +8,14 @@ export abstract class StorageProvider {
   
   abstract getContacts(): Observable<Contact[]>
 
+  abstract getContactsByGroup(groupId: string): Observable<Contact[]>
+
   abstract addMessage(message: Message): void
   
   abstract getMessagesWithSelectedContact(id: string): Observable<Message[]>
 
   abstract addGroup(group: Group): Observable<Group>
+
+  abstract getGroups(): Observable<Group[]>
 
 }

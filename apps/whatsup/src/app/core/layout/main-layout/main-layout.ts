@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
-import { ContactComponent } from '../../../features/contact/contact/contact';
+import { ContactComponent } from '../../../features/contact/contact';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { MessageInputComponent } from '../../../features/chat/message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -9,11 +9,12 @@ import { Contact, Group, Message } from '../../../models';
 import { Router, RouterModule } from "@angular/router";
 import { GroupService } from '../../../features/group/group-service/group-service';
 import { StorageService } from '../../data-access/storage.service';
+import { GroupComponent } from '../../../features/group/group/group';
 
 
 @Component({
   selector: 'main-layout',
-  imports: [ContactComponent, HeaderComponent, MessageInputComponent, RouterModule],
+  imports: [ContactComponent, GroupComponent, HeaderComponent, MessageInputComponent, RouterModule],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
   encapsulation: ViewEncapsulation.Emulated,

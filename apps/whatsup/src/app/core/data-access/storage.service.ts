@@ -18,6 +18,10 @@ export class StorageService {
     return this.storageProvider.getContacts()
   }
 
+  getContactsByGroup(groupId: string): Observable<Contact[]> {
+    return this.storageProvider.getContactsByGroup(groupId)
+  }
+
   addMessage(message: Message) {
     this.storageProvider.addMessage(message)
   }
@@ -28,6 +32,10 @@ export class StorageService {
   
   addGroup(group: Group): Observable<Group> {
     return this.storageProvider.addGroup(group)
+  }
+  
+  getGroups(): Observable<Group[]> {
+    return this.storageProvider.getGroups()
   }
   
 }

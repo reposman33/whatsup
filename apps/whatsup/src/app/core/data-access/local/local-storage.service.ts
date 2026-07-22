@@ -25,9 +25,13 @@ export class LocalStorageService extends StorageProvider {
     return of(
       JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .map((c: Contact) => c)
-  )
+   )
   }
 
+  getContactsByGroup(groupId: string): Observable<Contact[]> {
+    return of([]) as Observable<Contact[]>
+  }
+  
   addMessage(message: Message){
     const messages = JSON.parse(localStorage.getItem('messages') || '[]');
     messages.push( message );
@@ -48,5 +52,9 @@ export class LocalStorageService extends StorageProvider {
     groups.push(group)
 
     return of(group)
+  }
+
+  getGroups(): Observable<Group[]> {
+    return of([]) as Observable<Group[]>
   }
 }

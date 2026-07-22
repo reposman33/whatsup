@@ -1,1 +1,9 @@
-<p>group works!</p>
+<div
+  class="flex justify-center items-center bg-green-200 hover:bg-green-100 transition-color hover:cursor-pointer w-24 h-24 rounded-full text-sm text-center"
+  (click)="handleSelectGroup(id())"
+  (keyup)="handleSelectGroup(id())"
+  tabindex="0"
+  [attr.title]="description()"
+  >
+  {{ naam() }}
+</div>

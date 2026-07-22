@@ -27,7 +27,12 @@ export class FirestoreService implements StorageProvider{
     const contactsRef = collection(this.firestore, 'contacts');
     return collectionData(contactsRef, { idField: 'id' }) as Observable<Contact[]>;    
   }
-  
+
+  getContactsByGroup(groupId: string): Observable<Contact[]> {
+    const q = query(collection(this.firestore, 'groups'), where("id", "==", groupId))
+    return collectionData(q, {idField: 'id'}) as Observable<Contact[]>
+  }
+
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')
     await addDoc(messagesCollection, message)
@@ -35,7 +40,6 @@ export class FirestoreService implements StorageProvider{
   
   getMessagesWithSelectedContact(id: string): Observable<Message[]> {
     const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
-
     return collectionData (q, {idField: 'id'}) as Observable<Message[]>
   }
 
@@ -45,4 +49,10 @@ export class FirestoreService implements StorageProvider{
       map(groupRef => ({ ...group, id: groupRef.id } as Group))
     );
   }
+
+  getGroups(): Observable<Group[]> {
+    const groupsRef = collection(this.firestore, 'groups');
+    return collectionData(groupsRef, { idField: 'id' }) as Observable<Group[]>;    
+  }
+
 }
