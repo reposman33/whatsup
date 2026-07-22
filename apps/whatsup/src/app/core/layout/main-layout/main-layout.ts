@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
 import { ContactComponent } from '../../../features/contact/contact/contact';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
-import { ChatService } from '../../../features/chat/data-access/chat.service';
 import { MessageInputComponent } from '../../../features/chat/message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { HeaderComponent } from '../header/header';
-import { Contact, Message } from '../../../models';
+import { Contact, Group, Message } from '../../../models';
 import { Router, RouterModule } from "@angular/router";
 import { GroupService } from '../../../features/group/group-service/group-service';
+import { StorageService } from '../../data-access/storage.service';
 
 
 @Component({
@@ -21,14 +21,22 @@ import { GroupService } from '../../../features/group/group-service/group-servic
 })
 export class MainLayoutComponent  {
   public authService = inject(AuthService)
-  protected chatService = inject(ChatService)
   protected groupService = inject(GroupService)
+  protected storageService = inject(StorageService)
   protected router = inject(Router)
   protected messages!: ResourceRef<Message[] | undefined>
   
   protected contacts = rxResource({
     stream: (): Observable<Contact[]> => 
-      this.chatService.getContacts()
+      this.storageService.getContacts()
+      .pipe(
+        map((contacts: Contact[]): Contact[] => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
+      )
+  });
+
+  protected groups = rxResource({
+    stream: (): Observable<Group[]> => 
+      this.storageService.getGroups()
   });
   
   openModal() {

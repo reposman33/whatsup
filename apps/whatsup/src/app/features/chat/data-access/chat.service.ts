@@ -1,12 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { StorageService } from '../../../core/data-access/storage.service';
 import { AuthService } from '../../auth/data-access/auth.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Temporal } from 'temporal-polyfill'
 
 @Injectable({
@@ -31,15 +28,7 @@ export class ChatService {
       this.getConversationId(params.current ?? '', params.selected)
     )
   });
-
-  getContacts(): Observable<Contact[]> {
-    // haal contacten op en filter de ingelogde gebruiker uit de lijst
-    return this.storageService.getContacts()
-    .pipe(
-      map(contacts => contacts.filter(contact => contact.registrationTime !== this.authService.currentContact()?.registrationTime)),
-    )
-  }
-
+  
   processMessage(chat: string) {
     // maak een Message object
     const message = {
