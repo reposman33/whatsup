@@ -1,7 +1,7 @@
 export type Message = {
   timeStamp: number;
-  sender: number;
-  receiver: number;
+  sender: string;
+  receiver: string;
   content: string;
   conversationId: string;
 }

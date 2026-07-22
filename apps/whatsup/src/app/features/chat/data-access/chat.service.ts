@@ -17,17 +17,17 @@ export class ChatService {
   private router = inject(Router)
 
   public conversation = signal<Message[]>([])
-  public selectedContactRegistrationTime = signal(0)
+  public selectedContactId = signal('')
   
   public messages = rxResource({
     params: () => {
       return {
-        current: this.authService.currentContact()?.registrationTime,
-        selected: this.selectedContactRegistrationTime()
+        current: this.authService.currentContact()?.id,
+        selected: this.selectedContactId()
       };
     },
     stream: ({ params }) => this.storageService.getMessagesWithSelectedContact(
-      this.getConversationId(params.current ?? 0, params.selected)
+      this.getConversationId(params.current ?? '', params.selected)
     )
   });
 
@@ -43,22 +43,22 @@ export class ChatService {
     // maak een Message object
     const message = {
       timeStamp: new Date().getTime(),
-      sender: this.authService.currentContact()?.registrationTime,
-      receiver: this.selectedContactRegistrationTime(),
-      conversationId: this.getConversationId(this.authService.currentContact()?.registrationTime ?? 0, this.selectedContactRegistrationTime()),
+      sender: this.authService.currentContact()?.id || '',
+      receiver: this.selectedContactId(),
+      conversationId: this.getConversationId(this.authService.currentContact()?.id || '', this.selectedContactId()),
       content: chat
     }
     this.storageService.addMessage(message as Message)
     this.conversation.update(prev => [...prev, message as Message])
   }
 
-  getConversationId(senderID: number, receiverID: number) {
+  getConversationId(senderID: string, receiverID: string) {
     return [senderID,receiverID].sort().join('_')
   }
 
   logout() {
     this.authService.logout()
-    this.selectedContactRegistrationTime.set(0)
+    this.selectedContactId.set('')
     this.conversation.set([])
 
     this.router.navigate(['/login'])

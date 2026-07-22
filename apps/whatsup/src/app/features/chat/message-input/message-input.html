@@ -1,4 +1,4 @@
-@if(chatService.selectedContactRegistrationTime()) {
+@if(chatService.selectedContactId()) {
   <div class="w-full flex p-3">  
   <textarea class="w-full rounded-md border-2 border-slate-300 p-4 overflow-y-auto" placeholder="Typ hier je bericht" #messageInput (input)="chat.set(messageInput.value)" [value]="chat()"></textarea>
   <svg

@@ -21,10 +21,10 @@
       } @else if(contacts.error()){
         <p class="bg-red-500">Fout bij ophalen contacten: {{contacts.error()}}</p>
       } @else {
-        @for(contact of contacts.value(); track contact.registrationTime) {
+        @for(contact of contacts.value(); track contact.id) {
           <contact
             [naam]="contact.name"
-            [registrationTime]="contact.registrationTime"
+            [contactId]="contact.id!"
             (selectContact)="selectContact($event)"></contact>
         }
       }

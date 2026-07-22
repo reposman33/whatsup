@@ -1,6 +1,6 @@
 <section
     class="w-3/5 rounded-xl p-3 mb-3"
-    [class]="authService.currentContact()!.registrationTime === chat().sender ? 'float-left bg-blue-200' : 'float-right bg-blue-100'">
+    [class]="authService.currentContact()!.id === chat().sender ? 'float-left bg-blue-200' : 'float-right bg-blue-100'">
     
     <div class="text-xs italic brightness-50">{{chat().timeStamp | date:'EEEE dd LLLL HH:MM:ss':'':'nl-NL' }}</div>
     

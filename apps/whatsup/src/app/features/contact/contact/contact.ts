@@ -11,8 +11,8 @@ import { ChatService } from '../../chat/data-access/chat.service';
 })
 export class ContactComponent {
   naam = input<string>()
-  registrationTime = input.required<number>()
-  selectContact = output<number>()
+  contactId = input.required<string>()
+  selectContact = output<string>()
 
   protected chatService = inject(ChatService)
   protected initialen = computed(() => this.naam()?.trim()
@@ -20,7 +20,7 @@ export class ContactComponent {
   .map((naam): string => naam[0])
   .join(' '))
 
-  handleSelectContact(registrationTime: number) {
-    this.selectContact.emit(registrationTime)
+  handleSelectContact(id: string) {
+    this.selectContact.emit(id)
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, ResourceRef, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
 import { ContactComponent } from '../../../features/contact/contact/contact';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { ChatService } from '../../../features/chat/data-access/chat.service';
@@ -24,7 +24,6 @@ export class MainLayoutComponent  {
   protected chatService = inject(ChatService)
   protected groupService = inject(GroupService)
   protected router = inject(Router)
-  protected selectedContact = this.chatService.selectedContactRegistrationTime
   protected messages!: ResourceRef<Message[] | undefined>
   
   protected contacts = rxResource({
@@ -32,17 +31,17 @@ export class MainLayoutComponent  {
       this.chatService.getContacts()
   });
   
-  selectContact(registrationTime: number) {
-    this.chatService.selectedContactRegistrationTime.set(registrationTime)
+  selectContact(id: string) {
+    this.chatService.selectedContactId.set(id)
     this.router.navigateByUrl('conversation')
   }
-  
+
   openModal() {
     this.groupService.addingNewGroup.set(true)
     this.router.navigate([{outlets: {modal: ['newgroup']}}])
   }
 
-  closeModal(event: PointerEvent) {
+  closeModal(event: PointerEvent | KeyboardEvent) {
     if(event.target === event.currentTarget) {
       this.router.navigate([{outlets: {modal: null}}])
     }

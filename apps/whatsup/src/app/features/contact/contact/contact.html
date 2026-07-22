@@ -1,9 +1,9 @@
 <div
   class="flex justify-center items-center bg-green-200 hover:bg-green-100 transition-color hover:cursor-pointer w-35 h-35 rounded-full text-4xl"
   [title]="naam()"
-  [class]="chatService.selectedContactRegistrationTime() === registrationTime() ? 'brightness-75' : ''"
-  (click)="handleSelectContact(registrationTime())"
-  (keyup)="handleSelectContact(registrationTime())"
+  [class]="chatService.selectedContactId() === contactId() ? 'brightness-75' : ''"
+  (click)="handleSelectContact(contactId())"
+  (keyup)="handleSelectContact(contactId())"
   tabindex="0"
   >
   {{ initialen() }}
