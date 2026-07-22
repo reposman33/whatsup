@@ -1,8 +1,15 @@
 <section
     class="w-3/5 rounded-xl p-3 mb-3"
     [class]="authService.currentContact()!.id === chat().sender ? 'float-left bg-blue-200' : 'float-right bg-blue-100'">
-    
-    <div class="text-xs italic brightness-50">{{chat().timeStamp | date:'EEEE dd LLLL HH:MM:ss':'':'nl-NL' }}</div>
+    <div class="text-xs italic brightness-50 text-right">{{Temporal.Instant.from(chat().timeStamp).toLocaleString('nl-NL',{
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })}}</div>
     
     {{chat().content}}
 </section>

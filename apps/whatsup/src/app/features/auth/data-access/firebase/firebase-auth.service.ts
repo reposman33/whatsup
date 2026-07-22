@@ -14,6 +14,7 @@ import { Contact } from '../../../../models/contact.model';
 import { from, Observable } from 'rxjs';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../core/data-access/firestore/firestore.service';
+import { Temporal } from 'temporal-polyfill';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +71,7 @@ export class FireBaseAuthService {
         id: userCredentials.user.uid,
         email: contact.email,
         name: contact.name,
-        registrationTime: new Date().getTime(),
+        registrationTime: Temporal.Now.instant().toString(),
       };
       
       // add user to firestore database

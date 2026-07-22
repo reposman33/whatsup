@@ -2,6 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, OnInit, signal, viewChild, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../data-access/auth.service';
 import { Router } from '@angular/router';
+import { Temporal } from 'temporal-polyfill';
 
 @Component({
   selector: 'login',
@@ -63,7 +64,8 @@ export class LoginComponent implements OnInit {
         email: this.email(),
         password: this.password(),
         name: this.naam(),
-        registrationTime: new Date().getTime()});
+        registrationTime: Temporal.Now.instant().toString()
+      });
       this.isRegistering.set(false)
       // emptyRegistrationFields zodat isRegistrationValid() === false
       this.emptyRegistrationFields()

@@ -1,5 +1,5 @@
 export type Message = {
-  timeStamp: number;
+  timeStamp: string;
   sender: string;
   receiver: string;
   content: string;

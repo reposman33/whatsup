@@ -7,6 +7,7 @@ import { StorageService } from '../../../core/data-access/storage.service';
 import { AuthService } from '../../auth/data-access/auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Temporal } from 'temporal-polyfill'
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,7 @@ export class ChatService {
   processMessage(chat: string) {
     // maak een Message object
     const message = {
-      timeStamp: new Date().getTime(),
+      timeStamp: Temporal.Now.instant().toString(),
       sender: this.authService.currentContact()?.id || '',
       receiver: this.selectedContactId(),
       conversationId: this.getConversationId(this.authService.currentContact()?.id || '', this.selectedContactId()),
