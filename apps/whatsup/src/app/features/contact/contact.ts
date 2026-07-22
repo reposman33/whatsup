@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
-import { ChatService } from '../../chat/data-access/chat.service';
+import { ChatService } from '../chat/data-access/chat.service';
 import { Router } from '@angular/router';
 
 @Component({
