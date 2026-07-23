@@ -68,7 +68,6 @@ export class FireBaseAuthService {
     if(userCredentials) {
       // update the user's profile with additional information
       const _contact = {
-        id: userCredentials.user.uid,
         email: contact.email,
         lastSigninTime: '',
         name: contact.name,
@@ -76,7 +75,7 @@ export class FireBaseAuthService {
       };
       
       // add user to firestore 'contacts' collection'
-      await setDoc(doc(this.firestore, 'contacts', _contact.id), _contact)
+      await setDoc(doc(this.firestore, 'contacts', userCredentials.user.uid), _contact)
       .catch(error => console.error('Error adding user to firestore:', error));
     }
   }
