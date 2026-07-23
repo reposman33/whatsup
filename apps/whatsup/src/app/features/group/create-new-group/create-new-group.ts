@@ -45,10 +45,10 @@ export class CreateNewGroupComponent {
   
   addGroup() {
     const group = {
-      name: this.groupName(),
+      id: '', // is pas bekend nadat is opgeslagen in firestore Groups collectie
+      createdAt: new Date().getTime(),
       description: this.groupDescription(),
-      emailAddresses: this.emailAddresses(),
-      createdAt: new Date().getTime()
+      name: this.groupName()
     }
     const g = this.storageService.addGroup(group)
     this.closeDialog()

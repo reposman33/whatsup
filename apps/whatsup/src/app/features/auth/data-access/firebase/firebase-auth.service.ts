@@ -70,11 +70,12 @@ export class FireBaseAuthService {
       const _contact = {
         id: userCredentials.user.uid,
         email: contact.email,
+        lastSigninTime: '',
         name: contact.name,
-        registrationTime: Temporal.Now.instant().toString(),
+        registrationTime: Temporal.Now.zonedDateTimeISO().toString(),
       };
       
-      // add user to firestore database
+      // add user to firestore 'contacts' collection'
       await setDoc(doc(this.firestore, 'contacts', _contact.id), _contact)
       .catch(error => console.error('Error adding user to firestore:', error));
     }

@@ -1,7 +1,6 @@
 export type Group = {
-  id?: string;
-  name: string;
-  description: string;
-  emailAddresses: string[];
+  id: string;
   createdAt: number; 
+  description: string;
+  name: string;
 }

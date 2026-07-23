@@ -32,11 +32,12 @@ export class ChatService {
   processMessage(chat: string) {
     // maak een Message object
     const message = {
-      timeStamp: Temporal.Now.instant().toString(),
-      sender: this.authService.currentContact()?.id || '',
-      receiver: this.selectedContactId(),
+      content: chat,
       conversationId: this.getConversationId(this.authService.currentContact()?.id || '', this.selectedContactId()),
-      content: chat
+      groupId: '',
+      receiver: this.selectedContactId(),
+      sender: this.authService.currentContact()?.id || '',
+      timeStamp: Temporal.Now.instant().toString(),
     }
     this.storageService.addMessage(message as Message)
     this.conversation.update(prev => [...prev, message as Message])
