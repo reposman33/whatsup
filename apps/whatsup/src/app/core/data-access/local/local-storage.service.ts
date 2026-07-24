@@ -4,7 +4,7 @@ import { Message } from '../../../models/message.model';
 import { StorageProvider } from '../storage-provider';
 import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
-import { Group } from '../../../models';
+import { AddGroupResult, Group } from '../../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -46,12 +46,8 @@ export class LocalStorageService extends StorageProvider {
     )
   }
 
-  addGroup(group: Group): Observable<Group> {
-    const groups  = JSON.parse(localStorage.getItem('groups') || '[]')
-    group.id = group.name.split('').reverse().join('').replace(/\s+/g, '')
-    groups.push(group)
-
-    return of(group)
+  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
+    return of() as Observable<AddGroupResult>
   }
 
   getGroups(): Observable<Group[]> {

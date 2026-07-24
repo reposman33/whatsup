@@ -1,10 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, getDoc, Firestore, query, where, orderBy } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
-import { Observable, from, map } from 'rxjs';
+import { Observable, firstValueFrom, from, map, of, switchMap } from 'rxjs';
 import { StorageProvider } from '../storage-provider';
-import { Group } from '../../../models';
+import { AddGroupResult, Group, Membership } from '../../../models';
+import { Temporal } from 'temporal-polyfill';
+import { GroupInvitation } from '../../../models/groupInvitation';
 
 @Injectable({
   providedIn: 'root',
@@ -43,11 +45,63 @@ export class FirestoreService implements StorageProvider{
     return collectionData (q, {idField: 'id'}) as Observable<Message[]>
   }
 
-  addGroup(group: Group): Observable<Group> {
-    const groupCollection = collection(this.firestore, 'groups')
-    return from(addDoc(groupCollection, group)).pipe(
-      map(groupRef => ({ ...group, id: groupRef.id } as Group))
+  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
+    const groupCollectionRef = collection(this.firestore, 'groups')
+    return from(addDoc(groupCollectionRef, {createdAt: group.createdAt, description: group.description, name: group.name}))
+    .pipe(
+      switchMap(g => {
+        const groupMembershipCollectionRef = collection(this.firestore, 'groupInvitations');
+        const createdAt = Temporal.Now.zonedDateTimeISO().toString();
+        const fromUserId = group.currentContactId;
+
+        if (!group.invitedContactsEmails || group.invitedContactsEmails.length === 0) {
+          return of({
+            id: g.id, ...group,
+            failedEmails: []
+          } as unknown as AddGroupResult);
+        }
+
+        // vind voor alle emailadressen de userId
+        const resolvedEmails = group.invitedContactsEmails.map(async (email: string) => {
+          const userId = await this.getUserIdByEmailAddress(email)
+          return {email, userId}
+        })
+
+        return from(Promise.all(resolvedEmails)).pipe(
+          switchMap(results => {
+            const succeeded = results.filter(r => r.userId !== undefined && r.userId !== group.currentContactId)
+            const failedEmails = results.filter(r => r.userId == undefined).map(r => r.email)
+            const invitationPromises = succeeded.map(async r => {
+              const invitation = {
+                acceptedAt: '',
+                createdAt: createdAt,
+                fromUserId: fromUserId,
+                groupId: g.id,
+                status: 'pending',
+                toUserId: r.userId
+              } as GroupInvitation;
+              return addDoc(groupMembershipCollectionRef, invitation);
+            })
+
+            return from(Promise.all(invitationPromises)).pipe(
+              map(() => (
+                {
+                  group: {id: g.id, ...group} as unknown as Group,
+                  failedEmails
+                }
+              ))
+            )
+          })
+        )
+      })
     );
+  }
+
+  async getUserIdByEmailAddress(email:string): Promise<string | undefined> {
+    const q = query(collection(this.firestore,'contacts'), where('email','==',email))
+    const contacts = await firstValueFrom(collectionData(q, {idField: 'id'}))
+
+    return contacts[0]?.id
   }
 
   getGroups(): Observable<Group[]> {

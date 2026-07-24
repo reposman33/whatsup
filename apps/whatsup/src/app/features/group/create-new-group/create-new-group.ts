@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { StorageService } from '../../../core';
 import { GroupService } from '../group-service/group-service';
+import { AuthService } from '../../auth/data-access/auth.service';
 @Component({
   selector: 'app-create-new-group',
   imports: [],
@@ -22,12 +23,13 @@ export class CreateNewGroupComponent {
   
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
+  private authService = inject(AuthService)
  
-  private invalieEmailError = 'Vul een geldig e-mail adres in!'
+  private invalidEmailError = 'Vul een geldig e-mail adres in!'
 
   addEmailAddress() {
     if(!this.isValidEmail(this.emailAddress())) {
-      this.errorText.set(this.invalieEmailError)
+      this.errorText.set(this.invalidEmailError)
       return
     }
     this.emailAddresses.update((value: string[]): string[] => {
@@ -45,15 +47,15 @@ export class CreateNewGroupComponent {
   
   addGroup() {
     const group = {
-      id: '', // is pas bekend nadat is opgeslagen in firestore Groups collectie
       createdAt: new Date().getTime(),
       description: this.groupDescription(),
-      name: this.groupName()
+      name: this.groupName(),
+      invitedContactsEmails: this.emailAddresses(),
+      currentContactId: this.authService.currentContact()?.id ?? ''
     }
-    const g = this.storageService.addGroup(group)
     this.closeDialog()
-    console.log('Groep toegevoegd: : ', g);
   }
+
 
   private isValidEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
