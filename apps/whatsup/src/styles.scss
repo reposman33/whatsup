@@ -139,11 +139,9 @@
  font-weight: 400;
 }
 
-.button {
-  background-color: $button--color;
-  padding: 1rem;
-  border: 2px solid #d1d5db;
-  border-radius: 12px;
-  width: 20%;
-  margin: 0 auto;
+input,textarea {
+   &[type=email],&[type=password],&::placeholder {
+      font-family: var(--font-data);
+      font-size: var(--text-size-input);
+   }
 }
