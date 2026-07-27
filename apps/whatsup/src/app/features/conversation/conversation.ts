@@ -20,7 +20,7 @@ export class ConversationComponent {
   constructor() {
     afterRenderEffect({
       earlyRead: () => {
-        this.chatService.messages.value(); // diit is de signal dependency die het effect triggert
+        this.chatService.messages.value(); // dit is de signal dependency die het effect triggert
         return this.conversationContainer()?.nativeElement.scrollHeight ?? 0;
       },
       write: (scrollHeight) => {
