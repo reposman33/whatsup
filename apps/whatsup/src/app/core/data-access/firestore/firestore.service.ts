@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch, arrayUnion } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, from, map, of, switchMap } from 'rxjs';
@@ -14,6 +14,21 @@ import { GroupInvitation } from '../../../models/groupInvitation';
 export class FirestoreService implements StorageProvider{
 
   private firestore = inject(Firestore);
+
+  acceptInvitation(invitation: GroupInvitation) {
+    const batch = writeBatch(this.firestore)
+
+    const invitationRef = doc(this.firestore, 'groupInvitations', invitation.id!)
+    batch.update(invitationRef, {
+      status: 'accepted',
+      acceptedAt: Temporal.Now.zonedDateTimeISO().toString
+    })
+
+    const contactRef = doc(this.firestore, 'contacts', invitation.toUserId!)
+    batch.update(contactRef, {
+      group: arrayUnion(invitation.groupId)
+    })
+  }
 
   addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
     const groupCollectionRef = collection(this.firestore, 'groups')

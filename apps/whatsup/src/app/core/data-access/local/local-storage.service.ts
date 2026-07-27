@@ -5,11 +5,14 @@ import { StorageProvider } from '../storage-provider';
 import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
 import { AddGroupResult, Group } from '../../../models';
+import { GroupInvitation } from '../../../models/groupInvitation';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService extends StorageProvider {
+
+  acceptInvitation(invitation: GroupInvitation) {}
 
   addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
     return of() as Observable<AddGroupResult>

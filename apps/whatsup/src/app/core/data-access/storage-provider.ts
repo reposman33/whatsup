@@ -1,8 +1,11 @@
 import { AddGroupResult, Contact, Group } from '../../models';
 import { Message } from '../../models';
 import { Observable } from 'rxjs';
+import { GroupInvitation } from '../../models/groupInvitation';
 
 export abstract class StorageProvider {
+
+  abstract acceptInvitation(invitation: GroupInvitation): void
 
   abstract getContact(id: string): Promise<Contact | undefined>
   

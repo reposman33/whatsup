@@ -3,6 +3,7 @@ import { AddGroupResult, Contact, Group } from '../../models';
 import { Message } from '../../models';
 import { StorageProvider } from './storage-provider';
 import { Observable } from 'rxjs';
+import { GroupInvitation } from '../../models/groupInvitation';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,8 @@ import { Observable } from 'rxjs';
 export class StorageService {
   private storageProvider = inject(StorageProvider)
 
+  acceptInvitation(invitation: GroupInvitation) {}
+  
   getContact(id: string): Promise<Contact | undefined> {
     return this.storageProvider.getContact(id);
   }
