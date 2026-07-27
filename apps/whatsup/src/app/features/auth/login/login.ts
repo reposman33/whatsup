@@ -3,10 +3,11 @@ import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, injec
 import { AuthService } from '../data-access/auth.service';
 import { Router } from '@angular/router';
 import { Temporal } from 'temporal-polyfill';
+import { Button } from '../../../shared/components/button/button';
 
 @Component({
   selector: 'login',
-  imports: [FormsModule ],
+  imports: [FormsModule, Button ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   encapsulation: ViewEncapsulation.Emulated,
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    await this.authService.login(this.email(), this.password()).catch((e) => this.errorText.set(e.message))
+    await this.authService.login(this.email(), this.password()).catch((e) => this.errorText.set(`Oops! er is iets misgegaan: ${e.code}`))
     if (this.authService.currentContact()) {
       this.router.navigateByUrl('')
     }
