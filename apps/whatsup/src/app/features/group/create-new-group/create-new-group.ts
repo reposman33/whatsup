@@ -53,6 +53,7 @@ export class CreateNewGroupComponent {
       invitedContactsEmails: this.emailAddresses(),
       currentContactId: this.authService.currentContact()?.id ?? ''
     }
+    this.storageService.addGroup(group)
     this.closeDialog()
   }
 
