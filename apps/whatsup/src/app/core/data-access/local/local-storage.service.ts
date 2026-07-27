@@ -11,6 +11,16 @@ import { AddGroupResult, Group } from '../../../models';
 })
 export class LocalStorageService extends StorageProvider {
 
+  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
+    return of() as Observable<AddGroupResult>
+  }
+
+  addMessage(message: Message){
+    const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+    messages.push( message );
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }
+
   getContact(id: string): Promise<Contact | undefined> {
     const contact = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .find((contact: Contact & Pick<{password: string}, 'password'>) => contact.id === id);
@@ -32,10 +42,12 @@ export class LocalStorageService extends StorageProvider {
     return of([]) as Observable<Contact[]>
   }
   
-  addMessage(message: Message){
-    const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-    messages.push( message );
-    localStorage.setItem('messages', JSON.stringify(messages));
+  getGroups(): Observable<Group[]> {
+    return of([]) as Observable<Group[]>
+  }
+
+  getPendingGroups(id: string): Observable<Group[]> {
+    return of([]) as Observable<Group[]>
   }
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]>{
@@ -46,11 +58,8 @@ export class LocalStorageService extends StorageProvider {
     )
   }
 
-  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
-    return of() as Observable<AddGroupResult>
+  getUserIdByEmailAddress(email:string): Promise<string | undefined> {
+    return Promise.resolve('12345') 
   }
 
-  getGroups(): Observable<Group[]> {
-    return of([]) as Observable<Group[]>
-  }
 }

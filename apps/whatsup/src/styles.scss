@@ -56,9 +56,11 @@
   --color-dusk-light: #6C5F94;
   --color-dusk-dark: #362C56;
   --color-ember: #E4784A;
+  --color-ember-light: #F0DDD5;
   --color-ember-dark: #4A1B0C;
   --color-mist: #E9E7F2;
   --color-moss: #5C8368;
+  --color-border: #d1d5db
 
   /* ============================================
      LAAG 4 — SEMANTISCHE ALIASSEN
@@ -81,8 +83,13 @@
   --color-border-strong: color-mix(in srgb, var(--color-ink) 24%, transparent);
 
   /* Contactenlijst / groepenlijst */
-  --color-list-item-hover: var(--color-mist);
-  --color-list-item-active: var(--color-mist);
+  --color-list-contact-hover: var(--color-mist);
+  --color-list-contact-active: var(--color-mist);
+  --color-list-contact-selected: var(--color-mist);
+  --color-list-group-hover: var(--color-ember);
+  --color-list-group-active: var(--color-ember);
+  --color-list-group-pending: var(--color-ember-light);
+  --color-list-group-selected: var(--color-ember);
   --color-avatar-bg: var(--color-dusk);
   --color-avatar-text: var(--color-paper);
 

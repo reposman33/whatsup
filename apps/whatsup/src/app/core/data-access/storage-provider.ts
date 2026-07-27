@@ -18,4 +18,6 @@ export abstract class StorageProvider {
 
   abstract getGroups(): Observable<Group[]>
 
+  abstract getPendingGroups(id: string): Observable<Group[]>
+
 }

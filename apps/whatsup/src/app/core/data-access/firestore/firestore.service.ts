@@ -83,6 +83,11 @@ export class FirestoreService implements StorageProvider{
     return { ...(data as Contact), id: (snap.id as string) } as Contact;
   }
 
+  getContacts(): Observable<Contact[]> {
+    const contactsRef = collection(this.firestore, 'contacts');
+    return collectionData(contactsRef, { idField: 'id' }) as Observable<Contact[]>;    
+  }
+
   getContactsByGroup(groupId: string): Observable<Contact[]> {
     const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId), where("status","==","accepted"));
 
@@ -101,14 +106,28 @@ export class FirestoreService implements StorageProvider{
     )
   }
 
-  getContacts(): Observable<Contact[]> {
-    const contactsRef = collection(this.firestore, 'contacts');
-    return collectionData(contactsRef, { idField: 'id' }) as Observable<Contact[]>;    
-  }
-
   getGroups(): Observable<Group[]> {
     const groupsRef = collection(this.firestore, 'groups');
     return collectionData(groupsRef, { idField: 'id' }) as Observable<Group[]>;    
+  }
+
+  // Haal alle groepen op waarvoor de gebruiker is uitgenodigd en die een status 'pending' hebben
+  getPendingGroups(id: string): Observable<Group[]> {
+    const groupInvitationsQuery = query(collection(this.firestore, 'groupInvitations'), where("toUserId", "==", id), where("status", "==", "pending"))
+    
+    return (collectionData(groupInvitationsQuery, {idField: 'id'}) as Observable<GroupInvitation[]>).pipe(
+      switchMap((groupInvitations: GroupInvitation[]): Observable<Group[]> => {
+        const groupIds = groupInvitations.map(groupInvitation => groupInvitation.groupId)
+
+        if(!groupIds || groupIds.length == 0) {
+          return of([]) as Observable<Group[]>
+        }
+
+      const groupsQuery = query(collection(this.firestore,'groups'), where(documentId(), "in", groupIds))
+
+      return collectionData(groupsQuery, {idField: 'id'}) as Observable<Group[]>
+      })
+    )
   }
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]> {

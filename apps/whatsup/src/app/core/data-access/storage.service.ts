@@ -37,5 +37,9 @@ export class StorageService {
   getGroups(): Observable<Group[]> {
     return this.storageProvider.getGroups()
   }
+
+  getPendingGroups(id: string): Observable<Group[]> {
+    return this.storageProvider.getPendingGroups(id)
+  }
   
 }

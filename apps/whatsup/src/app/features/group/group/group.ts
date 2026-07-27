@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } from '@angular/core';
-import { StorageService } from '../../../core';
 import { ChatService } from '../../chat/data-access/chat.service';
 
 @Component({
@@ -14,9 +13,9 @@ export class GroupComponent {
   id = input<string>('');
   naam = input<string>('');
   description = input<string>('')
-  protected chatService = inject(ChatService)
+  status = input<string>('accepted')
 
-  private storageService = inject(StorageService)
+  protected chatService = inject(ChatService)
   
   handleSelectGroup(groupId: string) {
     // toon de contacten in de group

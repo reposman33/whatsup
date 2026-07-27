@@ -3,12 +3,30 @@
   <div class="flex h-9/12 w-full">
     <aside class="flex flex-col justify-start items-center w-1/5 bg-paper rounded-lg p-3 mr-3 gap-3 overflow-y-auto">
 
-      @for(group of groups.value(); track group.id) {
-        <group
-          [id]="group.id || ''"
-          [naam]="group.name"
-          [description]="group.description">
-        </group>
+      @if(pendingGroups.error()) {
+        <p class="bg-red-500">Fout bij ophalen pending Groepen: {{pendingGroups.error()}}</p>
+      } @else {
+        @for(pendingGroup of pendingGroups.value(); track pendingGroup.id) {
+          <group
+            [id]="pendingGroup.id || ''"
+            [naam]="pendingGroup.name"
+            [description]="pendingGroup.description"
+            [status]="'pending'"
+            >
+          </group>
+       }
+      }
+        
+      @if(groups.error()) {
+        <p class="bg-red-500">Fout bij ophalen groepen: {{groups.error()}}</p>
+      } @else {
+        @for(group of groups.value(); track group.id) {
+          <group
+            [id]="group.id || ''"
+            [naam]="group.name"
+            [description]="group.description">
+          </group>
+        }
       }
 
       <button

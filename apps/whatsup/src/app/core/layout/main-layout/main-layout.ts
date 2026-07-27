@@ -33,6 +33,11 @@ export class MainLayoutComponent  {
     stream: (): Observable<Group[]> => 
       this.storageService.getGroups()
   });
+
+  protected pendingGroups = rxResource({
+    stream: (): Observable<Group[]> => 
+      this.storageService.getPendingGroups(this.authService.currentContact()?.id || '1')
+  });
   
   openModal() {
     this.groupService.addingNewGroup.set(true)
