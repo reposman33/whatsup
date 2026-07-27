@@ -40,8 +40,9 @@ export class FireBaseAuthService {
     .then(async (userCredential) => {
       // haal een Contact object op met de id van de ingelogde gebruier (User)
       const contact = await this.firebaseStore.getContact(userCredential.user.uid);
+
       if (contact) {
-        contact.lastSigninTime = userCredential.user.metadata.lastSignInTime;
+        contact.lastSigninTime = new Date(userCredential.user.metadata.lastSignInTime!).toISOString();
       }
       return contact;
     })
