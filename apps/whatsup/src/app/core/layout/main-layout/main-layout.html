@@ -24,12 +24,12 @@
     <aside
       class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3">
 
-      @if(contacts.isLoading()) {
+      @if(chatService.contacts.isLoading()) {
         <p>Contacts laden...</p>
-      } @else if(contacts.error()){
-        <p class="bg-red-500">Fout bij ophalen contacten: {{contacts.error()}}</p>
+      } @else if(chatService.contacts.error()){
+        <p class="bg-red-500">Fout bij ophalen contacten: {{chatService.contacts.error()}}</p>
       } @else {
-        @for(contact of contacts.value(); track contact.id) {
+        @for(contact of chatService.contacts.value(); track contact.id) {
           <contact
             [naam]="contact.name"
             [contactId]="contact.id!"></contact>

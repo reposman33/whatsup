@@ -1,5 +1,6 @@
 <div
-  class="flex justify-center items-center bg-green-200 hover:bg-green-100 transition-color hover:cursor-pointer w-24 h-24 rounded-full text-sm text-center"
+  class="flex justify-center items-center bg-list-group-active hover:brightness-150 transition-color hover:cursor-pointer w-24 h-24 p-1 rounded-full text-sm text-center"
+  [class]="chatService.selectedGroupId() === id() ? 'brightness-175' : ''"
   (click)="handleSelectGroup(id())"
   (keyup)="handleSelectGroup(id())"
   tabindex="0"
