@@ -22,8 +22,14 @@ export class ChatService {
   
   public contacts = rxResource({
     params: () => {
+      const groupId = this.selectedGroupId()
+
+      if(groupId === '') {
+        return undefined
+      }
+
       return {
-        selectedGroupId: this.selectedGroupId()
+        selectedGroupId: groupId
       };
     },
     stream: ({ params }): Observable<Contact[]> => this.storageService.getContactsByGroup(params.selectedGroupId)
