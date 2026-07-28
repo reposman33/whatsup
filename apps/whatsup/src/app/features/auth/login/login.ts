@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    await this.authService.login(this.email(), this.password()).catch((e) => this.errorText.set(`Oops! er is iets misgegaan: ${e.code}`))
+    await this.authService.login(this.email(), this.password())
+    .catch((e) => this.errorText.set(`Oops! er is iets misgegaan: ${e}`))
     if (this.authService.currentContact()) {
       this.router.navigateByUrl('')
     }
@@ -65,7 +66,7 @@ export class LoginComponent implements OnInit {
         email: this.email(),
         password: this.password(),
         name: this.naam(),
-        registrationTime: Temporal.Now.instant().toString()
+        registrationTime: Temporal.Now.zonedDateTimeISO().toString()
       });
       this.isRegistering.set(false)
       // emptyRegistrationFields zodat isRegistrationValid() === false
