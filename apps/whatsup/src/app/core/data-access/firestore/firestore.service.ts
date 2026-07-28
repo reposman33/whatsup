@@ -121,14 +121,14 @@ export class FirestoreService implements StorageProvider{
 
   getGroupsForContact(id: string): Observable<Group[]> {
     const groupsRef = collection(this.firestore, 'memberships');
-    const q = query(groupsRef, where("contactId","==", id), where("status","==","accepted"))
+    const q = query(groupsRef, where("contactId","==", id))
 
     const result =  collectionData(q, { idField: 'id' }) as Observable<Group[]>;    
     
     return result;    
   }
 
-  // Haal alle groepen op waarvoor de gebruiker is uitgenodigd en die een status 'pending' hebben
+  // Haal alle groepen op waarvoor de gebruiker is uitgenodigd op
   getPendingGroups(id: string): Observable<Group[]> {
     const groupInvitationsQuery = query(collection(this.firestore, 'groupInvitations'), where("toUserId", "==", id), where("status", "==", "pending"))
     
