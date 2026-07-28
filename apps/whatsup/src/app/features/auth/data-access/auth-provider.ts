@@ -1,4 +1,4 @@
-import { Contact } from "../../../models/contact.model";
+import { Contact, RegistrationOptions } from "../../../models";
 import { Observable } from "rxjs";
 
 export abstract class AuthenticateService {
@@ -7,6 +7,6 @@ export abstract class AuthenticateService {
   
   abstract logout(): Observable<void>
 
-  abstract register(contact: Contact): void
+  abstract register(contact: RegistrationOptions): void
 
 }

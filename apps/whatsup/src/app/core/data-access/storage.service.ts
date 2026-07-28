@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AddGroupResult, Contact, Group } from '../../models';
+import { AddGroupResult, Contact, Group, Membership } from '../../models';
 import { Message } from '../../models';
 import { StorageProvider } from './storage-provider';
 import { Observable } from 'rxjs';
@@ -37,8 +37,8 @@ export class StorageService {
     return this.storageProvider.addGroup(group)
   }
   
-  getGroups(): Observable<Group[]> {
-    return this.storageProvider.getGroups()
+  getGroupsForContact(id: string): Observable<Group[]> {
+    return this.storageProvider.getGroupsForContact(id)
   }
 
   getPendingGroups(id: string): Observable<Group[]> {

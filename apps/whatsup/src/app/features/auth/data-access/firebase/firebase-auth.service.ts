@@ -10,7 +10,7 @@ import {
 } from '@angular/fire/auth';
 import { setPersistence, browserSessionPersistence } from 'firebase/auth';
 
-import { Contact } from '../../../../models/contact.model';
+import { Contact, RegistrationOptions } from '../../../../models';
 import { from, Observable } from 'rxjs';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../core/data-access/firestore/firestore.service';
@@ -22,7 +22,7 @@ import { Temporal } from 'temporal-polyfill';
 export class FireBaseAuthService {
 
   private firebaseAuth = inject(Auth)
-  private firebaseStore = inject(FirestoreService)
+  private firestoreService = inject(FirestoreService)
   private firestore = inject(Firestore)
   public user$: Observable<User | null> = user(this.firebaseAuth);
 
@@ -36,17 +36,16 @@ export class FireBaseAuthService {
 
   login(email: string, password: string): Observable<Contact | undefined> {
     const promise = signInWithEmailAndPassword(this.firebaseAuth, email,password)
-    // login geeft een User object terug
-    .then(async (userCredential) => {
-      // haal een Contact object op met de id van de ingelogde gebruier (User)
-      const contact = await this.firebaseStore.getContact(userCredential.user.uid);
-
+    .then(async (userCredential): Promise<Contact | undefined> => {
+      
+      const contact = await this.firestoreService.getContact(userCredential.user.uid);
       if (contact) {
-        contact.lastSigninTime = new Date(userCredential.user.metadata.lastSignInTime!).toISOString();
+        contact.lastSigninTime = userCredential.user.metadata.lastSignInTime;
+        contact.id = userCredential.user.uid;
       }
       return contact;
     })
-    .catch((error): never => {
+    .catch((error): never => { // catch returnType type = never want catch(e) geeft nooit een waarde terug
       throw error;
     });
     
@@ -60,7 +59,7 @@ export class FireBaseAuthService {
     return from(promise);
   }
   
-  async register(contact: Contact & Pick<{password: string}, 'password'>): Promise<void> {
+  async register(contact: RegistrationOptions): Promise<void> {
     const userCredentials = await createUserWithEmailAndPassword(this.firebaseAuth, contact.email, contact.password)
     .catch((error) => {
       console.log('Error in createUserWithEmailAndPassword(): ', error);;
@@ -73,7 +72,7 @@ export class FireBaseAuthService {
         lastSigninTime: '',
         name: contact.name,
         registrationTime: Temporal.Now.zonedDateTimeISO().toString(),
-      };
+      }; // geen type Contact want bevat geen id property 
       
       // add user to firestore 'contacts' collection'
       await setDoc(doc(this.firestore, 'contacts', userCredentials.user.uid), _contact)

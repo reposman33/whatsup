@@ -45,6 +45,10 @@ export class LocalStorageService extends StorageProvider {
     return of([]) as Observable<Contact[]>
   }
   
+  getGroupsForContact(id: string): Observable<Group[]> {
+    return of([]) as Observable<Group[]>
+  }
+
   getGroups(): Observable<Group[]> {
     return of([]) as Observable<Group[]>
   }

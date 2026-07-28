@@ -31,7 +31,7 @@ export class MainLayoutComponent  {
   
   protected groups = rxResource({
     stream: (): Observable<Group[]> => 
-      this.storageService.getGroups()
+      this.storageService.getGroupsForContact(this.authService.currentContact()?.id || '')
   });
 
   protected pendingGroups = rxResource({

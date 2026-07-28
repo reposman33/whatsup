@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch, arrayUnion } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, from, map, of, switchMap } from 'rxjs';
@@ -22,11 +22,6 @@ export class FirestoreService implements StorageProvider{
     batch.update(invitationRef, {
       status: 'accepted',
       acceptedAt: Temporal.Now.zonedDateTimeISO().toString
-    })
-
-    const contactRef = doc(this.firestore, 'contacts', invitation.toUserId!)
-    batch.update(contactRef, {
-      group: arrayUnion(invitation.groupId)
     })
   }
 
@@ -69,7 +64,7 @@ export class FirestoreService implements StorageProvider{
                 status: 'pending',
                 toUserId: r.userId
               } as GroupInvitation;
-              return addDoc(groupMembershipCollectionRef, invitation);
+              return addDoc(groupInvitationsCollectionRef, invitation);
             })
 
             return from(Promise.all(invitationPromises)).pipe(
@@ -98,7 +93,7 @@ export class FirestoreService implements StorageProvider{
     const data = await snap.data() as Contact;
 
     // attach id if needed
-    return { ...(data as Contact), id: (snap.id as string) } as Contact;
+    return { ...data, id: snap.id } as Contact;
   }
 
   getContacts(): Observable<Contact[]> {
@@ -124,9 +119,13 @@ export class FirestoreService implements StorageProvider{
     )
   }
 
-  getGroups(): Observable<Group[]> {
-    const groupsRef = collection(this.firestore, 'groups');
-    return collectionData(groupsRef, { idField: 'id' }) as Observable<Group[]>;    
+  getGroupsForContact(id: string): Observable<Group[]> {
+    const groupsRef = collection(this.firestore, 'memberships');
+    const q = query(groupsRef, where("contactId","==", id), where("status","==","accepted"))
+
+    const result =  collectionData(q, { idField: 'id' }) as Observable<Group[]>;    
+    
+    return result;    
   }
 
   // Haal alle groepen op waarvoor de gebruiker is uitgenodigd en die een status 'pending' hebben

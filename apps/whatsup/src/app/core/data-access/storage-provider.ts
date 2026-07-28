@@ -1,4 +1,4 @@
-import { AddGroupResult, Contact, Group } from '../../models';
+import { AddGroupResult, Contact, Group, Membership } from '../../models';
 import { Message } from '../../models';
 import { Observable } from 'rxjs';
 import { GroupInvitation } from '../../models/groupInvitation';
@@ -19,7 +19,7 @@ export abstract class StorageProvider {
 
   abstract addGroup(group: Group & {invitedContactsEmails: string[]}): Observable<AddGroupResult>
 
-  abstract getGroups(): Observable<Group[]>
+  abstract getGroupsForContact(id: string): Observable<Group[]>
 
   abstract getPendingGroups(id: string): Observable<Group[]>
 
