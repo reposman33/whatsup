@@ -32,17 +32,19 @@ export class FirestoreService implements StorageProvider{
 
   addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
     const groupCollectionRef = collection(this.firestore, 'groups')
+
+    // 1: voeg nieuwe groep toe aan groups
     return from(addDoc(groupCollectionRef, {createdAt: group.createdAt, description: group.description, name: group.name}))
     .pipe(
       switchMap(g => {
-        const groupMembershipCollectionRef = collection(this.firestore, 'groupInvitations');
+        const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations');
         const createdAt = Temporal.Now.zonedDateTimeISO().toString();
         const fromUserId = group.currentContactId;
 
         if (!group.invitedContactsEmails || group.invitedContactsEmails.length === 0) {
           // er zijn geen users uitgenodigd om deel te nemen aan deze groep, return alleen de group
           return of({
-            id: g.id, ...group,
+            group: g.id, ...group,
             failedEmails: []
           } as unknown as AddGroupResult);
         }
@@ -52,7 +54,8 @@ export class FirestoreService implements StorageProvider{
           const userId = await this.getUserIdByEmailAddress(email)
           return {email, userId}
         })
-
+        
+        // 2: voeg groepsuitnodigingen toe aan groupInvitations
         return from(Promise.all(resolvedEmails)).pipe(
           switchMap(results => {
             const succeeded = results.filter(r => r.userId !== undefined && r.userId !== group.currentContactId)
@@ -155,6 +158,11 @@ export class FirestoreService implements StorageProvider{
     const contacts = await firstValueFrom(collectionData(q, {idField: 'id'}))
 
     return contacts[0]?.id
+  }
+
+  updateMembership(membership: Membership): void {
+    const membershipsCollectionRef = collection(this.firestore, 'memberships')
+    addDoc(membershipsCollectionRef, membership)
   }
 
 }

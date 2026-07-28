@@ -45,4 +45,7 @@ export class StorageService {
     return this.storageProvider.getPendingGroups(id)
   }
   
+  updateMembership(membership: Membership): void {
+    this.storageProvider.updateMembership(membership)
+  }
 }

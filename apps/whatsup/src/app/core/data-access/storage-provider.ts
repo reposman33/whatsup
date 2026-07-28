@@ -23,4 +23,6 @@ export abstract class StorageProvider {
 
   abstract getPendingGroups(id: string): Observable<Group[]>
 
+  abstract updateMembership(membership: Membership): void
+
 }

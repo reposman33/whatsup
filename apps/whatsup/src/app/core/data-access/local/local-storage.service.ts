@@ -4,7 +4,7 @@ import { Message } from '../../../models/message.model';
 import { StorageProvider } from '../storage-provider';
 import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
-import { AddGroupResult, Group } from '../../../models';
+import { AddGroupResult, Group, Membership } from '../../../models';
 import { GroupInvitation } from '../../../models/groupInvitation';
 
 @Injectable({
@@ -64,5 +64,9 @@ export class LocalStorageService extends StorageProvider {
   getUserIdByEmailAddress(email:string): Promise<string | undefined> {
     return Promise.resolve('12345') 
   }
+
+  updateMembership(membership: Membership): void {
+  }
+
 
 }

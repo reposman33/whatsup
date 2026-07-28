@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal, ViewEncapsulation } from '@angular/core';
 import { StorageService } from '../../../core';
 import { GroupService } from '../group-service/group-service';
 import { AuthService } from '../../auth/data-access/auth.service';
+import { Membership } from '../../../models';
+import { Temporal } from 'temporal-polyfill';
 @Component({
   selector: 'app-create-new-group',
   imports: [],
@@ -20,7 +22,7 @@ export class CreateNewGroupComponent {
   protected groupDescription = signal<string>('');
   protected emailAddressesText = computed<string>((): string => this.emailAddresses().join('\n'));
   protected errorText = signal<string>('')
-  
+
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
   private authService = inject(AuthService)
@@ -53,10 +55,26 @@ export class CreateNewGroupComponent {
       invitedContactsEmails: this.emailAddresses(),
       currentContactId: this.authService.currentContact()?.id ?? ''
     }
-    this.storageService.addGroup(group)
-    this.closeDialog()
+    this.storageService.addGroup(group).subscribe({
+      next: (res) => {
+        console.log('Groep toegevoegd: ', res)
+        const now = Temporal.Now.zonedDateTimeISO().toString()
+        this.updateMembership({
+          groupId: res.group?.id ?? '',
+          contactId: this.authService.currentContact()?.id ?? '',
+          email: this.authService.currentContact()?.email ?? '',
+          invitedAt: now,
+          acceptedAt: now,
+        })
+        console.log(`membership van group ${res.group?.id ?? ''} toegevoegd`);
+        this.closeDialog()
+      },
+      error: (err) => {
+        console.log('err: ', err);
+        throw new Error(err);
+      }
+    })
   }
-
 
   private isValidEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -64,5 +82,9 @@ export class CreateNewGroupComponent {
 
   closeDialog(){
     this.groupService.closeNewGroupDialog()
+  }
+
+  updateMembership(membership: Membership){
+    this.storageService.updateMembership(membership)
   }
 }
