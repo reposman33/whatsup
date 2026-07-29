@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch, DocumentReference, DocumentData } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
-import { Observable, firstValueFrom, from, map, of, switchMap } from 'rxjs';
+import { Observable, firstValueFrom, of, switchMap } from 'rxjs';
 import { StorageProvider } from '../storage-provider';
-import { AddGroupResult, Group, Membership } from '../../../models';
+import { Group, Membership } from '../../../models';
 import { Temporal } from 'temporal-polyfill';
 import { GroupInvitation } from '../../../models/groupInvitation';
 
@@ -25,61 +25,63 @@ export class FirestoreService implements StorageProvider{
     })
   }
 
-  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
+  async addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>> {
     const groupCollectionRef = collection(this.firestore, 'groups')
-
-    // 1: voeg nieuwe groep toe aan groups
-    return from(addDoc(groupCollectionRef, {createdAt: group.createdAt, description: group.description, name: group.name}))
-    .pipe(
-      switchMap(g => {
-        const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations');
-        const createdAt = Temporal.Now.zonedDateTimeISO().toString();
-        const fromUserId = group.currentContactId;
-
-        if (!group.invitedContactsEmails || group.invitedContactsEmails.length === 0) {
-          // er zijn geen users uitgenodigd om deel te nemen aan deze groep, return alleen de group
-          return of({
-            group: g.id, ...group,
-            failedEmails: []
-          } as unknown as AddGroupResult);
-        }
-
-        // vind voor alle emailadressen de userId
-        const resolvedEmails = group.invitedContactsEmails.map(async (email: string) => {
-          const userId = await this.getUserIdByEmailAddress(email)
-          return {email, userId}
-        })
-        
-        // 2: voeg groepsuitnodigingen toe aan groupInvitations
-        return from(Promise.all(resolvedEmails)).pipe(
-          switchMap(results => {
-            const succeeded = results.filter(r => r.userId !== undefined && r.userId !== group.currentContactId)
-            const failedEmails = results.filter(r => r.userId == undefined).map(r => r.email)
-            const invitationPromises = succeeded.map(async r => {
-              const invitation = {
-                acceptedAt: '',
-                createdAt: createdAt,
-                fromUserId: fromUserId,
-                groupId: g.id,
-                status: 'pending',
-                toUserId: r.userId
-              } as GroupInvitation;
-              return addDoc(groupInvitationsCollectionRef, invitation);
-            })
-
-            return from(Promise.all(invitationPromises)).pipe(
-              map(() => (
-                {
-                  group: {id: g.id, ...group} as unknown as Group,
-                  failedEmails
-                }
-              ))
-            )
-          })
-        )
-      })
-    );
+    return await addDoc(groupCollectionRef, group)
   }
+
+
+
+  // .pipe(
+  //     switchMap(g => {
+  //       const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations');
+  //       const createdAt = Temporal.Now.zonedDateTimeISO().toString();
+  //       const fromUserId = group.currentContactId;
+
+  //       if (!group.invitedContactsEmails || group.invitedContactsEmails.length === 0) {
+  //         // er zijn geen users uitgenodigd om deel te nemen aan deze groep, return alleen de group
+  //         return of({
+  //           group: g.id, ...group,
+  //           failedEmails: []
+  //         } as unknown as AddGroupResult);
+  //       }
+
+  //       // vind voor alle emailadressen de userId
+  //       const resolvedEmails = group.invitedContactsEmails.map(async (email: string) => {
+  //         const userId = await this.getUserIdByEmailAddress(email)
+  //         return {email, userId}
+  //       })
+        
+  //       // 2: voeg groepsuitnodigingen toe aan groupInvitations
+  //       return from(Promise.all(resolvedEmails)).pipe(
+  //         switchMap(results => {
+  //           const succeeded = results.filter(r => r.userId !== undefined && r.userId !== group.currentContactId)
+  //           const failedEmails = results.filter(r => r.userId == undefined).map(r => r.email)
+  //           const invitationPromises = succeeded.map(async r => {
+  //             const invitation = {
+  //               acceptedAt: '',
+  //               createdAt: createdAt,
+  //               fromUserId: fromUserId,
+  //               groupId: g.id,
+  //               status: 'pending',
+  //               toUserId: r.userId
+  //             } as GroupInvitation;
+  //             return addDoc(groupInvitationsCollectionRef, invitation);
+  //           })
+
+  //           return from(Promise.all(invitationPromises)).pipe(
+  //             map(() => (
+  //               {
+  //                 group: {id: g.id, ...group} as unknown as Group,
+  //                 failedEmails
+  //               }
+  //             ))
+  //           )
+  //         })
+  //       )
+  //     })
+  //   );
+  // }
 
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')

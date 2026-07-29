@@ -4,8 +4,9 @@ import { Message } from '../../../models/message.model';
 import { StorageProvider } from '../storage-provider';
 import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
-import { AddGroupResult, Group, Membership } from '../../../models';
+import { Group, Membership } from '../../../models';
 import { GroupInvitation } from '../../../models/groupInvitation';
+import { DocumentData, DocumentReference } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,8 @@ export class LocalStorageService extends StorageProvider {
 
   acceptInvitation(invitation: GroupInvitation) {}
 
-  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
-    return of() as Observable<AddGroupResult>
+  async addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>> {
+    return await({} as DocumentReference<DocumentData, DocumentData>)
   }
 
   addMessage(message: Message){

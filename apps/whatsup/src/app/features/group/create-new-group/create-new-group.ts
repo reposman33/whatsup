@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { StorageService } from '../../../core';
 import { GroupService } from '../group-service/group-service';
 import { AuthService } from '../../auth/data-access/auth.service';
-import { Membership } from '../../../models';
-import { Temporal } from 'temporal-polyfill';
+import { Group } from '../../../models';
 @Component({
   selector: 'app-create-new-group',
   imports: [],
@@ -47,33 +46,33 @@ export class CreateNewGroupComponent {
     })
   }
   
-  addGroup() {
+  async createNewGroup(){
     const group = {
       createdAt: new Date().getTime(),
       description: this.groupDescription(),
       name: this.groupName(),
-      invitedContactsEmails: this.emailAddresses(),
-      currentContactId: this.authService.currentContact()?.id ?? ''
-    }
-    this.storageService.addGroup(group).subscribe({
-      next: (res) => {
-        console.log('Groep toegevoegd: ', res)
-        const now = Temporal.Now.zonedDateTimeISO().toString()
-        this.updateMembership({
-          groupId: res.group?.id ?? '',
-          contactId: this.authService.currentContact()?.id ?? '',
-          email: this.authService.currentContact()?.email ?? '',
-          invitedAt: now,
-          acceptedAt: now,
-        })
-        console.log(`membership van group ${res.group?.id ?? ''} toegevoegd`);
-        this.closeDialog()
-      },
-      error: (err) => {
-        console.log('err: ', err);
-        throw new Error(err);
-      }
-    })
+    } as Group
+    const addGroupResult = await this.storageService.addGroup(group)
+
+    console.log('addGroupResult.id: ', addGroupResult.id);
+
+    //  voeg groepsinvitations toe
+    // const now = Temporal.Now.zonedDateTimeISO().toString()
+    //   this.storageService.updateMembership({
+    //       groupId: res.group?.id ?? '',
+    //       contactId: this.authService.currentContact()?.id ?? '',
+    //       email: this.authService.currentContact()?.email ?? '',
+    //       invitedAt: now,
+    //       acceptedAt: now,
+    //     })
+    //     console.log(`membership van group ${res.group?.id ?? ''} toegevoegd`);
+    //     this.closeDialog()
+    //   },
+    //   error: (err) => {
+    //     console.log('err: ', err);
+    //     throw new Error(err);
+    //   }
+    // })
   }
 
   private isValidEmail(email: string): boolean {
@@ -84,7 +83,5 @@ export class CreateNewGroupComponent {
     this.groupService.closeNewGroupDialog()
   }
 
-  updateMembership(membership: Membership){
-    this.storageService.updateMembership(membership)
-  }
 }
+  
