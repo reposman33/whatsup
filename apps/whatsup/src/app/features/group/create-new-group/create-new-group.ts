@@ -47,8 +47,10 @@ export class CreateNewGroupComponent {
   }
   
   async createNewGroup(){
+    const now = Temporal.Now.zonedDateTimeISO().toString()
+    // 1: voeg group toe
     const group = {
-      createdAt: new Date().getTime(),
+      createdAt: now,
       description: this.groupDescription(),
       name: this.groupName(),
     } as Group

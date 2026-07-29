@@ -1,6 +1,6 @@
 export type Group = {
   id?: string;
-  createdAt: number; 
+  createdAt: string;
   description: string;
   name: string;
 }
