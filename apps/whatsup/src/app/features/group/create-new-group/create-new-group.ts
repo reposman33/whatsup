@@ -3,6 +3,7 @@ import { StorageService } from '../../../core';
 import { GroupService } from '../group-service/group-service';
 import { AuthService } from '../../auth/data-access/auth.service';
 import { Group } from '../../../models';
+import { Temporal } from 'temporal-polyfill';
 @Component({
   selector: 'app-create-new-group',
   imports: [],
@@ -56,25 +57,19 @@ export class CreateNewGroupComponent {
     } as Group
     const addGroupResult = await this.storageService.addGroup(group)
 
-    console.log('addGroupResult.id: ', addGroupResult.id);
+    console.log(`Group met id ${addGroupResult.id} toegevoegd`);
 
-    //  voeg groepsinvitations toe
-    // const now = Temporal.Now.zonedDateTimeISO().toString()
-    //   this.storageService.updateMembership({
-    //       groupId: res.group?.id ?? '',
-    //       contactId: this.authService.currentContact()?.id ?? '',
-    //       email: this.authService.currentContact()?.email ?? '',
-    //       invitedAt: now,
-    //       acceptedAt: now,
-    //     })
-    //     console.log(`membership van group ${res.group?.id ?? ''} toegevoegd`);
-    //     this.closeDialog()
-    //   },
-    //   error: (err) => {
-    //     console.log('err: ', err);
-    //     throw new Error(err);
-    //   }
-    // })
+    // voeg mezelf toe aan memberships collectie als member van deze groep
+    const updateMembershipResult = await this.storageService.updateMembership({
+      groupId: addGroupResult.id,
+      contactId: this.authService.currentContact()?.id ?? '',
+      email: this.authService.currentContact()?.email ?? '',
+      invitedAt: now,
+      acceptedAt: now,
+    })
+
+    console.log(`membership met id ${updateMembershipResult.id} van group met id ${addGroupResult.id} toegevoegd`);
+    this.closeDialog()
   }
 
   private isValidEmail(email: string): boolean {
