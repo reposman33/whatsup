@@ -46,7 +46,7 @@ export class StorageService {
     return this.storageProvider.getPendingGroups(id)
   }
   
-  updateMembership(membership: Membership): void {
-    this.storageProvider.updateMembership(membership)
+  updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
+    return this.storageProvider.updateMembership(membership)
   }
 }

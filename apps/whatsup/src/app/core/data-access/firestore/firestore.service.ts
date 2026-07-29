@@ -161,9 +161,9 @@ export class FirestoreService implements StorageProvider{
     return contacts[0]?.id
   }
 
-  updateMembership(membership: Membership): void {
+  updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
     const membershipsCollectionRef = collection(this.firestore, 'memberships')
-    addDoc(membershipsCollectionRef, membership)
+    return addDoc(membershipsCollectionRef, membership)
   }
 
 }
