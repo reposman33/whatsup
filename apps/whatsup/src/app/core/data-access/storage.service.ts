@@ -13,6 +13,14 @@ export class StorageService {
 
   acceptInvitation(invitation: GroupInvitation) {}
   
+  addGroup(group: Group & {invitedContacts: Contact[], currentContactId: string}): Observable<AddGroupResult> {
+    return this.storageProvider.addGroup(group)
+  }
+  
+  addMessage(message: Message) {
+    this.storageProvider.addMessage(message)
+  }
+
   getContact(id: string): Promise<Contact | undefined> {
     return this.storageProvider.getContact(id);
   }
@@ -25,22 +33,14 @@ export class StorageService {
     return this.storageProvider.getContactsByGroup(groupId)
   }
 
-  addMessage(message: Message) {
-    this.storageProvider.addMessage(message)
+  getGroupsForContact(id: string): Observable<Group[]> {
+    return this.storageProvider.getGroupsForContact(id)
   }
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]> {
     return this.storageProvider.getMessagesWithSelectedContact(id)
   }
   
-  addGroup(group: Group & {invitedContactsEmails: string[], currentContactId: string}): Observable<AddGroupResult> {
-    return this.storageProvider.addGroup(group)
-  }
-  
-  getGroupsForContact(id: string): Observable<Group[]> {
-    return this.storageProvider.getGroupsForContact(id)
-  }
-
   getPendingGroups(id: string): Observable<Group[]> {
     return this.storageProvider.getPendingGroups(id)
   }
