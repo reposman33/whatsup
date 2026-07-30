@@ -22,6 +22,10 @@ export class StorageService {
     return this.storageProvider.addGroupInvitations(selectedContacts, fromUserId, groupId)
   }
   
+  addMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
+    return this.storageProvider.addMembership(membership)
+  }
+
   addMessage(message: Message) {
     this.storageProvider.addMessage(message)
   }
@@ -54,7 +58,4 @@ export class StorageService {
     return this.storageProvider.updateGroupInvitationByGroupId(id, status)
   }
 
-  updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
-    return this.storageProvider.updateMembership(membership)
-  }
 }

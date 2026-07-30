@@ -56,6 +56,11 @@ export class FirestoreService implements StorageProvider{
     }))
   }
 
+  addMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
+    const membershipsCollectionRef = collection(this.firestore, 'memberships')
+    return addDoc(membershipsCollectionRef, membership)
+  }
+
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')
     await addDoc(messagesCollection, message)
@@ -144,12 +149,6 @@ export class FirestoreService implements StorageProvider{
 
   updateGroupInvitationByGroupId(id: string, status: string): void {
 
-  }
-
-
-  updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
-    const membershipsCollectionRef = collection(this.firestore, 'memberships')
-    return addDoc(membershipsCollectionRef, membership)
   }
 
 }

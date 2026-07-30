@@ -40,7 +40,7 @@ export class CreateNewGroupComponent {
     console.log(`Group met id ${addGroupResult.id} toegevoegd`);
 
     // 2: voeg mezelf toe aan memberships collectie als member van deze groep
-    const updateMembershipResult = await this.storageService.updateMembership({
+    const updateMembershipResult = await this.storageService.addMembership({
       groupId: addGroupResult.id,
       contactId: this.authService.currentContact()?.id ?? '',
       email: this.authService.currentContact()?.email ?? '',
