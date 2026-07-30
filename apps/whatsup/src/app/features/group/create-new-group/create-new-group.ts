@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewEncapsulation } from '@angular/core';
 import { StorageService } from '../../../core';
 import { GroupService } from '../group-service/group-service';
 import { AuthService } from '../../auth/data-access/auth.service';
-import { Group } from '../../../models';
+import { Contact, Group } from '../../../models';
 import { Temporal } from 'temporal-polyfill';
+import { SelectList } from './select-list/select-list';
 @Component({
   selector: 'app-create-new-group',
-  imports: [],
+  imports: [ SelectList ],
   templateUrl: './create-new-group.html',
   styleUrl: './create-new-group.scss',
   encapsulation: ViewEncapsulation.Emulated,
@@ -16,37 +17,16 @@ import { Temporal } from 'temporal-polyfill';
   }
 })
 export class CreateNewGroupComponent {
-  protected emailAddress = signal<string>('');
-  protected emailAddresses = signal<string[]>([]);
   protected groupName = signal<string>('');
   protected groupDescription = signal<string>('');
-  protected emailAddressesText = computed<string>((): string => this.emailAddresses().join('\n'));
   protected errorText = signal<string>('')
 
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
   private authService = inject(AuthService)
- 
-  private invalidEmailError = 'Vul een geldig e-mail adres in!'
 
-  addEmailAddress() {
-    if(!this.isValidEmail(this.emailAddress())) {
-      this.errorText.set(this.invalidEmailError)
-      return
-    }
-    this.emailAddresses.update((value: string[]): string[] => {
-      value.push(this.emailAddress())
-      this.emailAddress.set('')
-      return value
-    })
-  }
+  protected selectedContacts = signal<Contact[]>([])
 
-  deleteEmailAddress(index: number): void {
-    this.emailAddresses.update(value => {
-      return value.filter((_,i) => i !== index)
-    })
-  }
-  
   async createNewGroup(){
     const now = Temporal.Now.zonedDateTimeISO().toString()
     // 1: voeg group toe
@@ -59,7 +39,7 @@ export class CreateNewGroupComponent {
 
     console.log(`Group met id ${addGroupResult.id} toegevoegd`);
 
-    // voeg mezelf toe aan memberships collectie als member van deze groep
+    // 2: voeg mezelf toe aan memberships collectie als member van deze groep
     const updateMembershipResult = await this.storageService.updateMembership({
       groupId: addGroupResult.id,
       contactId: this.authService.currentContact()?.id ?? '',
@@ -69,11 +49,11 @@ export class CreateNewGroupComponent {
     })
 
     console.log(`membership met id ${updateMembershipResult.id} van group met id ${addGroupResult.id} toegevoegd`);
-    this.closeDialog()
-  }
 
-  private isValidEmail(email: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // 3: voeg voor elke uitgenodigde contact een document toe aan de groupInvitations collectie
+    // contacts is een signal met alle toegevoegde contacten, 
+    this.storageService.updateGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id?? '', addGroupResult.id)
+    this.closeDialog()
   }
 
   closeDialog(){

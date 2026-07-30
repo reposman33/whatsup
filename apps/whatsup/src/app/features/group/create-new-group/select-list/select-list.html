@@ -1,0 +1,50 @@
+<div class="flex flex-col h-[200px] w-full gap-1 mx-5">
+
+  <div id="availableContacts" class="flex min-h-0 h-1/2 w-full gap-2 justify-between">
+    
+    <div class="flex flex-col justify-center w-full">
+
+      <div class="min-h-0 h-full overflow-y-auto w-full rounded-xl border-2 border-border p-2 mx-4">
+        @for(contact of availableContacts.value(); track contact.id) {
+          <button class="group relative rounded-xl w-full text-sm my-0.5 p-1 pl-2 hover:cursor-pointer
+            bg-linear-to-b
+            from-bg-gradient-start
+            to-bg-gradient-end"
+            (click)="toggleContact(contact)"
+          >
+          <!-- gradients kunnen niet tansitioned worden maar opacity wel: transition de opacity van 0 - 100 on hover naar de omgekeerde transition van de button -->
+          <span class="absolute inset-0 rounded-xl w-full text-sm my-0.5 p-1 pl-2 hover:cursor-pointer
+            opacity-0 group-hover:opacity-100
+            bg-linear-to-b
+            from-bg-gradient-end
+            to-bg-gradient-start
+            transition-opacity duration-300"
+            [class.opacity-100]="false"></span>
+            <span class="relative z-10">{{contact.name}} - {{contact.email}}</span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="min-h-0 h-1/2 overflow-y-auto w-full rounded-xl border-2 border-border p-3 mx-4">
+    @for (contact of selectedContacts(); track contact.id) {
+      <button class="group relative rounded-xl w-full text-sm my-0.5 p-1 pl-2 hover:cursor-pointer
+        bg-linear-to-b
+      from-bg-gradient-start
+      to-bg-gradient-end"
+        (click)="toggleContact(contact)"
+      >
+      <!-- gradients kunnen niet tansitioned worden maar opacity wel: transition de opacity van 0 - 100 on hover naar de omgekeerde transition van de button -->
+      <span class="absolute inset-0 rounded-xl w-full text-sm my-0.5 p-1 pl-2 hover:cursor-pointer
+        opacity-0 group-hover:opacity-100
+        bg-linear-to-b
+        from-bg-gradient-end
+        to-bg-gradient-start
+        transition-opacity duration-300"
+        [class.opacity-100]="false"></span>
+      <span class="relative z-10">{{contact.name}} - {{contact.email}}</span>
+      </button>
+    }          
+  </div>
+</div>
