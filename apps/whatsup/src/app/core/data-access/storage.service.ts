@@ -45,6 +45,10 @@ export class StorageService {
   getPendingGroups(id: string): Observable<Group[]> {
     return this.storageProvider.getPendingGroups(id)
   }
+
+  async updateGroupInvitations(selectedContacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+    return this.storageProvider.updateGroupInvitations(selectedContacts, fromUserId, groupId)
+  }
   
   updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
     return this.storageProvider.updateMembership(membership)

@@ -60,7 +60,9 @@
   --color-ember-dark: #4A1B0C;
   --color-mist: #E9E7F2;
   --color-moss: #5C8368;
-  --color-border: #d1d5db
+  --color-border: #d1d5db;
+  --color-lightgrey: #e5e5ec;
+  --color-darkgrey: #b3b6ba;
 
   /* ============================================
      LAAG 4 — SEMANTISCHE ALIASSEN
@@ -112,6 +114,8 @@
   --color-action-primary-hover: var(--color-dusk-light);
   --color-action-primary-active: var(--color-dusk-dark);
   --color-action-primary-text: var(--color-paper);
+  --color-bg-gradient-start: var(--color-lightgrey);
+  --color-bg-gradient-end: var(--color-darkgrey);
 
   --color-action-secondary: transparent;
   --color-action-secondary-hover: var(--color-mist);

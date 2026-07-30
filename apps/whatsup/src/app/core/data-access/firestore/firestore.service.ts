@@ -18,7 +18,7 @@ export class FirestoreService implements StorageProvider{
   acceptInvitation(invitation: GroupInvitation) {
     const batch = writeBatch(this.firestore)
 
-    const invitationRef = doc(this.firestore, 'groupInvitations', invitation.id!)
+    const invitationRef = doc(this.firestore, 'groupInvitations', invitation.id ?? '')
     batch.update(invitationRef, {
       status: 'accepted',
       acceptedAt: Temporal.Now.zonedDateTimeISO().toString
@@ -30,59 +30,7 @@ export class FirestoreService implements StorageProvider{
     return await addDoc(groupCollectionRef, group)
   }
 
-
-
-  // .pipe(
-  //     switchMap(g => {
-  //       const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations');
-  //       const createdAt = Temporal.Now.zonedDateTimeISO().toString();
-  //       const fromUserId = group.currentContactId;
-
-  //       if (!group.invitedContactsEmails || group.invitedContactsEmails.length === 0) {
-  //         // er zijn geen users uitgenodigd om deel te nemen aan deze groep, return alleen de group
-  //         return of({
-  //           group: g.id, ...group,
-  //           failedEmails: []
-  //         } as unknown as AddGroupResult);
-  //       }
-
-  //       // vind voor alle emailadressen de userId
-  //       const resolvedEmails = group.invitedContactsEmails.map(async (email: string) => {
-  //         const userId = await this.getUserIdByEmailAddress(email)
-  //         return {email, userId}
-  //       })
         
-  //       // 2: voeg groepsuitnodigingen toe aan groupInvitations
-  //       return from(Promise.all(resolvedEmails)).pipe(
-  //         switchMap(results => {
-  //           const succeeded = results.filter(r => r.userId !== undefined && r.userId !== group.currentContactId)
-  //           const failedEmails = results.filter(r => r.userId == undefined).map(r => r.email)
-  //           const invitationPromises = succeeded.map(async r => {
-  //             const invitation = {
-  //               acceptedAt: '',
-  //               createdAt: createdAt,
-  //               fromUserId: fromUserId,
-  //               groupId: g.id,
-  //               status: 'pending',
-  //               toUserId: r.userId
-  //             } as GroupInvitation;
-  //             return addDoc(groupInvitationsCollectionRef, invitation);
-  //           })
-
-  //           return from(Promise.all(invitationPromises)).pipe(
-  //             map(() => (
-  //               {
-  //                 group: {id: g.id, ...group} as unknown as Group,
-  //                 failedEmails
-  //               }
-  //             ))
-  //           )
-  //         })
-  //       )
-  //     })
-  //   );
-  // }
-
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')
     await addDoc(messagesCollection, message)
@@ -159,6 +107,32 @@ export class FirestoreService implements StorageProvider{
     const contacts = await firstValueFrom(collectionData(q, {idField: 'id'}))
 
     return contacts[0]?.id
+  }
+
+  async updateGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+
+    console.log('contacts: ', contacts);
+    console.log('fromUserId: ', fromUserId);
+    console.log('groupId: ', groupId);
+    if(!contacts || contacts.length === 0) {
+      throw new Error('Geen contacten meegegeven')
+    }
+
+    const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations')
+    const now = Temporal.Now.zonedDateTimeISO().toString()
+
+    return await Promise.all(contacts.map(contact => {
+      const invitation = {
+        acceptedAt: '',
+        createdAt: now,
+        fromUserId: fromUserId,
+        groupId: groupId,
+        status: 'pending',
+        toUserId: contact.id
+      }
+
+      return addDoc(groupInvitationsCollectionRef, invitation)
+    }))
   }
 
   updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {

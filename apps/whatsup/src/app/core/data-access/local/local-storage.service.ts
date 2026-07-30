@@ -70,6 +70,10 @@ export class LocalStorageService extends StorageProvider {
     return Promise.resolve('12345') 
   }
 
+  async updateGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+    return [] as DocumentReference<DocumentData, DocumentData>[];
+  }
+
   async updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
     return await ({} as DocumentReference<DocumentData, DocumentData>) 
   }
