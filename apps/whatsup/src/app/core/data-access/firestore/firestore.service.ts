@@ -30,7 +30,6 @@ export class FirestoreService implements StorageProvider{
     return await addDoc(groupCollectionRef, group)
   }
 
-        
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')
     await addDoc(messagesCollection, message)
@@ -70,12 +69,25 @@ export class FirestoreService implements StorageProvider{
   }
 
   getGroupsForContact(id: string): Observable<Group[]> {
-    const groupsRef = collection(this.firestore, 'memberships');
-    const q = query(groupsRef, where("contactId","==", id))
+    const membershipQuery = query(collection(this.firestore, 'memberships'), where("contactId","==",id));
 
-    const result =  collectionData(q, { idField: 'id' }) as Observable<Group[]>;    
-    
-    return result;    
+    return (collectionData(membershipQuery, {idField: 'id'}) as Observable<Membership[]>).pipe(
+      switchMap((memberships: Membership[]): Observable<Group[]> => {
+        const groupIds = memberships.map( (membership: Membership): string => membership.groupId);
+
+        if(groupIds.length === 0) {
+          return of([]) as Observable<Group[]>
+        }
+        const groupsQuery = query(collection(this.firestore, 'groups'), where(documentId(), "in", groupIds));
+
+        return collectionData(groupsQuery, {idField: 'id'}) as Observable<Group[]>
+      })
+    )
+  }
+
+  getMessagesWithSelectedContact(id: string): Observable<Message[]> {
+    const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
+    return collectionData (q, {idField: 'id'}) as Observable<Message[]>
   }
 
   // Haal alle groepen op waarvoor de gebruiker is uitgenodigd op
@@ -96,12 +108,7 @@ export class FirestoreService implements StorageProvider{
       })
     )
   }
-
-  getMessagesWithSelectedContact(id: string): Observable<Message[]> {
-    const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
-    return collectionData (q, {idField: 'id'}) as Observable<Message[]>
-  }
-
+  
   async getUserIdByEmailAddress(email:string): Promise<string | undefined> {
     const q = query(collection(this.firestore,'contacts'), where('email','==',email))
     const contacts = await firstValueFrom(collectionData(q, {idField: 'id'}))
