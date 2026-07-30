@@ -52,7 +52,7 @@ export class CreateNewGroupComponent {
 
     // 3: voeg voor elke uitgenodigde contact een document toe aan de groupInvitations collectie
     // contacts is een signal met alle toegevoegde contacten, 
-    this.storageService.updateGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id?? '', addGroupResult.id)
+    this.storageService.addGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id?? '', addGroupResult.id)
     this.closeDialog()
   }
 

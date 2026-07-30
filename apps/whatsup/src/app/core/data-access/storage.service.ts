@@ -18,6 +18,10 @@ export class StorageService {
     return this.storageProvider.addGroup(group)
   }
   
+  async addGroupInvitations(selectedContacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+    return this.storageProvider.addGroupInvitations(selectedContacts, fromUserId, groupId)
+  }
+  
   addMessage(message: Message) {
     this.storageProvider.addMessage(message)
   }
@@ -46,10 +50,10 @@ export class StorageService {
     return this.storageProvider.getPendingGroups(id)
   }
 
-  async updateGroupInvitations(selectedContacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
-    return this.storageProvider.updateGroupInvitations(selectedContacts, fromUserId, groupId)
+  updateGroupInvitationByGroupId(id: string, status: string): void {
+    return this.storageProvider.updateGroupInvitationByGroupId(id, status)
   }
-  
+
   updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
     return this.storageProvider.updateMembership(membership)
   }

@@ -12,6 +12,8 @@ export abstract class StorageProvider {
 
   // abstract addGroupInvitations(group: GroupInvitationsOptions): Promise<DocumentReference<DocumentData, DocumentData>>
 
+  abstract addGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string): Promise<DocumentReference<DocumentData, DocumentData>[]>
+
   abstract addMessage(message: Message): void
 
   abstract getContact(id: string): Promise<Contact | undefined>
@@ -26,7 +28,7 @@ export abstract class StorageProvider {
 
   abstract getPendingGroups(id: string): Observable<Group[]>
 
-  abstract updateGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]>
+  abstract updateGroupInvitationByGroupId(id: string, status: string): void
 
   abstract updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>>
 

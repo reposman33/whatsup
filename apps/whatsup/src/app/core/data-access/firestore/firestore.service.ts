@@ -30,6 +30,32 @@ export class FirestoreService implements StorageProvider{
     return await addDoc(groupCollectionRef, group)
   }
 
+  // voeg nieuwe 'pending' invitations toe aan collectie
+  async addGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+    console.log('contacts: ', contacts);
+    console.log('fromUserId: ', fromUserId);
+    console.log('groupId: ', groupId);
+    if(!contacts || contacts.length === 0) {
+      throw new Error('Geen contacten meegegeven')
+    }
+
+    const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations')
+    const now = Temporal.Now.zonedDateTimeISO().toString()
+
+    return await Promise.all(contacts.map(contact => {
+      const invitation = {
+        acceptedAt: '',
+        createdAt: now,
+        fromUserId: fromUserId,
+        groupId: groupId,
+        status: 'pending',
+        toUserId: contact.id
+      }
+
+      return addDoc(groupInvitationsCollectionRef, invitation)
+    }))
+  }
+
   async addMessage(message: Message): Promise<void> {
     const messagesCollection = collection(this.firestore, 'messages')
     await addDoc(messagesCollection, message)
@@ -116,31 +142,10 @@ export class FirestoreService implements StorageProvider{
     return contacts[0]?.id
   }
 
-  async updateGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+  updateGroupInvitationByGroupId(id: string, status: string): void {
 
-    console.log('contacts: ', contacts);
-    console.log('fromUserId: ', fromUserId);
-    console.log('groupId: ', groupId);
-    if(!contacts || contacts.length === 0) {
-      throw new Error('Geen contacten meegegeven')
-    }
-
-    const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations')
-    const now = Temporal.Now.zonedDateTimeISO().toString()
-
-    return await Promise.all(contacts.map(contact => {
-      const invitation = {
-        acceptedAt: '',
-        createdAt: now,
-        fromUserId: fromUserId,
-        groupId: groupId,
-        status: 'pending',
-        toUserId: contact.id
-      }
-
-      return addDoc(groupInvitationsCollectionRef, invitation)
-    }))
   }
+
 
   updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
     const membershipsCollectionRef = collection(this.firestore, 'memberships')

@@ -19,6 +19,10 @@ export class LocalStorageService extends StorageProvider {
     return await({} as DocumentReference<DocumentData, DocumentData>)
   }
 
+  async addGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
+    return [] as DocumentReference<DocumentData, DocumentData>[];
+  }
+
   addMessage(message: Message){
     const messages = JSON.parse(localStorage.getItem('messages') || '[]');
     messages.push( message );
@@ -70,9 +74,7 @@ export class LocalStorageService extends StorageProvider {
     return Promise.resolve('12345') 
   }
 
-  async updateGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
-    return [] as DocumentReference<DocumentData, DocumentData>[];
-  }
+  updateGroupInvitationByGroupId(id: string, status: string): void {}
 
   async updateMembership(membership: Membership): Promise<DocumentReference<DocumentData, DocumentData>> {
     return await ({} as DocumentReference<DocumentData, DocumentData>) 
