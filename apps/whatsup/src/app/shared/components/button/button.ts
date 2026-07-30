@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output, ViewEncapsulation } from '@angular/core';
 
-type ButtonAction = (arg?: any) => void
-
 @Component({
   selector: 'app-button',
   imports: [],
@@ -11,7 +9,5 @@ type ButtonAction = (arg?: any) => void
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
-  onClick = output<void>()
   isDisabled = input<boolean>(false)
-
 }

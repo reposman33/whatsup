@@ -1,6 +1,6 @@
 <div
   class="flex justify-center items-center bg-list-group-active hover:brightness-150 transition-color hover:cursor-pointer w-24 h-24 p-1 rounded-full text-sm text-center"
-  [class]="{'brightness-175': chatService.selectedGroupId() === id(), 'bg-list-group-pending': status() == 'pending'}"
+  [class]="{'brightness-175': chatService.selectedGroupId() === id(), 'bg-list-group-pending': status() === 'pending'}"
   (click)="handleSelectGroup(id())"
   (keyup)="handleSelectGroup(id())"
   tabindex="0"
