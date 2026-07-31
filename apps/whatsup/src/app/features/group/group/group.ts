@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } from '@angular/core';
 import { ChatService } from '../../chat/data-access/chat.service';
+import { StorageService } from '../../../core/data-access/storage.service';
+import { AuthService } from '../../auth/data-access/auth.service';
 
 @Component({
   selector: 'group',
@@ -17,9 +19,24 @@ export class GroupComponent {
   invitationId = input<string>('')
 
   protected chatService = inject(ChatService)
+  protected storageService = inject(StorageService)
+  protected authService = inject(AuthService)
   
   handleSelectGroup(groupId: string) {
     // toon de contacten in de group
     this.chatService.selectedGroupId.set(groupId)
   }
+
+  updateGroupInvitation(invitationId: string, status: 'accept' | 'decline') {
+    this.storageService.updateGroupInvitation(invitationId, this.id(), status, this.authService.currentContact()!.id)
+  }
+
+  acceptInvitation(invitationId: string) {
+    this.updateGroupInvitation(invitationId, 'accept')
+  }
+  
+  declineInvitation(invitationId: string) {
+    this.updateGroupInvitation(invitationId, 'decline')
+  }
+
 }

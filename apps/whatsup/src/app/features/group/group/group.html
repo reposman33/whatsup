@@ -1,5 +1,5 @@
 <div
-  class="flex justify-center items-center bg-list-group-active hover:brightness-150 transition-color hover:cursor-pointer w-24 h-24 p-1 rounded-full text-sm text-center"
+  class="flex flex-col justify-center items-center bg-list-group-active hover:brightness-150 transition-color w-24 h-24 p-1 rounded-full text-sm text-center border-2 border-border"
   [class]="{'brightness-175': chatService.selectedGroupId() === id(), 'bg-list-group-pending': status() === 'pending'}"
   (click)="handleSelectGroup(id())"
   (keyup)="handleSelectGroup(id())"
@@ -8,12 +8,13 @@
   >
   {{ naam() }}
 
-  <!-- TODO: vervang door X, √ door svg / smileys -->
   @if(status() === 'pending') {
   <div class="flex justify-center gap-2 w-full">
     <span class="text-primary text-section-title hover:cursor-pointer"
-    (click)="acceptInvitation(invitationId())">X</span>
+    (click)="acceptInvitation(invitationId())"
+    title="Accepteer uitnodiging om deel te nemen aan groep">&#128522;</span>
     <span class="text-primary text-section-title hover:cursor-pointer"
-    (click)="declineInvitation(invitationId())">√</span>
+    (click)="declineInvitation(invitationId())"
+    title="Negeer uitnodiging om deel te nemen aan groep">&#128542;</span>
   </div>}
 </div>

@@ -78,6 +78,6 @@ export class LocalStorageService extends StorageProvider {
     return Promise.resolve('12345') 
   }
 
-  updateGroupInvitationByGroupId(id: string, status: string): void {}
+  updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): void {}
 
 }

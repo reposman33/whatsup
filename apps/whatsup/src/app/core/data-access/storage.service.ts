@@ -54,8 +54,8 @@ export class StorageService {
     return this.storageProvider.getPendingGroups(userid)
   }
 
-  updateGroupInvitationByGroupId(id: string, status: string): void {
-    return this.storageProvider.updateGroupInvitationByGroupId(id, status)
+  updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): void{
+    this.storageProvider.updateGroupInvitation(invitationId, groupId, status, userId)
   }
 
 }

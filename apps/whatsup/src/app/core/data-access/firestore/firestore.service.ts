@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch, DocumentReference, DocumentData } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch, DocumentReference, DocumentData, updateDoc } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
-import { Observable, firstValueFrom, of, switchMap } from 'rxjs';
+import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
 import { StorageProvider } from '../storage-provider';
 import { Group, Membership } from '../../../models';
 import { Temporal } from 'temporal-polyfill';
@@ -150,8 +150,29 @@ export class FirestoreService implements StorageProvider{
     return contacts[0]?.id
   }
 
-  updateGroupInvitationByGroupId(id: string, status: string): void {
+  async updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
+    // update de groupInvitation
+    const acceptedAt = Temporal.Now.zonedDateTimeISO().toString()
+    const groupInvitationRef = doc(this.firestore, 'groupInvitations', invitationId)
 
+    await updateDoc(groupInvitationRef, {
+      status: status,
+      acceptedAt: acceptedAt
+    })
+
+    if(status === 'accept') {
+      // voeg een nieuwe membership document toe
+      const membership = {
+        groupId: groupId,
+        contactId: userId,
+        acceptedAt: acceptedAt
+      }
+
+      const membershipsCollectionRef = collection(this.firestore, 'memberships')
+      return addDoc(membershipsCollectionRef, membership)
+    }
+
+    return undefined
   }
 
 }
