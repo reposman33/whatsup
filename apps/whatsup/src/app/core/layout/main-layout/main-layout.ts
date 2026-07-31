@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, ResourceRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ResourceRef, signal, ViewEncapsulation } from '@angular/core';
 import { ContactComponent } from '../../../features/contact/contact';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { MessageInputComponent } from '../../../features/chat/message-input/message-input';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { HeaderComponent } from '../header/header';
-import { Group, Message } from '../../../models';
+import { Contact, Group, Message } from '../../../models';
 import { Router, RouterModule } from "@angular/router";
 import { GroupService } from '../../../features/group/group-service/group-service';
 import { StorageService } from '../../data-access/storage.service';
@@ -28,11 +28,35 @@ export class MainLayoutComponent  {
   protected storageService = inject(StorageService)
   protected router = inject(Router)
   protected messages!: ResourceRef<Message[] | undefined>
+  protected selectedGroupId = signal('')
+  private userId = this.authService.currentContact()!.id
   
+  public contacts = rxResource({
+    params: () => {
+      const groupId = this.selectedGroupId()
+      if(groupId === '') {
+        return undefined
+      }
+      return {
+        selectedGroupId: groupId
+      };
+    },
+    stream: ({ params }): Observable<Contact[]> => this.storageService.getContactsByGroup(params.selectedGroupId).pipe(
+      // niet mezelf tonen als lidvan deze groep...
+      map(contacts => contacts.filter(contact => contact.id !== this.userId))
+    )
+  });
+  
+
   protected groups = rxResource({
     stream: (): Observable<Group[]> => 
       this.storageService.getGroupsForContact(this.authService.currentContact()?.id || '')
   });
+
+  handleSelectGroup(groupId: string) {
+    // toon de contacten in de group
+    this.selectedGroupId.set(groupId)
+  }
 
   protected pendingGroups = rxResource({
     stream: (): Observable<(Group & {invitationId: string})[]> => 

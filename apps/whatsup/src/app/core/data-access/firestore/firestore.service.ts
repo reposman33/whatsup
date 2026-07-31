@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, writeBatch, DocumentReference, DocumentData, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, updateDoc } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
@@ -72,7 +72,7 @@ export class FirestoreService implements StorageProvider{
   }
 
   getContactsByGroup(groupId: string): Observable<Contact[]> {
-    const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId), where("status","==","accepted"));
+    const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId));
 
     return (collectionData(membershipQuery, {idField: 'id'}) as Observable<Membership[]>).pipe(
       switchMap((memberships: Membership[]): Observable<Contact[]> => {

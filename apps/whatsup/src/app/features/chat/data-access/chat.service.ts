@@ -5,8 +5,6 @@ import { Message } from '../../../models/message.model';
 import { StorageService } from '../../../core/data-access/storage.service';
 import { AuthService } from '../../auth/data-access/auth.service';
 import { Temporal } from 'temporal-polyfill'
-import { Observable } from 'rxjs';
-import { Contact } from '../../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,23 +16,6 @@ export class ChatService {
 
   public conversation = signal<Message[]>([])
   public selectedContactId = signal('')
-  public selectedGroupId = signal('')
-  
-  public contacts = rxResource({
-    params: () => {
-      const groupId = this.selectedGroupId()
-
-      if(groupId === '') {
-        return undefined
-      }
-
-      return {
-        selectedGroupId: groupId
-      };
-    },
-    stream: ({ params }): Observable<Contact[]> => this.storageService.getContactsByGroup(params.selectedGroupId)
-  });
-  
   public messages = rxResource({
     params: () => {
       return {
