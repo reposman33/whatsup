@@ -15,16 +15,6 @@ export class FirestoreService implements StorageProvider{
 
   private firestore = inject(Firestore);
 
-  acceptInvitation(invitation: GroupInvitation) {
-    const batch = writeBatch(this.firestore)
-
-    const invitationRef = doc(this.firestore, 'groupInvitations', invitation.id ?? '')
-    batch.update(invitationRef, {
-      status: 'accepted',
-      acceptedAt: Temporal.Now.zonedDateTimeISO().toString
-    })
-  }
-
   async addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>> {
     const groupCollectionRef = collection(this.firestore, 'groups')
     return await addDoc(groupCollectionRef, group)

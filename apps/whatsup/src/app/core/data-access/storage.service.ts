@@ -3,7 +3,6 @@ import { Contact, Group, Membership } from '../../models';
 import { Message } from '../../models';
 import { StorageProvider } from './storage-provider';
 import { Observable } from 'rxjs';
-import { GroupInvitation } from '../../models/groupInvitation';
 import { DocumentData, DocumentReference } from '@angular/fire/firestore';
 
 @Injectable({
@@ -12,8 +11,6 @@ import { DocumentData, DocumentReference } from '@angular/fire/firestore';
 export class StorageService {
   private storageProvider = inject(StorageProvider)
 
-  acceptInvitation(invitation: GroupInvitation) {}
-  
   addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>> {
     return this.storageProvider.addGroup(group)
   }

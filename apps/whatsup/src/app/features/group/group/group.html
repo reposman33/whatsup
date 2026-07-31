@@ -12,9 +12,13 @@
   <div class="flex justify-center gap-2 w-full">
     <span class="text-primary text-section-title hover:cursor-pointer"
     (click)="acceptInvitation(invitationId())"
+    (keyup)="acceptInvitation(invitationId())"
+    tabindex="0"
     title="Accepteer uitnodiging om deel te nemen aan groep">&#128522;</span>
     <span class="text-primary text-section-title hover:cursor-pointer"
     (click)="declineInvitation(invitationId())"
+    (keyup)="declineInvitation(invitationId())"
+    tabindex="0"
     title="Negeer uitnodiging om deel te nemen aan groep">&#128542;</span>
   </div>}
 </div>

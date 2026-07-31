@@ -5,15 +5,12 @@ import { StorageProvider } from '../storage-provider';
 import { isContact } from '../../../shared/type-guards';
 import { Observable, of } from 'rxjs';
 import { Group, Membership } from '../../../models';
-import { GroupInvitation } from '../../../models/groupInvitation';
 import { DocumentData, DocumentReference } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService extends StorageProvider {
-
-  acceptInvitation(invitation: GroupInvitation) {}
 
   async addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>> {
     return await({} as DocumentReference<DocumentData, DocumentData>)

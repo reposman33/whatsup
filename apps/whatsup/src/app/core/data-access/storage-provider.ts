@@ -1,12 +1,9 @@
 import { Contact, Group, Membership } from '../../models';
 import { Message } from '../../models';
 import { Observable } from 'rxjs';
-import { GroupInvitation } from '../../models/groupInvitation';
 import { DocumentData, DocumentReference } from '@angular/fire/firestore';
 
 export abstract class StorageProvider {
-
-  abstract acceptInvitation(invitation: GroupInvitation): void
 
   abstract addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>>
 
