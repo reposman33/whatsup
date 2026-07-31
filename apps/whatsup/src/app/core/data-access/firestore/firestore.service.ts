@@ -122,20 +122,23 @@ export class FirestoreService implements StorageProvider{
   }
 
   // Haal alle groepen op waarvoor de gebruiker is uitgenodigd op
-  getPendingGroups(id: string): Observable<Group[]> {
-    const groupInvitationsQuery = query(collection(this.firestore, 'groupInvitations'), where("toUserId", "==", id), where("status", "==", "pending"))
+  getPendingGroups(userid: string): Observable<(Group & {invitationId: string})[]> {
+    const groupInvitationsQuery = query(collection(this.firestore, 'groupInvitations'), where("toUserId", "==", userid), where("status", "==", "pending"))
     
     return (collectionData(groupInvitationsQuery, {idField: 'id'}) as Observable<GroupInvitation[]>).pipe(
-      switchMap((groupInvitations: GroupInvitation[]): Observable<Group[]> => {
-        const groupIds = groupInvitations.map(groupInvitation => groupInvitation.groupId)
-
-        if(!groupIds || groupIds.length == 0) {
-          return of([]) as Observable<Group[]>
+      switchMap((groupInvitations): Observable<(Group & {invitationId: string})[]> => {
+        
+        if(groupInvitations.length == 0) {
+          return of([]) as unknown as Observable<(Group & {invitationId: string})[]>
         }
 
-      const groupsQuery = query(collection(this.firestore,'groups'), where(documentId(), "in", groupIds))
+        const invitationsByGroupId = new Map<string, string>(groupInvitations.map(inv => [inv.groupId, inv.id!]))
+        const groupsQuery = query(collection(this.firestore,'groups'), where(documentId(), "in", groupInvitations.map(inv => inv.groupId)))
 
-      return collectionData(groupsQuery, {idField: 'id'}) as Observable<Group[]>
+      return (collectionData(groupsQuery, {idField: 'id'}) as Observable<(Group & {invitationId: string})[]>).pipe(
+        // geef een Group array terug met de invitationId
+        map(groups => groups.map((group: Group) => ({...group, invitationId: invitationsByGroupId.get(group.id!)})))
+      ) as Observable<(Group & {invitationId: string})[]>
       })
     )
   }

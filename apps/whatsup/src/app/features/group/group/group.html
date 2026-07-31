@@ -7,4 +7,13 @@
   [attr.title]="description()"
   >
   {{ naam() }}
+
+  <!-- TODO: vervang door X, √ door svg / smileys -->
+  @if(status() === 'pending') {
+  <div class="flex justify-center gap-2 w-full">
+    <span class="text-primary text-section-title hover:cursor-pointer"
+    (click)="acceptInvitation(invitationId())">X</span>
+    <span class="text-primary text-section-title hover:cursor-pointer"
+    (click)="declineInvitation(invitationId())">√</span>
+  </div>}
 </div>

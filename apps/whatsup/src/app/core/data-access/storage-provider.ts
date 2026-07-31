@@ -28,7 +28,7 @@ export abstract class StorageProvider {
 
   abstract getMessagesWithSelectedContact(id: string): Observable<Message[]>
 
-  abstract getPendingGroups(id: string): Observable<Group[]>
+  abstract getPendingGroups(userId: string): Observable<(Group & {invitationId: string})[]>
 
   abstract updateGroupInvitationByGroupId(id: string, status: string): void
 

@@ -50,8 +50,8 @@ export class StorageService {
     return this.storageProvider.getMessagesWithSelectedContact(id)
   }
   
-  getPendingGroups(id: string): Observable<Group[]> {
-    return this.storageProvider.getPendingGroups(id)
+  getPendingGroups(userid: string): Observable<(Group & {invitationId: string})[]> {
+    return this.storageProvider.getPendingGroups(userid)
   }
 
   updateGroupInvitationByGroupId(id: string, status: string): void {

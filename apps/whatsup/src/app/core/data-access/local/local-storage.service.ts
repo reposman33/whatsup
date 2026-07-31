@@ -62,8 +62,8 @@ export class LocalStorageService extends StorageProvider {
     return of([]) as Observable<Group[]>
   }
 
-  getPendingGroups(id: string): Observable<Group[]> {
-    return of([]) as Observable<Group[]>
+  getPendingGroups(userId: string): Observable<(Group & {invitationId: string})[]> {
+    return of([]) as Observable<(Group & {invitationId: string})[]>
   }
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]>{

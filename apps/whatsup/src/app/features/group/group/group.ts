@@ -14,6 +14,7 @@ export class GroupComponent {
   naam = input<string>('');
   description = input<string>('')
   status = input<string>('accepted')
+  invitationId = input<string>('')
 
   protected chatService = inject(ChatService)
   
