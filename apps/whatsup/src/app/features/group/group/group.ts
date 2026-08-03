@@ -23,16 +23,19 @@ export class GroupComponent {
   protected storageService = inject(StorageService)
   protected authService = inject(AuthService)
   
-  acceptInvitation(invitationId: string) {
-    this.updateGroupInvitation(invitationId, 'accept')
+  acceptInvitation($event: {$event: MouseEvent | KeyboardEvent, invitationId: string}) {
+    $event.$event.stopPropagation();
+    this.updateGroupInvitation($event.invitationId, 'accept')
   }
   
-  declineInvitation(invitationId: string) {
-    this.updateGroupInvitation(invitationId, 'decline')
+  declineInvitation($event: {$event: MouseEvent | KeyboardEvent, invitationId: string}) {
+    $event.$event.stopPropagation();
+    this.updateGroupInvitation($event.invitationId, 'decline')
   }
   
-  deleteGroupMembership(groupId: string) {
-    this.storageService.deleteGroupMembership(groupId, this.authService.currentContact()!.id, "Wil je echt je deelname aan deze groep beeindigen? Je zult dan geen berichten meer ontvangen van deze groep en je deelname wordt verwijderd.");
+  deleteGroupMembership($event: {$event: MouseEvent, groupId: string}) {
+    $event.$event.stopPropagation();
+    this.storageService.deleteGroupMembership($event.groupId, this.authService.currentContact()!.id, "Wil je echt je deelname aan deze groep beeindigen? Je zult dan geen berichten meer ontvangen van deze groep en je deelname wordt verwijderd.");
   }
   
   onSelectGroup(groupId: string) {

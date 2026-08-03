@@ -14,14 +14,14 @@
     aria-label="Accepteer uitnodiging om deel te nemen aan groep"
     tabindex="0"
     title="Accepteer uitnodiging om deel te nemen aan groep"
-    (click)="acceptInvitation(invitationId())"
-    (keyup)="acceptInvitation(invitationId())">&#128522;</span>
+    (click)="acceptInvitation({$event: $event, invitationId: invitationId()})"
+    (keyup)="acceptInvitation({$event: $event, invitationId: invitationId()})">&#128522;</span>
     <span class="text-primary text-section-title hover:cursor-pointer"
     aria-label="Negeer uitnodiging om deel te nemen aan groep"
     tabindex="0"
     title="Negeer uitnodiging om deel te nemen aan groep"
-    (click)="declineInvitation(invitationId())"
-    (keyup)="declineInvitation(invitationId())">&#128542;</span>
+    (click)="declineInvitation({$event: $event, invitationId: invitationId()})"
+    (keyup)="declineInvitation({$event: $event, invitationId: invitationId()})">&#128542;</span>
   </div>}
 
   @else {
@@ -29,6 +29,6 @@
     aria-label="Verwijder deze groep"
     class="hover:scale-110 hover:text-action-primary-hover transition-all."
     title="Verwijder deze groep"
-    (click)="deleteGroupMembership(id())">&#x1F5D1;</button>
+    (click)="deleteGroupMembership({$event: $event, groupId: id()})">&#x1F5D1;</button>
   }
 </div>
