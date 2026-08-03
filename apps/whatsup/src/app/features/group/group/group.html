@@ -1,24 +1,34 @@
 <div
-  class="flex flex-col justify-center items-center bg-list-group-active hover:brightness-150 transition-color w-24 h-24 p-1 rounded-full text-sm text-center border-2 border-border"
+  tabindex="0"
+  class="flex flex-col justify-around items-center bg-list-group-active hover:brightness-150 transition-all w-24 h-24 p-2 rounded-full text-sm text-center border-2 border-border"
+  [attr.title]="description()"
   [class]="{'brightness-175': selectedGroupId() === id(), 'bg-list-group-pending': status() === 'pending'}"
   (click)="onSelectGroup(id())"
   (keyup)="onSelectGroup(id())"
-  tabindex="0"
-  [attr.title]="description()"
   >
   {{ naam() }}
 
   @if(status() === 'pending') {
   <div class="flex justify-center gap-2 w-full">
     <span class="text-primary text-section-title hover:cursor-pointer"
+    aria-label="Accepteer uitnodiging om deel te nemen aan groep"
+    tabindex="0"
+    title="Accepteer uitnodiging om deel te nemen aan groep"
     (click)="acceptInvitation(invitationId())"
-    (keyup)="acceptInvitation(invitationId())"
-    tabindex="0"
-    title="Accepteer uitnodiging om deel te nemen aan groep">&#128522;</span>
+    (keyup)="acceptInvitation(invitationId())">&#128522;</span>
     <span class="text-primary text-section-title hover:cursor-pointer"
-    (click)="declineInvitation(invitationId())"
-    (keyup)="declineInvitation(invitationId())"
+    aria-label="Negeer uitnodiging om deel te nemen aan groep"
     tabindex="0"
-    title="Negeer uitnodiging om deel te nemen aan groep">&#128542;</span>
+    title="Negeer uitnodiging om deel te nemen aan groep"
+    (click)="declineInvitation(invitationId())"
+    (keyup)="declineInvitation(invitationId())">&#128542;</span>
   </div>}
+
+  @else {
+    <button
+    aria-label="Verwijder deze groep"
+    class="hover:scale-110 hover:text-action-primary-hover transition-all."
+    title="Verwijder deze groep"
+    (click)="deleteGroup(id())">&#x1F5D1;</button>
+  }
 </div>

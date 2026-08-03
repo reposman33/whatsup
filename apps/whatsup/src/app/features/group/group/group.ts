@@ -23,10 +23,6 @@ export class GroupComponent {
   protected storageService = inject(StorageService)
   protected authService = inject(AuthService)
   
-  updateGroupInvitation(invitationId: string, status: 'accept' | 'decline') {
-    this.storageService.updateGroupInvitation(invitationId, this.id(), status, this.authService.currentContact()!.id)
-  }
-
   acceptInvitation(invitationId: string) {
     this.updateGroupInvitation(invitationId, 'accept')
   }
@@ -34,9 +30,18 @@ export class GroupComponent {
   declineInvitation(invitationId: string) {
     this.updateGroupInvitation(invitationId, 'decline')
   }
-
+  
+  deleteGroup(id: string) {
+    // TODO delete group
+    this.storageService.deleteGroup(id, this.authService.currentContact()!.id);
+  }
+  
   onSelectGroup(groupId: string) {
     this.selectedGroupId.set(groupId)
+  }
+
+  updateGroupInvitation(invitationId: string, status: 'accept' | 'decline') {
+    this.storageService.updateGroupInvitation(invitationId, this.id(), status, this.authService.currentContact()!.id)
   }
 
 }

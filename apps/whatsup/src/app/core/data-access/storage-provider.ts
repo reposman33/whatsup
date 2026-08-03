@@ -13,6 +13,8 @@ export abstract class StorageProvider {
 
   abstract addMessage(message: Message): void
 
+  abstract deleteGroup(id: string, userId: string): Promise<void>
+
   abstract getContact(id: string): Promise<Contact | undefined>
   
   abstract getContacts(): Observable<Contact[]>

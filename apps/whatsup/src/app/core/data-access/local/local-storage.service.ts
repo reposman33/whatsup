@@ -30,6 +30,10 @@ export class LocalStorageService extends StorageProvider {
     localStorage.setItem('messages', JSON.stringify(messages));
   }
 
+  deleteGroup(id: string, userId: string): Promise<void> {
+    return Promise.resolve();
+  }
+
   getContact(id: string): Promise<Contact | undefined> {
     const contact = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     .find((contact: Contact & Pick<{password: string}, 'password'>) => contact.id === id);

@@ -27,6 +27,10 @@ export class StorageService {
     this.storageProvider.addMessage(message)
   }
 
+  deleteGroup(id: string, userId: string): Promise<void> {
+    return this.storageProvider.deleteGroup(id, userId);
+  }
+
   getContact(id: string): Promise<Contact | undefined> {
     return this.storageProvider.getContact(id);
   }
