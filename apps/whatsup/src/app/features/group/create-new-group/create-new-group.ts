@@ -30,12 +30,11 @@ export class CreateNewGroupComponent {
   async createNewGroup(){
     const now = Temporal.Now.zonedDateTimeISO().toString()
     // 1: voeg group toe
-    const group = {
+    const addGroupResult = await this.storageService.addGroup({
       createdAt: now,
       description: this.groupDescription(),
       name: this.groupName(),
-    } as Group
-    const addGroupResult = await this.storageService.addGroup(group)
+    } as Group)
 
     // 2: voeg mezelf toe aan memberships collectie als member van deze groep
     const updateMembershipResult = await this.storageService.addMembership({
@@ -48,7 +47,7 @@ export class CreateNewGroupComponent {
 
     // 3: voeg voor elke uitgenodigde contact een document toe aan de groupInvitations collectie
     // contacts is een signal met alle toegevoegde contacten, 
-    this.storageService.addGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id?? '', addGroupResult.id)
+    this.storageService.addGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id ?? '', addGroupResult.id)
     this.closeDialog()
   }
 
