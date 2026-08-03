@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateNewGroup } from './create-new-group';
+import { CreateNewGroup } from './create-edit-group';
 
 describe('CreateNewGroup', () => {
   let component: CreateNewGroup;

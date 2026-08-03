@@ -8,24 +8,24 @@ import { SelectList } from './select-list/select-list';
 @Component({
   selector: 'app-create-new-group',
   imports: [ SelectList ],
-  templateUrl: './create-new-group.html',
-  styleUrl: './create-new-group.scss',
+  templateUrl: './create-edit-group.html',
+  styleUrl: './create-edit-group.scss',
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block w-3/6 bg-dialog-bg rounded-xl shadow-card'
   }
 })
-export class CreateNewGroupComponent {
+export class CreateEditGroupComponent {
   protected groupName = signal<string>('');
   protected groupDescription = signal<string>('');
   protected errorText = signal<string>('')
+  protected selectedContacts = signal<Contact[]>([])
 
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
   private authService = inject(AuthService)
 
-  protected selectedContacts = signal<Contact[]>([])
 
   async createNewGroup(){
     const now = Temporal.Now.zonedDateTimeISO().toString()
