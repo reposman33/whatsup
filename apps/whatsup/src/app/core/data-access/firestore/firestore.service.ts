@@ -153,29 +153,26 @@ export class FirestoreService implements StorageProvider{
     return contacts[0]?.id
   }
 
-  async updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
-    // update de groupInvitation
-    const acceptedAt = Temporal.Now.zonedDateTimeISO().toString()
-    const groupInvitationRef = doc(this.firestore, 'groupInvitations', invitationId)
+  async updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): Promise<DocumentReference<DocumentData, DocumentData> | void> {
+    const invitationDocRef = doc(this.firestore, `groupInvitations/${invitationId}`)
+    const createdAt = (await getDoc(invitationDocRef)).data()?.['createdAt']
+  
+    // verwijdeer invitationDoc uit de collectie
+    await deleteDoc(invitationDocRef)
 
-    await updateDoc(groupInvitationRef, {
-      status: status,
-      acceptedAt: acceptedAt
-    })
-
+    // Bij status: accept: voeg een nieuwe membership document toe
     if(status === 'accept') {
-      // voeg een nieuwe membership document toe
       const membership = {
-        groupId: groupId,
+        acceptedAt: Temporal.Now.zonedDateTimeISO().toString(),
         contactId: userId,
-        acceptedAt: acceptedAt
-      }
+        email: (await this.getContact(userId))?.email ?? '',
+        groupId: groupId,
+        invitedAt: createdAt
+      } as unknown as Membership
 
       const membershipsCollectionRef = collection(this.firestore, 'memberships')
       return addDoc(membershipsCollectionRef, membership)
     }
-
-    return undefined
   }
 
 }
