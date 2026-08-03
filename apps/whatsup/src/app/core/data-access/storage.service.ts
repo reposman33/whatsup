@@ -27,8 +27,8 @@ export class StorageService {
     this.storageProvider.addMessage(message)
   }
 
-  deleteGroupMembership(groupId: string, userId: string): Promise<void> {
-    return this.storageProvider.deleteGroupMembership(groupId, userId);
+  deleteGroupMembership(groupId: string, userId: string, confirmationPrompt: string): Promise<void> {
+    return this.storageProvider.deleteGroupMembership(groupId, userId, confirmationPrompt);
   }
 
   getContact(id: string): Promise<Contact | undefined> {

@@ -56,7 +56,11 @@ export class FirestoreService implements StorageProvider{
     await addDoc(messagesCollection, message)
   }
 
-  async deleteGroupMembership(groupId: string, userId: string): Promise<void> {
+  async deleteGroupMembership(groupId: string, userId: string, confirmationPrompt: string): Promise<void> {
+    if(!confirm(confirmationPrompt)) {
+      console.log('Gebruiker heeft deelname aan groep niet beeindigd')
+      return Promise.resolve()
+    }
     const membershipDocQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId), where("contactId", "==", userId))
     const membershipDocs = await getDocs(membershipDocQuery)
 

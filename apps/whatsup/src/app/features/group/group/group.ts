@@ -32,7 +32,7 @@ export class GroupComponent {
   }
   
   deleteGroupMembership(groupId: string) {
-    this.storageService.deleteGroupMembership(groupId, this.authService.currentContact()!.id);
+    this.storageService.deleteGroupMembership(groupId, this.authService.currentContact()!.id, "Wil je echt je deelname aan deze groep beeindigen? Je zult dan geen berichten meer ontvangen van deze groep en je deelname wordt verwijderd.");
   }
   
   onSelectGroup(groupId: string) {

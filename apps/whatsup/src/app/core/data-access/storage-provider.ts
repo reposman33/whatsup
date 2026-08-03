@@ -13,7 +13,7 @@ export abstract class StorageProvider {
 
   abstract addMessage(message: Message): void
 
-  abstract deleteGroupMembership(groupId: string, userId: string): Promise<void>
+  abstract deleteGroupMembership(groupId: string, userId: string, confirmationPrompt: string): Promise<void>
 
   abstract getContact(id: string): Promise<Contact | undefined>
   
