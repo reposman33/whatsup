@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, updateDoc, writeBatch, getDocs } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, updateDoc, getDocs, deleteDoc } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
@@ -56,25 +56,18 @@ export class FirestoreService implements StorageProvider{
     await addDoc(messagesCollection, message)
   }
 
-  async deleteGroup(id: string, userId: string): Promise<void> {
-    // gebruik writeBatch i.p.v. firstValueFrom en Promise.all om meerdere documenten tegelijk te verwijderen want dit is atomic.
-    const deleteBatch = writeBatch(this.firestore)
+  async deleteGroupMembership(groupId: string, userId: string): Promise<void> {
+    const membershipDocQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId), where("contactId", "==", userId))
+    const membershipDocs = await getDocs(membershipDocQuery)
 
-    const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", id), where("contactId", "==", userId))
-    const membershipSnapshot = await getDocs(membershipQuery)
-
-    membershipSnapshot.forEach(membershipDocRef => {
-      // voeg het membership document toe aan de deleteBatch
-      deleteBatch.delete(membershipDocRef.ref)
-    });
+    if(membershipDocs.empty) {
+      console.warn(`Geen membership gevonden voor groupId: ${groupId} en userId: ${userId}`)
+      throw new Error(`Geen membership gevonden voor groupId: ${groupId} en userId: ${userId}`)
+    }
     
-    // voeg het group document toe aan de deleteBatch
-    const groupDocRef = doc(this.firestore, `groups/${id}`)
-    deleteBatch.delete(groupDocRef)
-
-    // verwijder alle documenten in de batch
-    await deleteBatch.commit()
+    await deleteDoc(membershipDocs.docs[0].ref)
   }
+
   
   async getContact(id: string): Promise<Contact | undefined> {
     const docRef = doc(this.firestore, `contacts/${id}`);

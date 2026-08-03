@@ -31,9 +31,8 @@ export class GroupComponent {
     this.updateGroupInvitation(invitationId, 'decline')
   }
   
-  deleteGroup(id: string) {
-    // TODO delete group
-    this.storageService.deleteGroup(id, this.authService.currentContact()!.id);
+  deleteGroupMembership(groupId: string) {
+    this.storageService.deleteGroupMembership(groupId, this.authService.currentContact()!.id);
   }
   
   onSelectGroup(groupId: string) {

@@ -30,7 +30,7 @@ export class LocalStorageService extends StorageProvider {
     localStorage.setItem('messages', JSON.stringify(messages));
   }
 
-  deleteGroup(id: string, userId: string): Promise<void> {
+  deleteGroupMembership(groupId: string, userId: string): Promise<void> {
     return Promise.resolve();
   }
 
