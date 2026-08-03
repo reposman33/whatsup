@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, updateDoc, getDocs, deleteDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, getDocs, deleteDoc } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
@@ -22,9 +22,6 @@ export class FirestoreService implements StorageProvider{
 
   // voeg nieuwe 'pending' invitations toe aan collectie
   async addGroupInvitations(contacts: Contact[], fromUserId: string, groupId: string) : Promise<DocumentReference<DocumentData, DocumentData>[]> {
-    console.log('contacts: ', contacts);
-    console.log('fromUserId: ', fromUserId);
-    console.log('groupId: ', groupId);
     if(!contacts || contacts.length === 0) {
       throw new Error('Geen contacten meegegeven')
     }
@@ -72,7 +69,6 @@ export class FirestoreService implements StorageProvider{
     await deleteDoc(membershipDocs.docs[0].ref)
   }
 
-  
   async getContact(id: string): Promise<Contact | undefined> {
     const docRef = doc(this.firestore, `contacts/${id}`);
     const snap = await getDoc(docRef);

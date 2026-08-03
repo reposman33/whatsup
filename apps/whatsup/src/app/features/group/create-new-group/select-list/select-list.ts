@@ -23,7 +23,6 @@ export class SelectList {
   })
 
   toggleContact(contact: Contact) {
-    console.log('contact: ', contact);
     if(this.availableContacts.value()?.includes(contact)) {
       // contact verwijderen uit beschikbare availableContacts
       this.availableContacts.update((availableContacts): Contact[] => availableContacts?.filter(c => c !== contact) ?? [])

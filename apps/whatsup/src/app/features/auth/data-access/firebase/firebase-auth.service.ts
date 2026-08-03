@@ -62,7 +62,7 @@ export class FireBaseAuthService {
   async register(contact: RegistrationOptions): Promise<void> {
     const userCredentials = await createUserWithEmailAndPassword(this.firebaseAuth, contact.email, contact.password)
     .catch((error) => {
-      console.log('Error in createUserWithEmailAndPassword(): ', error);;
+      console.log('Fout bij aanmaken nieue gebruiker:: ', error);;
     })
 
     if(userCredentials) {

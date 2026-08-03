@@ -37,8 +37,6 @@ export class CreateNewGroupComponent {
     } as Group
     const addGroupResult = await this.storageService.addGroup(group)
 
-    console.log(`Group met id ${addGroupResult.id} toegevoegd`);
-
     // 2: voeg mezelf toe aan memberships collectie als member van deze groep
     const updateMembershipResult = await this.storageService.addMembership({
       groupId: addGroupResult.id,
@@ -47,8 +45,6 @@ export class CreateNewGroupComponent {
       invitedAt: now,
       acceptedAt: now,
     })
-
-    console.log(`membership met id ${updateMembershipResult.id} van group met id ${addGroupResult.id} toegevoegd`);
 
     // 3: voeg voor elke uitgenodigde contact een document toe aan de groupInvitations collectie
     // contacts is een signal met alle toegevoegde contacten, 
