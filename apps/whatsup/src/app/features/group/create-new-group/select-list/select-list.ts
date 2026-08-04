@@ -3,6 +3,7 @@ import { Contact } from '../../../../models';
 import { StorageService } from '../../../../core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Observable, of, switchMap } from 'rxjs';
+import { AuthService } from '../../../auth/data-access/auth.service';
 
 @Component({
   selector: 'select-list',
@@ -14,11 +15,15 @@ import { Observable, of, switchMap } from 'rxjs';
 })
 export class SelectList {
   selectedContacts = model<Contact[]>([])
+  authService = inject(AuthService)
+  private currentUserId = this.authService.currentContact()!.id
 
   protected storageService = inject(StorageService)
   protected availableContacts = rxResource({
     stream: (): Observable<Contact[]> => this.storageService.getContacts().pipe(
-      switchMap((availableContacts: Contact[]): Observable<Contact[]> => of(availableContacts.sort(this.sortContactsByNameAsc)))
+      switchMap((availableContacts: Contact[]): Observable<Contact[]> => of(availableContacts
+        .filter((contact: Contact) => contact.id !== this.currentUserId)
+        .sort(this.sortContactsByNameAsc)))
     )
   })
 

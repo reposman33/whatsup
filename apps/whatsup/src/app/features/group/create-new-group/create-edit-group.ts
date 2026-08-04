@@ -33,6 +33,8 @@ export class CreateEditGroupComponent {
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
   
+  private currentUserId = this.authService.currentContact()!.id
+
   group = rxResource({
     params: () => {
       const id = this.groupId();
@@ -42,6 +44,7 @@ export class CreateEditGroupComponent {
       return this.storageService.getGroup(params.groupId).pipe(
         switchMap((group: Group): Observable<{group: Group, contacts: Contact[]}> => {
           return this.storageService.getContactsByGroup(params.groupId).pipe(
+            map((contacts: Contact[]): Contact[] => contacts.filter((contact: Contact) => contact.id !== this.currentUserId)),
             map((contacts: Contact[]): {group: Group, contacts: Contact[]} => {
               return ({group, contacts});
             })
