@@ -20,9 +20,12 @@ export class SelectList {
 
   protected storageService = inject(StorageService)
   protected availableContacts = rxResource({
+    params: () => this.selectedContacts().map((contact: Contact) => contact.id),
     stream: (): Observable<Contact[]> => this.storageService.getContacts().pipe(
-      switchMap((availableContacts: Contact[]): Observable<Contact[]> => of(availableContacts
+      switchMap((Contacts: Contact[]): Observable<Contact[]> => of(
+        Contacts
         .filter((contact: Contact) => contact.id !== this.currentUserId)
+        .filter((contact: Contact) => !this.selectedContacts().some((selectedContact: Contact) => selectedContact.id === contact.id))
         .sort(this.sortContactsByNameAsc)))
     )
   })
