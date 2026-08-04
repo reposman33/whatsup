@@ -46,7 +46,6 @@ export class MainLayoutComponent  {
       map(contacts => contacts.filter(contact => contact.id !== this.userId))
     )
   });
-  
 
   protected groups = rxResource({
     stream: (): Observable<Group[]> => 

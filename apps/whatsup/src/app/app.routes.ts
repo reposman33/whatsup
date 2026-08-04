@@ -12,7 +12,12 @@ export const appRoutes: Route[] = [
     children: [
       {
         path: 'newgroup',
-        loadComponent: () => import('./features/group/create-new-group/create-new-group').then(m => m.CreateNewGroupComponent),
+        loadComponent: () => import('./features/group/create-new-group/create-edit-group').then(m => m.CreateEditGroupComponent),
+        outlet: 'modal'
+      },
+      {
+        path: 'editgroup/:groupId',
+        loadComponent: () => import('./features/group/create-new-group/create-edit-group').then(m => m.CreateEditGroupComponent),
         outlet: 'modal'
       },
       {

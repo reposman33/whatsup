@@ -68,7 +68,7 @@
         (keyup)="closeModal($event)"
         tabindex="0">
 
-      <!--  deze router-outlet is voor de modal die de CreateNewGroupComponent vertoont -->
+      <!--  deze router-outlet is voor de modal die de CreateEditGroupComponent vertoont -->
       <router-outlet name="modal" 
           (activate)="groupService.addingNewGroup.set(true)" 
           (deactivate)="groupService.addingNewGroup.set(false)">

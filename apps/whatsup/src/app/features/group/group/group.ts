@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, model, ViewEncapsulation } from '@angular/core';
-import { ChatService } from '../../chat/data-access/chat.service';
 import { StorageService } from '../../../core/data-access/storage.service';
 import { AuthService } from '../../auth/data-access/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'group',
@@ -19,9 +19,9 @@ export class GroupComponent {
   invitationId = input<string>('')
   selectedGroupId = model<string>('')
 
-  protected chatService = inject(ChatService)
-  protected storageService = inject(StorageService)
   protected authService = inject(AuthService)
+  protected router = inject(Router)
+  protected storageService = inject(StorageService)
   
   acceptInvitation($event: {$event: MouseEvent | KeyboardEvent, invitationId: string}) {
     $event.$event.stopPropagation();
@@ -37,7 +37,12 @@ export class GroupComponent {
     $event.$event.stopPropagation();
     this.storageService.deleteGroupMembership($event.groupId, this.authService.currentContact()!.id, "Wil je echt je deelname aan deze groep beeindigen? Je zult dan geen berichten meer ontvangen van deze groep en je deelname wordt verwijderd.");
   }
-  
+
+  onEditGroup($event: {$event: MouseEvent, groupId: string}) {
+    $event.$event.stopPropagation();
+    this.router.navigate([{ outlets: { modal: ['editgroup', $event.groupId] } }])
+  }
+
   onSelectGroup(groupId: string) {
     this.selectedGroupId.set(groupId)
   }

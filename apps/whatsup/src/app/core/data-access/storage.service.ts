@@ -42,9 +42,16 @@ export class StorageService {
   getContactsByGroup(groupId: string): Observable<Contact[]> {
     return this.storageProvider.getContactsByGroup(groupId)
   }
+  getGroup(groupId: string): Observable<Group>{
+    return this.storageProvider.getGroup(groupId)
+  }
 
   getGroupsForContact(id: string): Observable<Group[]> {
     return this.storageProvider.getGroupsForContact(id)
+  }
+
+  getMembershipsByGroupId(groupId: string): Observable<Membership[]> {
+    return this.storageProvider.getMembershipsByGroupId(groupId)
   }
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]> {
@@ -53,6 +60,10 @@ export class StorageService {
   
   getPendingGroups(userid: string): Observable<(Group & {invitationId: string})[]> {
     return this.storageProvider.getPendingGroups(userid)
+  }
+
+  updateGroup(groupId: string, group: Partial<Group>): void{
+    this.storageProvider.updateGroup(groupId, group)
   }
 
   updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): void{

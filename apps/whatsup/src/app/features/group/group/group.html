@@ -25,10 +25,17 @@
   </div>}
 
   @else {
-    <button
-    aria-label="Verwijder deze groep"
-    class="hover:scale-110 hover:text-action-primary-hover transition-all."
-    title="Verwijder deze groep"
-    (click)="deleteGroupMembership({$event: $event, groupId: id()})">&#x1F5D1;</button>
+    <div class="flex justify-around gap-2 w-full">
+      <button
+        aria-label="Verwijder deze groep"
+        class="hover:scale-110 hover:text-action-primary-hover transition-all."
+        title="Verwijder deze groep"
+        (click)="deleteGroupMembership({$event: $event, groupId: id()})">&#x1F5D1;</button>
+      <button
+        aria-label="Bewerk deze groep"
+        class="hover:scale-110 hover:text-action-primary-hover transition-all."
+        title="Bewerk deze groep"
+        (click)="onEditGroup({$event: $event, groupId: id()})">&#x270E;</button>
+    </div>
   }
 </div>

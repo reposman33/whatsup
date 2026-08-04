@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, getDocs, deleteDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, documentId, getDoc, Firestore, query, where, orderBy, DocumentReference, DocumentData, getDocs, deleteDoc, docData, updateDoc } from '@angular/fire/firestore';
 import { Contact } from '../../../models/contact.model';
 import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
@@ -102,6 +102,11 @@ export class FirestoreService implements StorageProvider{
     )
   }
 
+  getGroup(groupId: string): Observable<Group>{
+    const groupDocRef = doc(this.firestore, `groups/${groupId}`);
+    return docData(groupDocRef) as Observable<Group>;
+  }
+
   getGroupsForContact(id: string): Observable<Group[]> {
     const membershipQuery = query(collection(this.firestore, 'memberships'), where("contactId","==",id));
 
@@ -119,6 +124,16 @@ export class FirestoreService implements StorageProvider{
     )
   }
 
+  getMembershipsByGroupId(groupId: string): Observable<Membership[]> {
+    const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId));
+    return collectionData(membershipQuery, {idField: 'id'}) as Observable<Membership[]>
+  }
+
+  getGroups(): Observable<Group[]> {
+    const groupsRef = collection(this.firestore, 'groups');
+    return collectionData(groupsRef, { idField: 'id' }) as Observable<Group[]>;    
+  }
+  
   getMessagesWithSelectedContact(id: string): Observable<Message[]> {
     const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
     return collectionData (q, {idField: 'id'}) as Observable<Message[]>
@@ -151,6 +166,11 @@ export class FirestoreService implements StorageProvider{
     const contacts = await firstValueFrom(collectionData(q, {idField: 'id'}))
 
     return contacts[0]?.id
+  }
+
+  async updateGroup(groupId: string, group: Partial<Group>): Promise<void> {
+    const groupDocRef = doc(this.firestore, `groups/${groupId}`);
+    await updateDoc(groupDocRef, group);
   }
 
   async updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): Promise<DocumentReference<DocumentData, DocumentData> | void> {

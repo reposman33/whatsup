@@ -55,16 +55,20 @@ export class LocalStorageService extends StorageProvider {
     return of([]) as Observable<Contact[]>
   }
   
-  getGroupsForContact(id: string): Observable<Group[]> {
-    return of([]) as Observable<Group[]>
+  getGroup(groupId: string): Observable<Group>{
+    return of({}) as Observable<Group>;
   }
 
   getGroups(): Observable<Group[]> {
     return of([]) as Observable<Group[]>
   }
 
-  getPendingGroups(userId: string): Observable<(Group & {invitationId: string})[]> {
-    return of([]) as Observable<(Group & {invitationId: string})[]>
+  getGroupsForContact(id: string): Observable<Group[]> {
+    return of([]) as Observable<Group[]>
+  }
+
+  getMembershipsByGroupId(groupId: string): Observable<Membership[]> {
+    return of([]) as Observable<Membership[]>
   }
 
   getMessagesWithSelectedContact(id: string): Observable<Message[]>{
@@ -75,9 +79,15 @@ export class LocalStorageService extends StorageProvider {
     )
   }
 
+  getPendingGroups(userId: string): Observable<(Group & {invitationId: string})[]> {
+    return of([]) as Observable<(Group & {invitationId: string})[]>
+  }
+  
   getUserIdByEmailAddress(email:string): Promise<string | undefined> {
     return Promise.resolve('12345') 
   }
+
+  updateGroup(groupId: string, group: Partial<Group>): void {}
 
   updateGroupInvitation(invitationId: string, groupId: string, status: 'accept' | 'decline', userId: string): void {}
 
