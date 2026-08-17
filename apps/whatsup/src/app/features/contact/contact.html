@@ -1,6 +1,6 @@
 <div
-  class="flex justify-center items-center bg-green-200 hover:bg-green-100 transition-color hover:cursor-pointer w-35 h-35 rounded-full text-4xl"
-  [class]="chatService.selectedContactId() === contactId() ? 'brightness-75' : ''"
+  class="flex justify-center items-center bg-list-contact-active hover:bg-list-contact-hover transition-color hover:cursor-pointer w-35 h-35 rounded-full text-4xl"
+  [class]="chatService.selectedContactId() === contactId() ? 'bg-list-contact-selected' : ''"
   (click)="handleSelectContact(contactId())"
   (keyup)="handleSelectContact(contactId())"
   tabindex="0"
