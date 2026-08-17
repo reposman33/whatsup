@@ -8,16 +8,16 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 })
 export class AuthService {
   authenticateService = inject(AuthenticateService);
-  public currentContact = signal<Contact | undefined>({} as Contact);
+  public currentContact = signal<Contact>({} as Contact);
 
   async login(email: string, password: string): Promise<void> {
     const contact = await firstValueFrom(this.authenticateService.login(email, password));
-    this.currentContact.set(contact);
+    this.currentContact.set(contact || {} as Contact);
   }
 
   async logout(): Promise<void> {
-    await this.authenticateService.logout().toPromise();
-    this.currentContact.set(undefined);
+    await this.authenticateService.logout();
+    this.currentContact.set({} as Contact);
   }
 
   async register(contact: RegistrationOptions): Promise<void> {

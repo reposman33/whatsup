@@ -35,7 +35,7 @@ export class GroupComponent {
   
   deleteGroupMembership($event: {$event: MouseEvent, groupId: string}) {
     $event.$event.stopPropagation();
-    this.storageService.deleteGroupMembership($event.groupId, this.authService.currentContact()!.id, "Wil je echt je deelname aan deze groep beeindigen? Je zult dan geen berichten meer ontvangen van deze groep en je deelname wordt verwijderd.");
+    this.storageService.deleteGroupMembership($event.groupId, this.authService.currentContact().id, "Wil je echt je deelname aan deze groep beeindigen? Je zult dan geen berichten meer ontvangen van deze groep en je deelname wordt verwijderd."); 
   }
 
   onEditGroup($event: {$event: MouseEvent, groupId: string}) {
@@ -48,7 +48,7 @@ export class GroupComponent {
   }
 
   updateGroupInvitation(invitationId: string, status: 'accept' | 'decline') {
-    this.storageService.updateGroupInvitation(invitationId, this.id(), status, this.authService.currentContact()!.id)
+    this.storageService.updateGroupInvitation(invitationId, this.id(), status, this.authService.currentContact().id)
   }
 
 }

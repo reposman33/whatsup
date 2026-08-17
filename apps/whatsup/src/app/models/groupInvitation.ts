@@ -1,5 +1,5 @@
 export type GroupInvitation = {
-  id?: '';
+  id: undefined | string;
   acceptedAt: string;
   createdAt: string;
   fromUserId: string;

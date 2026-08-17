@@ -16,7 +16,7 @@ import { AuthService } from '../../../auth/data-access/auth.service';
 export class SelectList {
   selectedContacts = model<Contact[]>([])
   authService = inject(AuthService)
-  private currentUserId = this.authService.currentContact()!.id
+  private currentUserId = this.authService.currentContact().id
 
   protected storageService = inject(StorageService)
   protected availableContacts = rxResource({

@@ -33,7 +33,7 @@ export class CreateEditGroupComponent {
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
   
-  private currentUserId = this.authService.currentContact()!.id
+  private currentUserId = this.authService.currentContact().id
 
   group = rxResource({
     params: () => {
