@@ -20,9 +20,4 @@ export class ContactComponent {
   .split(' ')
   .map((naam): string => naam[0])
   .join(' '))
-
-  handleSelectContact(id: string) {
-    this.chatService.selectedContactId.set(id)
-    this.router.navigateByUrl('conversation')
-  }
 }

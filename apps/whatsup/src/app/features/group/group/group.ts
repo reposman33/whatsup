@@ -17,7 +17,7 @@ export class GroupComponent {
   description = input<string>('')
   status = input<string>('accepted')
   invitationId = input<string>('')
-  selectedGroupId = model<string>('')
+  selectedGroupId = model<string | undefined>('')
 
   protected authService = inject(AuthService)
   protected router = inject(Router)

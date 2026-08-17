@@ -71,7 +71,7 @@ export class LocalStorageService extends StorageProvider {
     return of([]) as Observable<Membership[]>
   }
 
-  getMessagesWithSelectedContact(id: string): Observable<Message[]>{
+  getMessagesByGroup(id: string | undefined): Observable<Message[]>{
     return of (
       JSON.parse(localStorage.getItem('messages') || '[]')
       // filter alle chats van ingelogde gebruiker naar geselecteerde contact en omgekeerd

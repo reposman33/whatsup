@@ -12,10 +12,10 @@
             [naam]="pendingGroup.name"
             [description]="pendingGroup.description"
             [invitationId]="pendingGroup.invitationId"
-            [(selectedGroupId)]="selectedGroupId"
+            [(selectedGroupId)]="chatService.selectedGroupId"
             [status]="'pending'">
           </group>
-       }
+        }
       }
         
       @if(groups.error()) {
@@ -26,7 +26,7 @@
             [id]="group.id || ''"
             [description]="group.description"
             [naam]="group.name"
-            [(selectedGroupId)]="selectedGroupId">
+            [(selectedGroupId)]="chatService.selectedGroupId">
           </group>
         }
       }
@@ -44,12 +44,12 @@
     <aside
       class="flex flex-col justify-start items-center w-1/5 bg-red-50 rounded-lg p-3 mr-3 gap-3">
 
-      @if(contacts.isLoading()) {
+      @if(chatService.contacts.isLoading()) {
         <p>Contacts laden...</p>
-      } @else if(contacts.error()){
-        <p class="bg-red-500">Fout bij ophalen contacten: {{contacts.error()}}</p>
+      } @else if(chatService.contacts.error()){
+        <p class="bg-red-500">Fout bij ophalen contacten: {{chatService.contacts.error()}}</p>
       } @else {
-        @for(contact of contacts.value(); track contact.id) {
+        @for(contact of chatService.contacts.value(); track contact.id) {
           <contact
             [naam]="contact.name"
             [contactId]="contact.id!"></contact>
@@ -59,6 +59,8 @@
     </aside>
     <main class="flex flex-col min-h-0 bg-blue-50 w-full h-full p-4">
 
+      <app-conversation></app-conversation>
+      
       <router-outlet></router-outlet>
 
       <div class="fixed inset-0 bg-gray-900/50 flex items-center justify-center mb-[12rem] transition-colors duration-200"

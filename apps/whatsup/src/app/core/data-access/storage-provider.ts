@@ -19,7 +19,7 @@ export abstract class StorageProvider {
   
   abstract getContacts(): Observable<Contact[]>
 
-  abstract getContactsByGroup(groupId: string): Observable<Contact[]>
+  abstract getContactsByGroup(groupId: string | undefined): Observable<Contact[]>
   
   abstract getGroup(groupId: string): Observable<Group>
 
@@ -27,7 +27,7 @@ export abstract class StorageProvider {
 
   abstract getMembershipsByGroupId(groupId: string): Observable<Membership[]>
 
-  abstract getMessagesWithSelectedContact(id: string): Observable<Message[]>
+  abstract getMessagesByGroup(id: string | undefined): Observable<Message[]>
 
   abstract getPendingGroups(userId: string): Observable<(Group & {invitationId: string})[]>
 

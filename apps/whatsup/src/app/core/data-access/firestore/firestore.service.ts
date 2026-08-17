@@ -84,10 +84,11 @@ export class FirestoreService implements StorageProvider{
     return collectionData(contactsRef, { idField: 'id' }) as Observable<Contact[]>;    
   }
 
-  getContactsByGroup(groupId: string): Observable<Contact[]> {
-    const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId));
-
-    return (collectionData(membershipQuery, {idField: 'id'}) as Observable<Membership[]>).pipe(
+  getContactsByGroup(groupId: string | undefined): Observable<Contact[]> {
+    if (!groupId) {
+      return of([]) as Observable<Contact[]>;
+    }
+    return (collectionData(query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId)), {idField: 'id'}) as Observable<Membership[]>).pipe(
       switchMap((memberships: Membership[]): Observable<Contact[]> => {
         const userIds = memberships.map( (membership: Membership): string => membership.contactId);
         
@@ -95,9 +96,8 @@ export class FirestoreService implements StorageProvider{
           return of([]) as Observable<Contact[]>
         }
 
-        const contactsQuery = query(collection(this.firestore, 'contacts'), where(documentId(), "in", userIds))
-
-        return collectionData(contactsQuery, {idField: 'id'}) as Observable<Contact[]>
+        return collectionData(
+          query(collection(this.firestore, 'contacts'), where(documentId(), "in", userIds)), {idField: 'id'}) as Observable<Contact[]>
       })
     )
   }
@@ -105,6 +105,11 @@ export class FirestoreService implements StorageProvider{
   getGroup(groupId: string): Observable<Group>{
     const groupDocRef = doc(this.firestore, `groups/${groupId}`);
     return docData(groupDocRef) as Observable<Group>;
+  }
+
+  getGroups(): Observable<Group[]> {
+    const groupsRef = collection(this.firestore, 'groups');
+    return collectionData(groupsRef, { idField: 'id' }) as Observable<Group[]>;    
   }
 
   getGroupsForContact(id: string): Observable<Group[]> {
@@ -128,16 +133,71 @@ export class FirestoreService implements StorageProvider{
     const membershipQuery = query(collection(this.firestore, 'memberships'), where("groupId", "==", groupId));
     return collectionData(membershipQuery, {idField: 'id'}) as Observable<Membership[]>
   }
-
-  getGroups(): Observable<Group[]> {
-    const groupsRef = collection(this.firestore, 'groups');
-    return collectionData(groupsRef, { idField: 'id' }) as Observable<Group[]>;    
-  }
   
-  getMessagesWithSelectedContact(id: string): Observable<Message[]> {
-    const q = query(collection(this.firestore, 'messages'), where("conversationId", "==", id), orderBy('timeStamp', 'asc'))
-    return collectionData (q, {idField: 'id'}) as Observable<Message[]>
+  getMessagesByGroup(id: string | undefined): Observable<Message[]> {
+    if(!id) {
+      return of([]) as Observable<Message[]>
+    }
+    
+    return (collectionData(
+      query(collection(this.firestore, 'messages'), where("groupId", "==", id), orderBy('timeStamp', 'asc')), {idField: 'id'}) as Observable<Message[]>).pipe(
+        switchMap((messages: Message[]): Observable<Message[]> => {
+          const senderIds = [...new Set (messages.map((message: Message): string => message.sender))];
+
+          if(senderIds.length === 0) {
+            return of([]) as Observable<Message[]>
+          }
+          
+          return (collectionData(
+          query(collection(this.firestore, 'contacts'), where(documentId(), "in", senderIds)), {idField: 'id'}) as Observable<Contact[]>).pipe(
+            map((contacts: Contact[]) => {
+
+              const nameById = new Map(contacts.map((contact: Contact): [string, string] => [contact.id, contact.name]))
+
+              return messages.map((message: Message): Message => ({
+                ...message,
+                sender: nameById.get(message.sender) ?? message.sender
+              }))
+            })
+          )
+      })
+    )
   }
+
+
+// getMessagesByGroup(id: string | undefined): Observable<Message[]> {
+//   if (!id) {
+//     return of([]);
+//   }
+
+//   return (collectionData(
+//     query(collection(this.firestore, 'messages'), where("groupId", "==", id), orderBy('timeStamp', 'asc')),
+//     { idField: 'id' }
+//   ) as Observable<Message[]>).pipe(
+//     switchMap((messages: Message[]): Observable<Message[]> => {
+//       const senderIds = [...new Set(messages.map((message: Message): string => message.sender))];
+
+//       if (senderIds.length === 0) {
+//         return of(messages);
+//       }
+
+//       return (collectionData(
+//         query(collection(this.firestore, 'contacts'), where(documentId(), "in", senderIds)),
+//         { idField: 'id' }
+//       ) as Observable<Contact[]>).pipe(
+//         map((contacts: Contact[]): Message[] => {
+//           const nameById = new Map(contacts.map((contact: Contact) => [contact.id, contact.name]));
+
+//           return messages.map((message: Message): Message => ({
+//             ...message,
+//             sender: nameById.get(message.sender) ?? message.sender,
+//           }));
+//         })
+//       );
+//     })
+//   );
+// }
+
 
   // Haal alle groepen op waarvoor de gebruiker is uitgenodigd op
   getPendingGroups(userid: string): Observable<(Group & {invitationId: string})[]> {

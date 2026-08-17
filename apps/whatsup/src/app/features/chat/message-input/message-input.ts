@@ -15,8 +15,10 @@ export class MessageInputComponent {
   protected chatService = inject(ChatService)
   protected chat = signal<string>('')
   
-  send() {
-    this.chatService.processMessage(this.chat());
+  processMessage() {
+    if(this.chat) {
+      this.chatService.processMessage(this.chat())
+    };
     this.chat.set('')
   }
 
