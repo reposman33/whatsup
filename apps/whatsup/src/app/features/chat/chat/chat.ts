@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
-import { ChatService } from '../data-access/chat.service';
 import { UtilsService } from '../../../shared/services/utilsService';
 
 @Component({
