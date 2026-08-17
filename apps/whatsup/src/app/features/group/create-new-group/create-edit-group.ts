@@ -71,7 +71,7 @@ export class CreateEditGroupComponent {
         name: this.groupName(),
         description: this.groupDescription()
       });
-      // update de group invitations voro de nieuw toegevoegde selected contacts
+      // alleen nieuwe contacten toevoeggen als ze nog niet in de collectie zitten
       const newContacts = this.selectedContacts().filter((contact: Contact) => !this.group.value()?.contacts.some((c: Contact) => c.id === contact.id));
       this.storageService.addGroupInvitations(newContacts || [], this.authService.currentContact()?.id ?? '', this.groupId())
     } else {
@@ -80,15 +80,24 @@ export class CreateEditGroupComponent {
         name: this.groupName(),
         description: this.groupDescription()
       });
+
+      // voeg de aanmaker van de groep toe als member
+      const now = Temporal.Now.zonedDateTimeISO().toString()
+      const userId = this.authService.currentContact().id
+      const userEmail = this.authService.currentContact().email
+      this.storageService.addMembership({
+        acceptedAt: now,
+        contactId: userId,
+        email: userEmail,
+        groupId: addedGroup.id,
+        invitedAt: now
+      })
+
       this.storageService.addGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id ?? '', addedGroup.id)
     }
 
     this.closeDialog()
   }
-    // 3: voeg voor elke uitgenodigde contact een document toe aan de groupInvitations collectie
-    // contacts is een signal met alle toegevoegde contacten, 
-    // this.storageService.addGroupInvitations(this.selectedContacts() || [], this.authService.currentContact()?.id ?? '', addGroupResult.id)
-    // this.closeDialog()
 
   closeDialog(){
     this.groupService.closeNewGroupDialog()

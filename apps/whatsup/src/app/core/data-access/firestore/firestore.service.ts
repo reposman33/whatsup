@@ -164,41 +164,6 @@ export class FirestoreService implements StorageProvider{
     )
   }
 
-
-// getMessagesByGroup(id: string | undefined): Observable<Message[]> {
-//   if (!id) {
-//     return of([]);
-//   }
-
-//   return (collectionData(
-//     query(collection(this.firestore, 'messages'), where("groupId", "==", id), orderBy('timeStamp', 'asc')),
-//     { idField: 'id' }
-//   ) as Observable<Message[]>).pipe(
-//     switchMap((messages: Message[]): Observable<Message[]> => {
-//       const senderIds = [...new Set(messages.map((message: Message): string => message.sender))];
-
-//       if (senderIds.length === 0) {
-//         return of(messages);
-//       }
-
-//       return (collectionData(
-//         query(collection(this.firestore, 'contacts'), where(documentId(), "in", senderIds)),
-//         { idField: 'id' }
-//       ) as Observable<Contact[]>).pipe(
-//         map((contacts: Contact[]): Message[] => {
-//           const nameById = new Map(contacts.map((contact: Contact) => [contact.id, contact.name]));
-
-//           return messages.map((message: Message): Message => ({
-//             ...message,
-//             sender: nameById.get(message.sender) ?? message.sender,
-//           }));
-//         })
-//       );
-//     })
-//   );
-// }
-
-
   // Haal alle groepen op waarvoor de gebruiker is uitgenodigd op
   getPendingGroups(userid: string): Observable<(Group & {invitationId: string})[]> {
     const groupInvitationsQuery = query(collection(this.firestore, 'groupInvitations'), where("toUserId", "==", userid), where("status", "==", "pending"))
@@ -250,8 +215,7 @@ export class FirestoreService implements StorageProvider{
         invitedAt: createdAt
       } as unknown as Membership
 
-      const membershipsCollectionRef = collection(this.firestore, 'memberships')
-      return addDoc(membershipsCollectionRef, membership)
+      return this.addMembership(membership)
     }
   }
 
