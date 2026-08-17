@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { Message } from '../../../models/message.model';
 import { StorageService } from '../../../core/data-access/storage.service';
 import { AuthService } from '../../auth/data-access/auth.service';
-import { Temporal } from 'temporal-polyfill'
 import { Contact } from '../../../models';
 import { map, Observable, of } from 'rxjs';
+import { UtilsService } from '../../../shared/services/utilsService';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,7 @@ import { map, Observable, of } from 'rxjs';
 export class ChatService {
   private storageService = inject(StorageService)
   private authService = inject(AuthService)
+  private utilsService = inject(UtilsService)
   private router = inject(Router)
 
   public conversation = signal<Message[]>([])
@@ -46,7 +47,7 @@ export class ChatService {
       content: chat,
       groupId: this.selectedGroupId(),
       sender: this.authService.currentContact()?.id || '',
-      timeStamp: Temporal.Now.instant().toString(),
+      timeStamp: this.utilsService.getFormattedDateTime(new Date()),
     }
     this.storageService.addMessage(message as unknown as Message)
     this.conversation.update(prev => [...prev, message as unknown as Message])
@@ -63,4 +64,5 @@ export class ChatService {
 
     this.router.navigate(['/login'])
   }
+
 }

@@ -14,7 +14,7 @@ import { Contact, RegistrationOptions } from '../../../../models';
 import { from, Observable } from 'rxjs';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../core/data-access/firestore/firestore.service';
-import { Temporal } from 'temporal-polyfill';
+import { UtilsService } from '../../../../shared/services/utilsService';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,7 @@ export class FireBaseAuthService {
   private firebaseAuth = inject(Auth)
   private firestoreService = inject(FirestoreService)
   private firestore = inject(Firestore)
+  private utilsService = inject(UtilsService)
   public user$: Observable<User | null> = user(this.firebaseAuth);
 
   constructor() {
@@ -71,8 +72,8 @@ export class FireBaseAuthService {
         email: contact.email,
         lastSigninTime: '',
         name: contact.name,
-        registrationTime: Temporal.Now.zonedDateTimeISO().toString(),
-      }; // geen type Contact want bevat geen id property 
+        registrationTime: this.utilsService.getFormattedDateTime(new Date()),
+      };
       
       // add user to firestore 'contacts' collection'
       await setDoc(doc(this.firestore, 'contacts', userCredentials.user.uid), _contact)

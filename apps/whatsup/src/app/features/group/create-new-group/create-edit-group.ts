@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, effect, inject, input, signal, View
 import { StorageService } from '../../../core';
 import { GroupService } from '../group-service/group-service';
 import { Contact, Group } from '../../../models';
-import { Temporal } from 'temporal-polyfill';
 import { SelectList } from './select-list/select-list';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map, Observable, switchMap } from 'rxjs';
 import { AuthService } from '../../auth/data-access/auth.service';
+import { UtilsService } from '../../../shared/services/utilsService';
 @Component({
   selector: 'app-create-new-group',
   imports: [ SelectList ],
@@ -30,6 +30,7 @@ export class CreateEditGroupComponent {
   }
 
   private authService = inject(AuthService)
+  private utilsService = inject(UtilsService)
   private groupService = inject(GroupService)
   private storageService = inject(StorageService)
   
@@ -66,6 +67,7 @@ export class CreateEditGroupComponent {
   }
 
   async saveGroup() {
+    const now = this.utilsService.getFormattedDateTime(new Date())
     if(this.isEditMode) {
       this.storageService.updateGroup(this.groupId(), {
         name: this.groupName(),
@@ -75,14 +77,13 @@ export class CreateEditGroupComponent {
       const newContacts = this.selectedContacts().filter((contact: Contact) => !this.group.value()?.contacts.some((c: Contact) => c.id === contact.id));
       this.storageService.addGroupInvitations(newContacts || [], this.authService.currentContact()?.id ?? '', this.groupId())
     } else {
-     const addedGroup = await this.storageService.addGroup({
-        createdAt: Temporal.Now.zonedDateTimeISO().toString(),
+      const addedGroup = await this.storageService.addGroup({
+        createdAt: now,
         name: this.groupName(),
         description: this.groupDescription()
       });
 
       // voeg de aanmaker van de groep toe als member
-      const now = Temporal.Now.zonedDateTimeISO().toString()
       const userId = this.authService.currentContact().id
       const userEmail = this.authService.currentContact().email
       this.storageService.addMembership({

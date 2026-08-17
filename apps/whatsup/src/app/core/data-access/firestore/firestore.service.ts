@@ -5,8 +5,8 @@ import { Message } from '../../../models/message.model';
 import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
 import { StorageProvider } from '../storage-provider';
 import { Group, Membership } from '../../../models';
-import { Temporal } from 'temporal-polyfill';
 import { GroupInvitation } from '../../../models/groupInvitation';
+import { UtilsService } from '../../../shared/services/utilsService';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,7 @@ import { GroupInvitation } from '../../../models/groupInvitation';
 export class FirestoreService implements StorageProvider{
 
   private firestore = inject(Firestore);
+  private utilsService = inject(UtilsService);
 
   async addGroup(group: Group): Promise<DocumentReference<DocumentData, DocumentData>> {
     const groupCollectionRef = collection(this.firestore, 'groups')
@@ -27,7 +28,7 @@ export class FirestoreService implements StorageProvider{
     }
 
     const groupInvitationsCollectionRef = collection(this.firestore, 'groupInvitations')
-    const now = Temporal.Now.zonedDateTimeISO().toString()
+    const now = this.utilsService.getFormattedDateTime(new Date())
 
     return await Promise.all(contacts.map(contact => {
       const invitation = {
@@ -208,7 +209,7 @@ export class FirestoreService implements StorageProvider{
     // Bij status: accept: voeg een nieuwe membership document toe
     if(status === 'accept') {
       const membership = {
-        acceptedAt: Temporal.Now.zonedDateTimeISO().toString(),
+        acceptedAt: this.utilsService.getFormattedDateTime(new Date()),
         contactId: userId,
         email: (await this.getContact(userId))?.email ?? '',
         groupId: groupId,
