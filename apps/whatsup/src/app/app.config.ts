@@ -9,6 +9,7 @@ import { FirestoreService } from './core/data-access/firestore/firestore.service
 import { AuthenticateService } from './features/auth/data-access/auth-provider';
 import { FireBaseAuthService } from './features/auth/data-access/firebase/firebase-auth.service';
 import { LocalAuthService } from './features/auth/data-access/local/local-auth.service';
+import { UtilsService } from './shared/services/utilsService';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -29,5 +30,9 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     provideFirebaseApp(() => initializeApp(AppConfig.firebaseConfig!)),
     provideAuth(() => getAuth()),
+    {
+      provide: UtilsService,
+      useClass: UtilsService
+    }
   ]
 };
