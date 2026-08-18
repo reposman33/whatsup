@@ -10,4 +10,5 @@ import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@a
 })
 export class Button {
   isDisabled = input<boolean>(false)
+  id = input<string>('')
 }
