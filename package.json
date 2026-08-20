@@ -2,8 +2,11 @@
   "name": "@whatsup/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "lighthouse:login": "node --env-file=apps/whatsup/.env apps/whatsup/scripts/lighthouse-login.js"
+  },
   "private": true,
+  "type": "module",
   "dependencies": {
     "@angular/common": "~21.2.0",
     "@angular/compiler": "~21.2.0",
@@ -50,8 +53,10 @@
     "jest-environment-jsdom": "~30.3.0",
     "jest-preset-angular": "~16.0.0",
     "jest-util": "~30.3.0",
+    "lighthouse": "^13.4.1",
     "nx": "23.0.0",
     "prettier": "~3.6.2",
+    "puppeteer": "^25.8.0",
     "tailwindcss": "^4.3.1",
     "ts-jest": "^29.4.0",
     "ts-node": "10.9.1",
