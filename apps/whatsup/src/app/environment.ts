@@ -15,7 +15,7 @@ interface AppConfigType {
 
 export const AppConfig: AppConfigType = {
   storageMethod: import.meta.env.NG_APP_STORAGE_METHOD,
-  n8n_webhook_url: import.meta.env['NG_APP_N8N_WEBHOOK_URL'],
+  n8n_webhook_url: import.meta.env.NG_APP_N8N_WEBHOOK_URL,
   translateUrl: 'https://api.mymemory.translated.net/get',
   firebaseConfig: {
     apiKey: import.meta.env.NG_APP_FIREBASE_API_KEY,
