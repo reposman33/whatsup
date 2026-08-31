@@ -1,5 +1,6 @@
 declare global {
   interface ImportMetaEnv {
+  [x: string]: string;
   readonly NG_APP_STORAGE_METHOD: string;
   readonly NG_APP_FIREBASE_API_KEY: string;
   readonly NG_APP_FIREBASE_AUTH_DOMAIN: string;
