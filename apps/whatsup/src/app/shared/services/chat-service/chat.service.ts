@@ -54,11 +54,14 @@ export class ChatService {
 
   async processMessage(chat: string) {
     // bepaal of er vertaald moet worden
-    const targetLang = chat.match(/tl:(\w{2})/)
+    const sourceAndTargetLang = chat.match(/(\w{2}):(\w{2})/)
     let translated = chat
-    if(targetLang) {
+
+    if(sourceAndTargetLang) {
       // voer vertaling uit
-      translated = await this.utilsService.translateText(chat.replace(/tl:\w{2}/, ""), targetLang[1])
+      const sourceLang = sourceAndTargetLang[1]
+      const targetLang = sourceAndTargetLang[2]
+      translated = await this.utilsService.translateText(chat.replace(/\w{2}:\w{2}/, ""), sourceLang, targetLang)
     }
     // maak een Message object
     const message = {

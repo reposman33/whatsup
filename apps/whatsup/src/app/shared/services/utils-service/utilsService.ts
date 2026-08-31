@@ -26,8 +26,9 @@ export class UtilsService {
   return now.slice(0, now.length-5)
   }
 
-  async translateText(textToTranslate: string, targetLang: string): Promise<string> {  
-    return firstValueFrom(this.http.get<TranslateResponse>(`${AppConfig.translateUrl}?q=${textToTranslate}&langpair=nl|${targetLang}`)
+  async translateText(textToTranslate: string, sourceLang: string, targetLang: string): Promise<string> {  
+
+    return firstValueFrom(this.http.get<TranslateResponse>(`${AppConfig.translateUrl}?q=${textToTranslate}&langpair=${sourceLang}|${targetLang}`)
 
     .pipe(
       map((response) => {
