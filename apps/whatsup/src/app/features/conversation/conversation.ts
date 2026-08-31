@@ -1,5 +1,5 @@
 import { afterRenderEffect, ChangeDetectionStrategy, Component, ElementRef, inject, viewChild, ViewEncapsulation } from '@angular/core';
-import { ChatService } from '../chat/data-access/chat.service';
+import { ChatService } from '../../shared/services/chat-service/chat.service';
 import { ChatComponent } from '../chat/chat/chat';
 
 @Component({

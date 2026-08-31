@@ -10,7 +10,7 @@ import { Router, RouterModule } from "@angular/router";
 import { GroupService } from '../../../features/group/group-service/group-service';
 import { StorageService } from '../../data-access/storage.service';
 import { GroupComponent } from '../../../features/group/group/group';
-import { ChatService } from '../../../features/chat/data-access/chat.service';
+import { ChatService } from '../../../shared/services/chat-service/chat.service';
 import { ConversationComponent } from '../../../features/conversation/conversation';
 
 @Component({

@@ -14,7 +14,7 @@ import { Contact, RegistrationOptions } from '../../../../models';
 import { from, Observable } from 'rxjs';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../core/data-access/firestore/firestore.service';
-import { UtilsService } from '../../../../shared/services/utilsService';
+import { UtilsService } from '../../../../shared/services/utils-service/utilsService';
 
 @Injectable({
   providedIn: 'root',

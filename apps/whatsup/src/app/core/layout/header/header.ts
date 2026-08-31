@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../../features/auth/data-access/auth.service';
 import { Router } from '@angular/router';
-import { ChatService } from '../../../features/chat/data-access/chat.service';
+import { ChatService } from '../../../shared/services/chat-service/chat.service';
 import { DatePipe } from '@angular/common';
 
 @Component({

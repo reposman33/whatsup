@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, injec
 import { AuthService } from '../data-access/auth.service';
 import { Router } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
-import { UtilsService } from '../../../shared/services/utilsService';
+import { UtilsService } from '../../../shared/services/utils-service/utilsService';
 
 @Component({
   selector: 'login',

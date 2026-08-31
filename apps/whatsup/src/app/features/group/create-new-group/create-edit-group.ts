@@ -6,7 +6,7 @@ import { SelectList } from './select-list/select-list';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map, Observable, switchMap } from 'rxjs';
 import { AuthService } from '../../auth/data-access/auth.service';
-import { UtilsService } from '../../../shared/services/utilsService';
+import { UtilsService } from '../../../shared/services/utils-service/utilsService';
 @Component({
   selector: 'app-create-new-group',
   imports: [ SelectList ],

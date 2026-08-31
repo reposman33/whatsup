@@ -6,7 +6,7 @@ import { Observable, firstValueFrom, map, of, switchMap } from 'rxjs';
 import { StorageProvider } from '../storage-provider';
 import { Group, Membership } from '../../../models';
 import { GroupInvitation } from '../../../models/groupInvitation';
-import { UtilsService } from '../../../shared/services/utilsService';
+import { UtilsService } from '../../../shared/services/utils-service/utilsService';
 
 @Injectable({
   providedIn: 'root',
