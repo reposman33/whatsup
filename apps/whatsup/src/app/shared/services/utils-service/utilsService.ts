@@ -29,12 +29,14 @@ export class UtilsService {
   async translateText(textToTranslate: string, sourceLang: string, targetLang: string): Promise<string> {  
 
     return firstValueFrom(this.http.get<TranslateResponse>(`${AppConfig.translateUrl}?q=${textToTranslate}&langpair=${sourceLang}|${targetLang}`)
-
     .pipe(
       map((response) => {
         const translated = response.responseData.translatedText
         if(translated.toUpperCase().includes('IS AN INVALID TARGET LANGUAGE')) {
           return `${textToTranslate}\n\n[Tekst kon niet vertaald worden: ${targetLang} is onbekende doeltaal]`
+        }
+        if(translated.toUpperCase().includes('QUERY LENGTH LIMIT EXCEEDED')) {
+          return `${textToTranslate}\n\n[Tekst kon niet vertaald worden: maximum lengte is 500 karakters]`
         }
         return translated
       } ),
